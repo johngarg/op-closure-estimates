@@ -1,0 +1,8 @@
+#+title: Operator closure estimates
+
+Run the definitions in the core files:
+#+begin_src wolfram
+Get["/Users/johngargalionis/Dropbox/research/bviolation/smeft-rules/main.m"];
+Get["/Users/johngargalionis/Dropbox/research/bviolation/smeft-rules/operators.m"];
+Get["/Users/johngargalionis/Dropbox/research/bviolation/smeft-rules/rules.m"];
+#+end_src

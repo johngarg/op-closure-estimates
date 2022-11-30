@@ -1,0 +1,21 @@
+# Mathematica notebooks
+*.nb
+*.ipynb
+
+# Data
+*.csv
+
+# Figures, for now
+img/
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+
+# Notebooks
+notebooks/
+
+# Junk
+etc/
