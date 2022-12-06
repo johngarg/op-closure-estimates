@@ -215,7 +215,7 @@ MatchOperator[label_, n_] := ApplyRules[
   n];
 MatchOperator[label_] := MatchOperator[label, 4];
 
-MatchingData[graph_] := DeleteDuplicates[
+RawMatchingData[graph_] := DeleteDuplicates[
   Block[{edgeList, matchedLeaves, matchedLeavesConj},
         edgeList = EdgeList[graph];
         matchedLeaves =
@@ -242,9 +242,9 @@ MaybeMakePattern[x_Integer] := x;
 MaybeMakePattern[x_Symbol] := $pattern[x, Blank[]];
 
 
-TransformedMatchingData::usage = "Returns the matching data for the operator
+MatchingData::usage = "Returns the matching data for the operator
 SMEFT operator `label` transformed into the mass basis.";
-TransformedMatchingData[label_String] :=
+MatchingData[label_String] :=
   Block[
     {matching, graph, transformed, flavourIndices, flavourReplacements, flavoured, path},
 
@@ -260,7 +260,7 @@ TransformedMatchingData[label_String] :=
       Op @@@ (
         expr /. ExpandSU2 /. ToMassBasis
          ) //. YukawaTransformations //. MixingMatrixRules //. ToUpDiagonalBasis /. LEFTOperatorMatchingRules,
-      {expr, MatchingData[graph]}
+      {expr, RawMatchingData[graph]}
     ];
 
     transformed
@@ -268,7 +268,8 @@ TransformedMatchingData[label_String] :=
   ];
 
 ChooseFlavour::usage = "Transforms `Op` matching expression to have flavour
-indices given by `flavour` list.";
+indices given by `flavour` list. Can also be applied after
+`CleanMatchingExpressionAndMakeRule`.";
 ChooseFlavour[expr_Op, flavour_List] :=
   Block[
     {label, flavourIndices, flavourReplacements},
@@ -279,10 +280,32 @@ ChooseFlavour[expr_Op, flavour_List] :=
 
   ];
 
+ChooseFlavour[
+  Rule[lhs : Op[leftlabel_String][leftidx__],
+       rhs : Times[before___, G[smeftlabel_String][smeftidx__], after___]],
+  flavour_List
+] :=
+  Block[
+    {rule = MapThread[Rule, {List[smeftidx], flavour}]},
 
-CleanMatchingExpression::usage = "Makes summed variables look nice, turns
+    Rule @@ {
+      lhs /. rule /. pat_[index_Integer, Blank[]] :> index,
+      rhs /. rule
+    }
+
+  ];
+
+ChooseFlavour[
+  List[
+    r: Rule[lhs : Op[leftlabel_String][leftidx__],
+            rhs : Times[before___, G[smeftlabel_String][smeftidx__], after___]]
+  ],
+  flavour_List
+] := ChooseFlavour[r, flavour];
+
+CleanMatchingExpressionAndMakeRule::usage = "Makes summed variables look nice, turns
 matching expressions into rules mapping WET to SMEFT operator expressions";
-CleanMatchingExpression[
+CleanMatchingExpressionAndMakeRule[
   Times[x___, smeftOp : G[n_][flavSMEFT__], leftOp : Op[label_String][flavLEFT__], y___]
 ] :=
   Block[
@@ -302,25 +325,28 @@ CleanMatchingExpression[
 
   ];
 
-CleanMatchingExpression[x_Op] := CleanMatchingExpression[(x /. Op[y__] :> Times[y])];
+CleanMatchingExpressionAndMakeRule[x_Op] :=
+  CleanMatchingExpressionAndMakeRule[(x /. Op[y__] :> Times[y])];
 
 
-WriteMatchingData::usage = "Write the list of flavour structures to the path.";
-WriteMatchingData[label_String, flavourStructures_List, path_String] :=
+WriteMatchingData::usage = "Write the matching data with general flavour
+indices.";
+WriteMatchingData[label_String, path_String] :=
   Block[
     {matchingData, data, filepath},
 
-    matchingData = TransformedMatchingData[label];
+    matchingData = MatchingData[label];
     Table[
-      data = CleanMatchingExpression /@ (ChooseFlavour[#, flavourStructure] & /@ matchingData);
-      filepath = path <> "op" <> label <> "_" <> (StringJoin @@ ToString /@ flavourStructure) <> ".dat";
+      data = CleanMatchingExpressionAndMakeRule /@ matchingData;
+      filepath = path <> "op" <> label <> ".dat";
       Export[filepath, data];
       (* TODO Only print this when Export works *)
       Print[filepath <> " written!"];
-    , {flavourStructure, flavourStructures}
-    ];
+    ]
   ];
 
+NucleonDecayMatchingData::usage = "Uses the matching data to match against
+operators that contribute to nucleon decays. Flavour structure is optional.";
 NucleonDecayMatchingData[data_] :=
   Block[
     {operatorsForNucleonDecay, groupedContributions, cleanContributions},
@@ -345,6 +371,19 @@ NucleonDecayMatchingData[data_] :=
 
   ];
 
+NucleonDecayMatchingData[data_, flavour_] :=
+  Block[
+    {flavouredData},
+
+    (* Impose the specified flavour structure on the data *)
+    flavouredData = ChooseFlavour[#, flavour] & /@ data;
+
+    NucleonDecayMatchingData[flavouredData]
+
+  ];
+
+
+
 ExtractDominantMatchingByOperator::usage = "Returns a replacement list mapping
 each LEFT coefficient that is generated and contributes to nucleon decay to the
 dominant symbolic expressions. `data` is a replacement list like:
@@ -358,12 +397,12 @@ That is, the output of `WriteMatchingData`.
 
 We don't want to draw significance to any cancellations, so this is the main
 function to use, not `NucleonDecayMatchingData`.";
-ExtractDominantMatchingByOperator[data_] :=
+ExtractDominantMatchingByOperator[data_, flavour_] :=
   Block[
     {numericReplacements, maximumContributions, withNumericValue,
     cleanContributions},
 
-    cleanContributions = NucleonDecayMatchingData[data];
+    cleanContributions = NucleonDecayMatchingData[data, flavour];
 
     numericReplacements =
     {loop -> 1/(16 \[Pi]^2)}~Join~NumericValues;
@@ -384,7 +423,7 @@ ExtractDominantMatchingByOperator[data_] :=
 
   ];
 
-ProtonDecayRates[data_] :=
+ProtonDecayRates[data_, flavour_] :=
   Block[
     {operatorsForNucleonDecay, protonDecayExpressions},
 
@@ -395,7 +434,7 @@ ProtonDecayRates[data_] :=
     matchingData =
     Table[
       (rule[[1]] /. G[x_String][y__] :> GLEFT["~"<>x][y]) -> rule[[2]],
-      {rule, ExtractDominantMatchingByOperator[data]}
+      {rule, ExtractDominantMatchingByOperator[data, flavour]}
     ];
 
     protonDecayExpressions = Table[
@@ -409,8 +448,15 @@ ProtonDecayRates[data_] :=
 
   ];
 
-ProtonDecayRates[data_, "Numeric"] :=
-  ProtonDecayRates[data] //. Join[MatElemReplacements, LatticeReplacements, NumericValues, {loop -> 1/(16 \[Pi]^2)}];
+ProtonDecayRates[data_, flavour_, "Numeric"] :=
+  Block[
+    {replacements},
+
+    replacements
+    = Join[MatElemReplacements, LatticeReplacements, NumericValues, {loop -> 1/(16 \[Pi]^2)}];
+
+    ProtonDecayRates[data, flavour] //. replacements
+  ];
 
 ExtractDominantMatchingByRate::usage = "Returns a replacement list mapping each
 nucleon decay process that is generated to a numerical expression that

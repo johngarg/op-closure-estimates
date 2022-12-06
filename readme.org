@@ -8,26 +8,47 @@ Get["rules.m"];
 Get["decay.m"];
 #+end_src
 
-The main function of the package is =TransformedMatchingData=, which is a wrapper
-around =MatchOperator=. =TransformedMatchingData= returns the matching data rotated
-into the mass basis.
+The main function of the package is =MatchingData=, which is a wrapper around
+=RawMatchOperator=. =MatchingData= returns the raw matching data rotated into the
+mass basis.
 
 This can be done with more control with something like:
 #+begin_src wolfram
-CleanMatchingExpression /@ (ChooseFlavour[#, {1, 1, 1, 2}] & /@ MatchingData["9"])
+data = CleanMatchingExpressionAndMakeRule /@ MatchingData["9"]
 #+end_src
-which gets the matching data, specifies flavour indices and then cleans up the
-expressions.
-
-This is wrapped into a function that writes out specific flavour structures, for
-example:
+which gets the matching data and cleans up the expressions, turning them into
+rules that match LEFT operators coefficients onto functions of SMEFT ones.
+Optionally, one can choose to impose a flavour structure on the SMEFT operator
+coefficient:
 #+begin_src wolfram
-WriteMatchingData["9", {{1, 1, 1, 2}, {3, 3, 1, 2}}, NotebookDirectory[] <> "data/"]
+ChooseFlavour[#, {1, 1, 1, 2}] & /@ data
 #+end_src
 
-This can be tied into the function =ExtractDominantMatchingByOperator=, which
+These steps are wrapped into a convenient helper function:
+#+begin_src wolfram
+WriteMatchingData["9", NotebookDirectory[] <> "data/"]
+#+end_src
+which writes out the matching data (with general flavour indices).
+
+The function =NucleonDecayMatchingData= uses the matching data to match against
+operators that contribute to nucleon decays. It can be used with or without an
+optional `flavour` argument:
+#+begin_src wolfram
+NucleonDecayMatchingData[data, {1,1,1,2}]
+#+end_src
+
+This is all tied into the function =ExtractDominantMatchingByOperator=, which
 returns a list of the dominant contributions to each LEFT operator that
 contribute to nucleon decay
 #+begin_src wolfram
-ExtractDominantMatchingByOperator[ReadList["data/op9_1212.dat"]]
+ExtractDominantMatchingByOperator[ReadList["data/op9_pqrs.dat"], {1,1,1,2}]
 #+end_src
+Here, a flavour list /needs/ to be specified, since this is necessary to know
+which contribution is dominant.
+
+These matching relations can be used to calculate decay rates with
+#+begin_src wolfram
+ProtonDecayRates[ReadList["data/op9.dat"], {1,1,1,2}]
+#+end_src
+which can take an optional additional argument "Numeric", which applies the
+numeric replacement rules.
