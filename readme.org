@@ -2,7 +2,32 @@
 
 Run the definitions in the core files:
 #+begin_src wolfram
-Get["/Users/johngargalionis/Dropbox/research/bviolation/smeft-rules/main.m"];
-Get["/Users/johngargalionis/Dropbox/research/bviolation/smeft-rules/operators.m"];
-Get["/Users/johngargalionis/Dropbox/research/bviolation/smeft-rules/rules.m"];
+Get["main.m"];
+Get["operators.m"];
+Get["rules.m"];
+Get["decay.m"];
+#+end_src
+
+The main function of the package is =TransformedMatchingData,= which is a wrapper
+around =MatchOperator. =TransformedMatchingData= returns the matching data rotated
+into the mass basis.
+
+This can be done with more control with something like:
+#+begin_src wolfram
+CleanMatchingExpression /@ (ChooseFlavour[#, {1, 1, 1, 2}] & /@ MatchingData["9"])
+#+end_src
+which gets the matching data, specifies flavour indices and then cleans up the
+expressions.
+
+This is wrapped into a function that writes out specific flavour structures, for
+example:
+#+begin_src wolfram
+WriteMatchingData["9", {{1, 1, 1, 2}, {3, 3, 1, 2}}, NotebookDirectory[] <> "data/"]
+#+end_src
+
+This can be tied into the function =ExtractDominantMatchingByOperator=, which
+returns a list of the dominant contributions to each LEFT operator that
+contribute to nucleon decay
+#+begin_src wolfram
+ExtractDominantMatchingByOperator[ReadList["data/op9_1212.dat"]]
 #+end_src

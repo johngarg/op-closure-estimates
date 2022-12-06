@@ -209,25 +209,25 @@ makeMatchingExpr[{matchedExpr_, rule_RuleDelayed} \[DirectedEdge] Op[matchedOp :
 
 
 MatchOperator[label_, n_] := ApplyRules[
-   BViolatingOperatorsDim8[label],
-   $MatchingRules,
-   {},
-   n];
+  BViolatingOperatorsDim8[label],
+  $MatchingRules,
+  {},
+  n];
 MatchOperator[label_] := MatchOperator[label, 4];
 
 MatchingData[graph_] := DeleteDuplicates[
   Block[{edgeList, matchedLeaves, matchedLeavesConj},
-   edgeList = EdgeList[graph];
-   matchedLeaves =
-    Select[edgeList,
-     MatchQ[#, _List \[DirectedEdge] Op[Op[_][___]]] &];
-   matchedLeavesConj =
-    Select[edgeList,
-     MatchQ[#, _List \[DirectedEdge] Op[Conj[Op[_][___]]]] &];
-   matchedLeaves = Join[matchedLeaves, matchedLeavesConj];
-   makeMatchingExpr /@ matchedLeaves
-   ]
+        edgeList = EdgeList[graph];
+        matchedLeaves =
+        Select[edgeList,
+               MatchQ[#, _List \[DirectedEdge] Op[Op[_][___]]] &];
+        matchedLeavesConj =
+        Select[edgeList,
+               MatchQ[#, _List \[DirectedEdge] Op[Conj[Op[_][___]]]] &];
+        matchedLeaves = Join[matchedLeaves, matchedLeavesConj];
+        makeMatchingExpr /@ matchedLeaves
   ]
+                        ]
 
 Conj[x_ y_] := Conj[x] Conj[y];
 Conj[x_Ru] := Conjugate[x];
@@ -237,19 +237,181 @@ Conj[x_Lu] := Conjugate[x];
 Conj[x_Ld] := Conjugate[x];
 Conj[x_Ll] := Conjugate[x];
 
+
 MaybeMakePattern[x_Integer] := x;
 MaybeMakePattern[x_Symbol] := $pattern[x, Blank[]];
 
-ExportMatchingData[
-  Times[x___, smeftOp : G[n_][flavSMEFT__],
-   leftOp : Op[label_String][flavLEFT__], y___]] :=
- Block[{indices, toRelabel, safeIndices, relabellings},
-  indices = Select[List[flavLEFT], Head[#] === Symbol &];
-  toRelabel = Select[indices, ! MemberQ[$DummyIndexList, #] &];
-  safeIndices = Select[$DummyIndexList, ! MemberQ[indices, #] &];
-  relabellings =
-   MapThread[
-    Rule, {toRelabel, Take[safeIndices, Length[toRelabel]]}];
-  {(Op[label] @@ (MaybeMakePattern /@ List[flavLEFT]) /. $pattern ->
-        Pattern) -> Times[x, smeftOp, y] /. relabellings}
-  ]
+
+TransformedMatchingData::usage = "Returns the matching data for the operator
+SMEFT operator `label` transformed into the mass basis.";
+TransformedMatchingData[label_String] :=
+  Block[
+    {matching, graph, transformed, flavourIndices, flavourReplacements, flavoured, path},
+
+    matching = Timing @ MatchOperator[label];
+
+    Print["Operator ", label, " took ", matching[[1]], " seconds."];
+
+    graph = MultiwayGraph[matching[[2]]];
+
+    transformed =
+    Join @@
+    Table[
+      Op @@@ (
+        expr /. ExpandSU2 /. ToMassBasis
+         ) //. YukawaTransformations //. MixingMatrixRules //. ToUpDiagonalBasis /. LEFTOperatorMatchingRules,
+      {expr, MatchingData[graph]}
+    ];
+
+    transformed
+
+  ];
+
+ChooseFlavour::usage = "Transforms `Op` matching expression to have flavour
+indices given by `flavour` list.";
+ChooseFlavour[expr_Op, flavour_List] :=
+  Block[
+    {label, flavourIndices, flavourReplacements},
+
+    flavourIndices = expr /. Op[x___, G[lab_][flav__], z___] :> List[flav];
+
+    expr /. MapThread[Rule, {flavourIndices, flavour}]
+
+  ];
+
+
+CleanMatchingExpression::usage = "Makes summed variables look nice, turns
+matching expressions into rules mapping WET to SMEFT operator expressions";
+CleanMatchingExpression[
+  Times[x___, smeftOp : G[n_][flavSMEFT__], leftOp : Op[label_String][flavLEFT__], y___]
+] :=
+  Block[
+    {indices, toRelabel, safeIndices, relabellings},
+
+    indices = Select[List[flavLEFT], Head[#] === Symbol &];
+    toRelabel = Select[indices, ! MemberQ[$DummyIndexList, #] &];
+    safeIndices = Select[$DummyIndexList, ! MemberQ[indices, #] &];
+
+    relabellings =
+    MapThread[
+      Rule,
+      {toRelabel, Take[safeIndices, Length[toRelabel]]}
+    ];
+
+    {(Op[label] @@ (MaybeMakePattern /@ List[flavLEFT]) /. $pattern -> Pattern) -> Times[x, smeftOp, y] /. relabellings}
+
+  ];
+
+CleanMatchingExpression[x_Op] := CleanMatchingExpression[(x /. Op[y__] :> Times[y])];
+
+
+WriteMatchingData::usage = "Write the list of flavour structures to the path.";
+WriteMatchingData[label_String, flavourStructures_List, path_String] :=
+  Block[
+    {matchingData, data, filepath},
+
+    matchingData = TransformedMatchingData[label];
+    Table[
+      data = CleanMatchingExpression /@ (ChooseFlavour[#, flavourStructure] & /@ matchingData);
+      filepath = path <> "op" <> label <> "_" <> (StringJoin @@ ToString /@ flavourStructure) <> ".dat";
+      Export[filepath, data];
+      Print[filepath <> " written!"]; (* TODO Only print this when Export works *)
+    , {flavourStructure, flavourStructures}
+    ];
+  ];
+
+NucleonDecayMatchingData[data_] :=
+  Block[
+    {operatorsForNucleonDecay, groupedContributions, cleanContributions},
+
+    operatorsForNucleonDecay = Flatten[Values[ProcessToWETTable] /. Plus -> List] /. G -> Op;
+
+    (* For each operator that contributes to nucleon decay, run a replace list
+    to get all possible matches, then group these by the operator to get all
+    contributions to the same operator coefficient. *)
+    groupedContributions = Normal[GroupBy[# -> ReplaceList[#, data] & /@ operatorsForNucleonDecay, First]];
+
+    (* Then, delete duplicates by absolute value (we can't account for
+    cancellations) and remove additional structure introduced from GroupBy call.
+    Also remove empty lists from unmatched coefficients. *)
+    cleanContributions =
+    Select[
+      #[[1]] -> DeleteDuplicatesBy[Join @@ Map[Last, #[[2]]], Abs] & /@ groupedContributions,
+      ! Last[#] === {} &
+    ];
+
+    DeleteDuplicatesBy[cleanContributions, Abs]
+
+  ];
+
+ExtractDominantMatchingByOperator::usage = "Returns a replacement list mapping
+each LEFT coefficient that is generated and contributes to nucleon decay to the
+dominant symbolic expressions. `data` is a replacement list like:
+
+{Op[\"^S,LL_duu\"][x_, 1, 1, 1] -> loop^2 CKM[2, x] yu[1] yu[2] G[\"9\"][1, 1, 1, 2],
+ Op[\"^S,LL_duu\"][x_, 1, 2, 1] -> -loop^2 CKM[1, x] yu[1] yu[2] G[\"9\"][1, 1, 1, 2],
+ ...
+}.
+
+That is, the output of `WriteMatchingData`.
+
+We don't want to draw significance to any cancellations, so this is the main
+function to use, not `NucleonDecayMatchingData`.";
+ExtractDominantMatchingByOperator[data_] :=
+  Block[
+    {numericReplacements, maximumContributions, withNumericValue,
+    cleanContributions},
+
+    cleanContributions = NucleonDecayMatchingData[data];
+
+    numericReplacements =
+    {loop -> 1/(16 \[Pi]^2)}~Join~NumericValues;
+
+    (* For each of these, just take the maximum by numeric value *)
+    maximumContributions =
+    Table[
+      (First[row] /. Op -> G) ->
+      First[
+        MaximalBy[Abs[Last[row]], Abs[#] /. G[x_][y__] :> 1 /. numericReplacements &]
+      ],
+      {row, cleanContributions}
+    ];
+
+    (* Decided not to return both the analytic and the numerical value here... *)
+    (* withNumericValue = #[[1]] -> <| "Analytic" -> #[[2]], "Numerical" -> Abs[#[[2]]] /. numericReplacements |> & /@ maximumContributions; *)
+    ReverseSortBy[maximumContributions, Abs[Last[#]] /. G[x_][y__] :> 1 /. numericReplacements &]
+
+  ];
+
+ProtonDecayRates[data_] :=
+  Block[
+    {operatorsForNucleonDecay, protonDecayExpressions},
+
+    operatorsForNucleonDecay =
+    Flatten[Values[ProcessToWETTable] /. Plus -> List];
+
+    (* Introduce legacy tilde; mark LEFT operator coefficients *)
+    matchingData =
+    Table[
+      (rule[[1]] /. G[x_String][y__] :> GLEFT["~"<>x][y]) -> rule[[2]],
+      {rule, ExtractDominantMatchingByOperator[data]}
+    ];
+
+    protonDecayExpressions = Table[
+      proc -> LatticeProtonDecayExpression[proc],
+      {proc, ProtonDecayProcesses}
+    ];
+
+    protonDecayExpressions = protonDecayExpressions /. G -> GLEFT /. matchingData;
+
+    protonDecayExpressions /. matchingData /. GLEFT[x_][y__] :> 0
+
+  ];
+
+ProtonDecayRates[data_, "Numeric"] :=
+  ProtonDecayRates[data] //. Join[MatElemReplacements, LatticeReplacements, NumericValues, {loop -> 1/(16 \[Pi]^2)}];
+
+ExtractDominantMatchingByRate::usage = "Returns a replacement list mapping each
+nucleon decay process that is generated to a numerical expression that
+dominantes the nucleon decay limit. This is useful for the final table.";
+ExtractDominantMatchingByRate[data_] := $NotImplemented;
