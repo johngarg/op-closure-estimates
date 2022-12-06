@@ -8,8 +8,8 @@ Get["rules.m"];
 Get["decay.m"];
 #+end_src
 
-The main function of the package is =TransformedMatchingData,= which is a wrapper
-around =MatchOperator. =TransformedMatchingData= returns the matching data rotated
+The main function of the package is =TransformedMatchingData=, which is a wrapper
+around =MatchOperator=. =TransformedMatchingData= returns the matching data rotated
 into the mass basis.
 
 This can be done with more control with something like:

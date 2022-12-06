@@ -315,7 +315,8 @@ WriteMatchingData[label_String, flavourStructures_List, path_String] :=
       data = CleanMatchingExpression /@ (ChooseFlavour[#, flavourStructure] & /@ matchingData);
       filepath = path <> "op" <> label <> "_" <> (StringJoin @@ ToString /@ flavourStructure) <> ".dat";
       Export[filepath, data];
-      Print[filepath <> " written!"]; (* TODO Only print this when Export works *)
+      (* TODO Only print this when Export works *)
+      Print[filepath <> " written!"];
     , {flavourStructure, flavourStructures}
     ];
   ];
