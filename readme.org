@@ -21,7 +21,7 @@ rules that match LEFT operators coefficients onto functions of SMEFT ones.
 Optionally, one can choose to impose a flavour structure on the SMEFT operator
 coefficient:
 #+begin_src wolfram
-ChooseFlavour[#, {1, 1, 1, 2}] & /@ data
+ChooseFlavour[#, {1,1,1,2}] & /@ data
 #+end_src
 
 These steps are wrapped into a convenient helper function:
