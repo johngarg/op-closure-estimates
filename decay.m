@@ -86,8 +86,8 @@ ProcessToWETTable =
     , "n->pi0nue~" -> {G["^S,LL_udd"][1,1,1,1] + G["^S,RL_dud"][1,1,1,1]}
     , "n->eta0nue~" -> {G["^S,LL_udd"][1,1,1,1] + G["^S,RL_dud"][1,1,1,1]}
 
-    , "p->K+nue~" -> {G["^S,LL_udd"][1,2,1,1] + G["^S,LL_udd"][1,1,2,1] + G["^S,RL_dud"][2,1,1,1] + G["^S,RL_dud"][1,1,2,1] + G["^S,RL_ddu"][1,2,1,1]}
-    , "n->K0nue~" -> {G["^S,LL_udd"][1,2,1,1] + G["^S,LL_udd"][1,1,2,1] + G["^S,RL_dud"][2,1,1,1] + G["^S,RL_dud"][1,1,2,1] + G["^S,RL_ddu"][1,2,1,1]}
+    , "p->K+nue~" -> {G["^S,LL_udd"][1,2,1,1] + G["^S,RL_dud"][2,1,1,1] + G["^S,RL_dud"][1,1,2,1] + G["^S,RL_ddu"][2,1,1,1]}
+    , "n->K0nue~" -> {G["^S,LL_udd"][1,2,1,1] + G["^S,RL_dud"][2,1,1,1] + G["^S,RL_dud"][1,1,2,1] + G["^S,RL_ddu"][2,1,1,1]}
 
     , "p->pi0e+" -> {G["^S,LL_duu"][1,1,1,1] + G["^S,RL_duu"][1,1,1,1], G["^S,LR_duu"][1,1,1,1] + G["^S,RR_duu"][1,1,1,1]}
     , "p->eta0e+" -> {G["^S,LL_duu"][1,1,1,1] + G["^S,RL_duu"][1,1,1,1], G["^S,LR_duu"][1,1,1,1] + G["^S,RR_duu"][1,1,1,1]}
@@ -101,10 +101,10 @@ ProcessToWETTable =
     , "n->pi0nue" -> {G["^S,LR_udd"][1,1,1,1] + G["^S,RR_udd"][1,1,1,1]}
     , "n->eta0nue" -> {G["^S,LR_udd"][1,1,1,1] + G["^S,RR_udd"][1,1,1,1]}
 
-    , "p->K+nue" -> {G["^S,LR_udd"][1,2,1,1] + G["^S,LR_udd"][1,1,1,2] + G["^S,LR_ddu"][1,2,1,1] + G["^S,RR_udd"][1,2,1,1] + G["^S,RR_udd"][1,1,1,2]}
-    , "n->K0nue" -> {G["^S,LR_udd"][1,2,1,1] + G["^S,LR_udd"][1,1,1,2] + G["^S,LR_ddu"][1,2,1,1] + G["^S,RR_udd"][1,2,1,1] + G["^S,RR_udd"][1,1,1,2]}
+    , "p->K+nue" -> {G["^S,LR_udd"][1,2,1,1] + G["^S,LR_udd"][1,1,1,2] + G["^S,LR_ddu"][1,2,1,1] + G["^S,RR_udd"][1,2,1,1]}
+    , "n->K0nue" -> {G["^S,LR_udd"][1,2,1,1] + G["^S,LR_udd"][1,1,1,2] + G["^S,LR_ddu"][1,2,1,1] + G["^S,RR_udd"][1,2,1,1]}
 
-    , "n->K+e-" -> {G["^S,LL_ddd"][1,2,1,1] + G["^S,RL_ddd"][1,2,1,1], G["^S,LR_ddd"][1,2,1,1] + G["^S,RR_ddd"][1,2,1,1]}
+    , "n->K+e-" -> {G["^S,LL_ddd"][2,1,1,1] + G["^S,RL_ddd"][2,1,1,1], G["^S,LR_ddd"][2,1,1,1] + G["^S,RR_ddd"][1,2,1,1]}
     , "n->pi+e-" -> {} (* Operator vanishes! *)
 |>;
 

@@ -557,5 +557,17 @@ Join[YukawaRules, LoopRules, EpsDeltaRules, FlavourDeltaRules, DerivativeRules, 
 
 
 (* LEFT Symmetries, or should this be done at the level of the SMEFT? *)
-Op["^S,RR_ddd"][1, 1, 1, 2] := Op["^S,RR_ddd"][1, 2, 1, 1]
-Op["^S,RR_ddd"][2, 1, 1, 1] := Op["^S,RR_ddd"][1, 2, 1, 1]
+
+(* These should be all of the operators for which a choice needs to be made
+about where the strange quark should go. *)
+
+Op["^S,LL_udd"][1,1,2,1] := Op["^S,LL_udd"][1,2,1,1];
+Op["^S,RL_ddu"][1,2,1,1] := Op["^S,RL_ddu"][2,1,1,1];
+
+Op["^S,RR_udd"][1,1,1,2] := Op["^S,RR_udd"][1,2,1,1];
+Op["^S,LL_ddd"][1,2,1,1] := Op["^S,LL_ddd"][2,1,1,1];
+Op["^S,LL_ddd"][1,1,1,2] := Op["^S,LL_ddd"][2,1,1,1];
+Op["^S,RL_ddd"][1,2,1,1] := Op["^S,RL_ddd"][2,1,1,1];
+Op["^S,LR_ddd"][1,2,1,1] := Op["^S,LR_ddd"][2,1,1,1];
+Op["^S,RR_ddd"][1,1,1,2] := Op["^S,RR_ddd"][2,1,1,1];
+Op["^S,RR_ddd"][1,2,1,1] := Op["^S,RR_ddd"][2,1,1,1];
