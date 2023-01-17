@@ -1,3 +1,5 @@
+$Assumptions = loop > 0 && vev > 0 && \[CapitalLambda] > 0;
+
 Op::usage = "An orderless collection of objects representing the state of the operator as the rules are applied.";
 SetAttributes[Op, Orderless];
 
@@ -133,6 +135,9 @@ ToStringRep[H[i_]] :=
 ToStringRep[Conj[x_]] :=
   StringJoin["\!\(\*SuperscriptBox[\(", ToStringRep[x], "\), \(\[Dagger]\)]\)"];
 
+ToStringRep[Delta[i_, j_]] :=
+  ToString@StringForm["\!\(\*SubscriptBox[\(\[Delta]\), \(`1`\\\ `2`\)]\)", i, j];
+
 ToStringRep[Eps[i_, j_]] :=
   ToString@StringForm["\!\(\*SubscriptBox[\(\[Epsilon]\), \(`1`\\\ `2`\)]\)", i, j];
 
@@ -208,26 +213,29 @@ makeMatchingExpr[{matchedExpr_, rule_RuleDelayed} \[DirectedEdge] Op[matchedOp :
   ];
 
 
-MatchOperator[label_, n_] := ApplyRules[
-  BViolatingOperatorsDim8[label],
-  $MatchingRules,
-  {},
-  n];
-MatchOperator[label_] := MatchOperator[label, 4];
+(* MatchOperator[label_String, n_] := ApplyRules[ *)
+(*   BViolatingOperatorsDim8[label], *)
+(*   $MatchingRules, *)
+(*   {}, *)
+(*   n]; *)
+(* MatchOperator[label_String] := MatchOperator[label, 4]; *)
 
-RawMatchingData[graph_] := DeleteDuplicates[
-  Block[{edgeList, matchedLeaves, matchedLeavesConj},
-        edgeList = EdgeList[graph];
-        matchedLeaves =
-        Select[edgeList,
-               MatchQ[#, _List \[DirectedEdge] Op[Op[_][___]]] &];
-        matchedLeavesConj =
-        Select[edgeList,
-               MatchQ[#, _List \[DirectedEdge] Op[Conj[Op[_][___]]]] &];
-        matchedLeaves = Join[matchedLeaves, matchedLeavesConj];
-        makeMatchingExpr /@ matchedLeaves
-  ]
-                        ]
+MatchOperator[op_Op, rules_, n_] := ApplyRules[op, rules, {}, n];
+
+RawMatchingData[graph_] :=
+  DeleteDuplicates[
+    Block[{edgeList, matchedLeaves, matchedLeavesConj},
+          edgeList = EdgeList[graph];
+          matchedLeaves =
+          Select[edgeList,
+                 MatchQ[#, _List \[DirectedEdge] Op[Op[_][___]]] &];
+          matchedLeavesConj =
+          Select[edgeList,
+                 MatchQ[#, _List \[DirectedEdge] Op[Conj[Op[_][___]]]] &];
+          matchedLeaves = Join[matchedLeaves, matchedLeavesConj];
+          makeMatchingExpr /@ matchedLeaves
+    ]
+  ];
 
 Conj[x_ y_] := Conj[x] Conj[y];
 Conj[x_Ru] := Conjugate[x];
@@ -248,7 +256,14 @@ MatchingData[label_String] :=
   Block[
     {matching, graph, transformed, flavourIndices, flavourReplacements, flavoured, path},
 
-    matching = Timing @ MatchOperator[label];
+    matching =
+    Timing[
+      If[MemberQ[Keys[BViolatingOperatorsDim8], label],
+         MatchOperator[BViolatingOperatorsDim8[label], $MatchingRulesDim8, 4],
+         MatchOperator[BViolatingOperatorsDim9[label], $MatchingRulesDim9, 4]
+      ]
+    ];
+
 
     Print["Operator ", label, " took ", matching[[1]], " seconds."];
 
@@ -295,6 +310,23 @@ ChooseFlavour[
 
   ];
 
+(* Same as above but with `Conjugate` in argument. TODO Refactor to avoid
+repetition. *)
+ChooseFlavour[
+  Rule[lhs : Op[leftlabel_String][leftidx__],
+       rhs : Times[before___, Conjugate[G[smeftlabel_String][smeftidx__]], after___]],
+  flavour_List
+] :=
+  Block[
+    {rule = MapThread[Rule, {List[smeftidx], flavour}]},
+
+    Rule @@ {
+      lhs /. rule /. pat_[index_Integer, Blank[]] :> index,
+      rhs /. rule
+    }
+
+  ];
+
 ChooseFlavour[
   List[
     r: Rule[lhs : Op[leftlabel_String][leftidx__],
@@ -303,13 +335,54 @@ ChooseFlavour[
   flavour_List
 ] := ChooseFlavour[r, flavour];
 
+ChooseFlavour[
+  r: Rule[lhs : Op[leftlabel_String][leftidx__],
+          rhs : x_Plus
+     ],
+  flavour_List
+] :=
+  Block[{splitUp, flavoured, stitchedUp},
+        splitUp = Rule @@ {lhs, #} & /@ (List @@ x);
+        flavoured = ChooseFlavour[#, flavour] & /@ splitUp;
+        stitchedUp = Rule @@ {flavoured[[1]][[1]], Sum[pair[[2]], {pair, flavoured}]}
+  ];
+
+
+ExpandYukSums::usage = "Function to expand sums of indices that are repeated but
+not present in any operator coefficient. (They come from rotating the fields
+into the mass basis.) These indices are marked with names like \"yuk197\",
+etc.";
+ExpandYukSums[expr_] :=
+  Block[{replaced, indices, sumHelper, sum$},
+        replaced =
+        ReplaceList[
+          expr, {Times[x___, CKM[idx__], y___] :> List[idx],
+                 Times[x___, Conjugate[CKM[idx__]], y___] :> List[idx]}];
+        indices =
+        DeleteDuplicates[
+          Select[Flatten[replaced],
+                 With[{s = ToString[#]},
+                      StringLength[s] >= 4 && StringTake[s, 3] === "yuk"] &]];
+
+        If[
+          indices === {},
+          expr,
+          sumHelper =
+          sum$[expr, Sequence @@ Table[{idx, 3}, {idx, indices}]];
+          sumHelper /. sum$ -> Sum
+        ]
+  ];
+
+ApplyExpandYukSums[op_ -> rhs_] := op -> ExpandYukSums[rhs];
+
+
 CleanMatchingExpressionAndMakeRule::usage = "Makes summed variables look nice, turns
 matching expressions into rules mapping WET to SMEFT operator expressions";
 CleanMatchingExpressionAndMakeRule[
-  Times[x___, smeftOp : G[n_][flavSMEFT__], leftOp : Op[label_String][flavLEFT__], y___]
+  Times[x___, smeftOp : G[n_][flavSMEFT__], leftOp : Op[label_String][flavLEFT__] | Conj[Op[label_String][flavLEFT__]], y___]
 ] :=
-  Block[
-    {indices, toRelabel, safeIndices, relabellings},
+  Module[
+    {indices, toRelabel, safeIndices, relabellings, func, rhs, result},
 
     indices = Select[List[flavLEFT], Head[#] === Symbol &];
     toRelabel = Select[indices, ! MemberQ[$DummyIndexList, #] &];
@@ -321,7 +394,13 @@ CleanMatchingExpressionAndMakeRule[
       {toRelabel, Take[safeIndices, Length[toRelabel]]}
     ];
 
-    {(Op[label] @@ (MaybeMakePattern /@ List[flavLEFT]) /. $pattern -> Pattern) -> Times[x, smeftOp, y] /. relabellings}
+    func = If[Head[leftOp] === Conj, Conjugate, Identity];
+    rhs = Refine[func /@ (Times[x, smeftOp, y] /. RemoveHiggs)];
+
+    result =
+    {(Op[label] @@ (MaybeMakePattern /@ List[flavLEFT]) /. $pattern -> Pattern) -> rhs /. relabellings};
+
+    ApplyExpandYukSums /@ result
 
   ];
 
