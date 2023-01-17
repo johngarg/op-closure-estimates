@@ -104,7 +104,7 @@ ProcessToWETTable =
     , "p->K+nue" -> {G["^S,LR_udd"][1,2,1,1] + G["^S,LR_udd"][1,1,1,2] + G["^S,LR_ddu"][1,2,1,1] + G["^S,RR_udd"][1,2,1,1]}
     , "n->K0nue" -> {G["^S,LR_udd"][1,2,1,1] + G["^S,LR_udd"][1,1,1,2] + G["^S,LR_ddu"][1,2,1,1] + G["^S,RR_udd"][1,2,1,1]}
 
-    , "n->K+e-" -> {G["^S,LL_ddd"][2,1,1,1] + G["^S,RL_ddd"][2,1,1,1], G["^S,LR_ddd"][2,1,1,1] + G["^S,RR_ddd"][1,2,1,1]}
+    , "n->K+e-" -> {G["^S,LL_ddd"][2,1,1,1] + G["^S,RL_ddd"][2,1,1,1], G["^S,LR_ddd"][2,1,1,1] + G["^S,RR_ddd"][2,1,1,1]}
     , "n->pi+e-" -> {} (* Operator vanishes! *)
 |>;
 
