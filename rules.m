@@ -117,6 +117,20 @@ OperatorMatchingRulesDim7 = {
   ] :> Op[Op["5"][p, q, r, s], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
 
   Op[
+    Deriv, Deriv,
+    L[p_, i_], db[q_, a_], db[r_, b_], db[s_, c_], Conj[H[j_]],
+    Eps[i_, j_], Eps[a_, b_, c_],
+    rst___Wt
+  ] :> Op[Op["5"][p, q, r, s], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
+
+  Op[
+    Conj[L[p_, i_]], Conj[db[q_, a_]], Conj[db[r_, b_]], Conj[db[s_, c_]], H[j_],
+    Eps[i_, j_], Eps[a_, b_, c_],
+    rst___Wt
+  ] :> Op[Conj[Op["5"][p, q, r, s]], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
+
+  Op[
+    Deriv, Deriv,
     Conj[L[p_, i_]], Conj[db[q_, a_]], Conj[db[r_, b_]], Conj[db[s_, c_]], H[j_],
     Eps[i_, j_], Eps[a_, b_, c_],
     rst___Wt
@@ -130,6 +144,20 @@ OperatorMatchingRulesDim7 = {
   ] :> Op[Op["6a"][p, q, r, s], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
 
   Op[
+    Deriv, Deriv,
+    L[p_, i_], Conj[Q[q_, a_, j_]], Conj[Q[r_, b_, k_]], db[s_, c_], H[l_],
+    Eps[i_, k_], Eps[j_, l_], Eps[a_, b_, c_],
+    rst___Wt
+  ] :> Op[Op["6a"][p, q, r, s], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
+
+  Op[
+    Conj[L[p_, i_]], Q[q_, a_, j_], Q[r_, b_, k_], Conj[db[s_, c_]], Conj[H[l_]],
+    Eps[i_, k_], Eps[j_, l_], Eps[a_, b_, c_],
+    rst___Wt
+  ] :> Op[Conj[Op["6a"][p, q, r, s]], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
+
+  Op[
+    Deriv, Deriv,
     Conj[L[p_, i_]], Q[q_, a_, j_], Q[r_, b_, k_], Conj[db[s_, c_]], Conj[H[l_]],
     Eps[i_, k_], Eps[j_, l_], Eps[a_, b_, c_],
     rst___Wt
@@ -143,6 +171,20 @@ OperatorMatchingRulesDim7 = {
   ] :> Op[Op["6b"][p, q, r, s], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
 
   Op[
+    Deriv, Deriv,
+    L[p_, i_], Conj[Q[q_, a_, j_]], Conj[Q[r_, b_, k_]], db[s_, c_], H[l_],
+    Eps[i_, l_], Eps[j_, k_], Eps[a_, b_, c_],
+    rst___Wt
+  ] :> Op[Op["6b"][p, q, r, s], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
+
+  Op[
+    Conj[L[p_, i_]], Q[q_, a_, j_], Q[r_, b_, k_], Conj[db[s_, c_]], Conj[H[l_]],
+    Eps[i_, l_], Eps[j_, k_], Eps[a_, b_, c_],
+    rst___Wt
+  ] :> Op[Conj[Op["6b"][p, q, r, s]], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
+
+  Op[
+    Deriv, Deriv,
     Conj[L[p_, i_]], Q[q_, a_, j_], Q[r_, b_, k_], Conj[db[s_, c_]], Conj[H[l_]],
     Eps[i_, l_], Eps[j_, k_], Eps[a_, b_, c_],
     rst___Wt
@@ -156,6 +198,20 @@ OperatorMatchingRulesDim7 = {
   ] :> Op[Op["7"][p, q, r, s], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
 
   Op[
+    Deriv, Deriv,
+    Conj[eb[p_]], Conj[Q[q_, a_, i_]], db[r_, b_], db[s_, c_], H[j_],
+    Eps[i_, j_], Eps[a_, b_, c_],
+    rst___Wt
+  ] :> Op[Op["7"][p, q, r, s], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
+
+  Op[
+    eb[p_], Q[q_, a_, i_], Conj[db[r_, b_]], Conj[db[s_, c_]], Conj[H[j_]],
+    Eps[i_, j_], Eps[a_, b_, c_],
+    rst___Wt
+  ] :> Op[Conj[Op["7"][p, q, r, s]], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
+
+  Op[
+    Deriv, Deriv,
     eb[p_], Q[q_, a_, i_], Conj[db[r_, b_]], Conj[db[s_, c_]], Conj[H[j_]],
     Eps[i_, j_], Eps[a_, b_, c_],
     rst___Wt
@@ -167,7 +223,22 @@ OperatorMatchingRulesDim7 = {
     Eps[i_, j_], Eps[a_, b_, c_],
     rst___Wt
   ] :> Op[Op["8"][p, q, r, s], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
+
   Op[
+    Deriv, Deriv,
+    L[p_, i_], ub[q_, a_], db[r_, b_], db[s_, c_], H[j_],
+    Eps[i_, j_], Eps[a_, b_, c_],
+    rst___Wt
+  ] :> Op[Op["8"][p, q, r, s], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
+
+  Op[
+    Conj[L[p_, i_]], Conj[ub[q_, a_]], Conj[db[r_, b_]], Conj[db[s_, c_]], Conj[H[j_]],
+    Eps[i_, j_], Eps[a_, b_, c_],
+    rst___Wt
+  ] :> Op[Conj[Op["8"][p, q, r, s]], MatchingValues["p" -> p, "q" -> q, "r" -> r, "s" -> s]],
+
+  Op[
+    Deriv, Deriv,
     Conj[L[p_, i_]], Conj[ub[q_, a_]], Conj[db[r_, b_]], Conj[db[s_, c_]], Conj[H[j_]],
     Eps[i_, j_], Eps[a_, b_, c_],
     rst___Wt
@@ -187,7 +258,33 @@ DerivativeRules = {
                                              MatchingValues["p" -> p, "x0" -> x0, "i0" -> i0, "j0" -> j0],
                                              Wt[ye[p, x0]]
                                           ]
+                                    ],
+
+  Op[Deriv, db[p_, a_], rst__] :> Block[{x0 = Unique["x"], i0 = Unique["i"], j0 = Unique["j"]},
+                                    Op[Conj[Q[x0, a, i0]], H[j0], Eps[i0, j0], rst,
+                                       MatchingValues["p" -> p, "x0" -> x0, "i0" -> i0, "j0" -> j0, "a" -> a],
+                                       Wt[Conj[yd[p, x0]]]
                                     ]
+                              ],
+  Op[Deriv, Conj[db[p_, a_]], rst__] :> Block[{x0 = Unique["x"], i0 = Unique["i"], j0 = Unique["j"]},
+                                          Op[Q[x0, a, i0], Conj[H[j0]], Eps[i0, j0], rst,
+                                             MatchingValues["p" -> p, "x0" -> x0, "i0" -> i0, "j0" -> j0, "a" -> a],
+                                             Wt[yd[p, x0]]
+                                          ]
+                                    ],
+
+  Op[Deriv, ub[p_, a_], rst__] :> Block[{x0 = Unique["x"], i0 = Unique["i"], j0 = Unique["j"]},
+                                        Op[Conj[Q[x0, a, i0]], Conj[H[j0]], Eps[i0, j0], rst,
+                                           MatchingValues["p" -> p, "x0" -> x0, "i0" -> i0, "j0" -> j0, "a" -> a],
+                                           Wt[Conj[yu[p, x0]]]
+                                        ]
+                                  ],
+  Op[Deriv, Conj[ub[p_, a_]], rst__] :> Block[{x0 = Unique["x"], i0 = Unique["i"], j0 = Unique["j"]},
+                                              Op[Q[x0, a, i0], H[j0], Eps[i0, j0], rst,
+                                                 MatchingValues["p" -> p, "x0" -> x0, "i0" -> i0, "j0" -> j0, "a" -> a],
+                                                 Wt[yu[p, x0]]
+                                              ]
+                                        ]
 };
 
 
@@ -354,15 +451,15 @@ LoopRules = {
 EpsDeltaRules = {
   Op[Eps[i_, j_], Eps[i_, j_], rst___] :>
     Op[Wt[2], rst,
-       MatchingValues[ "i" -> i, "j" -> j]],
+       MatchingValues["i" -> i, "j" -> j]],
 
   Op[Delta[i_, j_], Delta[i_, j_], rst___] :>
     Op[Wt[3], rst,
-       MatchingValues[ "i" -> i, "j" -> j]],
+       MatchingValues["i" -> i, "j" -> j]],
 
   Op[Eps[m_, n_], Eps[i_, m_], Eps[l_, n_], rst___] :>
     Op[Eps[l, i], rst,
-       MatchingValues[ "i" -> i, "m" -> m, "n" -> n, "l" -> l]],
+       MatchingValues["i" -> i, "m" -> m, "n" -> n, "l" -> l]],
 
   Op[Delta[a_, c_], Eps[a_, b_, d_], rst___] :>
     Op[Eps[c, b, d], rst,
@@ -553,7 +650,7 @@ $MatchingRulesDim8 =
 Join[YukawaRules, LoopRules, EpsDeltaRules, OperatorMatchingRulesDim6];
 
 $MatchingRulesDim9 =
-Join[YukawaRules, LoopRules, EpsDeltaRules, FlavourDeltaRules, DerivativeRules, OperatorMatchingRulesDim7];
+Join[YukawaRules, LoopRules, EpsDeltaRules, FlavourDeltaRules, OperatorMatchingRulesDim7];
 
 
 (* LEFT Symmetries, or should this be done at the level of the SMEFT? *)
