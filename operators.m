@@ -1,68 +1,68 @@
 BViolatingOperatorsDim8 = <|
 
   "9" -> Op[Wt[G["9"][p, q, r, s]],
-            L[p, i], Q[q, a, j], Conj[ub[r, b]], Conj[ub[s, c]], Conj[H[k]], Conj[H[l]],
-            Eps[i, k], Eps[j, l], Eps[a, b, c]
+            L[p, i], Q[q, j], Conj[ub[r]], Conj[ub[s]], Conj[H[k]], Conj[H[l]],
+            Eps[i, k], Eps[j, l]
          ],
 
   "10" -> Op[Wt[G["10"][p, q, r, s]],
-             Conj[eb[p]], Q[q, a, i], Q[r, b, j], Conj[db[s, c]], H[k], H[l],
-             Eps[k, i], Eps[j, l], Eps[a, b, c]
+             Conj[eb[p]], Q[q, i], Q[r, j], Conj[db[s]], H[k], H[l],
+             Eps[k, i], Eps[j, l]
           ],
 
   "11" -> Op[Wt[G["11"][p, q, r, s]],
-             L[p, i], Q[q, a, j], Conj[db[r, b]], Conj[db[s, c]], H[k], H[l],
-             Eps[k, i], Eps[j, l], Eps[a, b, c]
+             L[p, i], Q[q, j], Conj[db[r]], Conj[db[s]], H[k], H[l],
+             Eps[k, i], Eps[j, l]
           ],
 
   "12a" -> Op[Wt[G["12a"][p, q, r, s]],
-              L[p, i], Q[q, a, j], Q[r, b, k], Q[s, c, l], H[m], Conj[H[n]],
-              Eps[i, l], Eps[j, m], Eps[k, n], Eps[a, b, c]
+              L[p, i], Q[q, j], Q[r, k], Q[s, l], H[m], Conj[H[n]],
+              Eps[i, l], Eps[j, m], Eps[k, n]
            ],
 
   "12b" -> Op[Wt[G["12b"][p, q, r, s]],
-              L[p, i], Q[q, a, j], Q[r, b, k], Q[s, c, l], H[m], Conj[H[n]],
-              Eps[i, m], Eps[j, l], Eps[k, n], Eps[a, b, c]
+              L[p, i], Q[q, j], Q[r, k], Q[s, l], H[m], Conj[H[n]],
+              Eps[i, m], Eps[j, l], Eps[k, n]
            ],
 
   "12c" -> Op[Wt[G["12c"][p, q, r, s]],
-              L[p, i], Q[q, a, j], Q[r, b, k], Q[s, c, l], H[m], Conj[H[n]],
-              Eps[i, k], Eps[j, l], Eps[m, n], Eps[a, b, c]
+              L[p, i], Q[q, j], Q[r, k], Q[s, l], H[m], Conj[H[n]],
+              Eps[i, k], Eps[j, l], Eps[m, n]
            ],
 
   "12d" -> Op[Wt[G["12d"][p, q, r, s]],
-              L[p, i], Q[q, a, j], Q[r, b, k], Q[s, c, l], H[m], Conj[H[n]],
-              Eps[i, n], Eps[j, l], Eps[k, m], Eps[a, b, c]
+              L[p, i], Q[q, j], Q[r, k], Q[s, l], H[m], Conj[H[n]],
+              Eps[i, n], Eps[j, l], Eps[k, m]
            ],
 
   "13a" -> Op[Wt[G["13a"][p, q, r, s]],
-              Conj[eb[p]], Q[q, a, i], Q[r, b, j], Conj[ub[s, c]], H[k], Conj[H[l]],
-              Eps[i, k], Eps[j, l], Eps[a, b, c]
+              Conj[eb[p]], Q[q, i], Q[r, j], Conj[ub[s]], H[k], Conj[H[l]],
+              Eps[i, k], Eps[j, l]
            ],
 
   "13b" -> Op[Wt[G["13b"][p, q, r, s]],
-              Conj[eb[p]], Q[q, a, i], Q[r, b, j], Conj[ub[s, c]], H[k], Conj[H[l]],
-              Eps[i, j], Eps[k, l], Eps[a, b, c]
+              Conj[eb[p]], Q[q, i], Q[r, j], Conj[ub[s]], H[k], Conj[H[l]],
+              Eps[i, j], Eps[k, l]
            ],
 
   "14" -> Op[Wt[G["14"][p, q, r, s]],
-             Conj[eb[p]], Conj[ub[q, a]], Conj[ub[r, b]], Conj[db[s, c]], H[i], Conj[H[j]],
-             Eps[i, j], Eps[a, b, c]
+             Conj[eb[p]], Conj[ub[q]], Conj[ub[r]], Conj[db[s]], H[i], Conj[H[j]],
+             Eps[i, j]
           ],
 
   "15a" -> Op[Wt[G["15a"][p, q, r, s]],
-              L[p, i], Q[q, a, j], Conj[ub[r, b]], Conj[db[s, c]], H[k], Conj[H[l]],
-              Eps[i, k], Eps[j, l], Eps[a, b, c]
+              L[p, i], Q[q, j], Conj[ub[r, b]], Conj[db[s]], H[k], Conj[H[l]],
+              Eps[i, k], Eps[j, l]
            ],
 
   "15b" -> Op[Wt[G["15b"][p, q, r, s]],
-              L[p, i], Q[q, a, j], Conj[ub[r, b]], Conj[db[s, c]], H[k], Conj[H[l]],
-              Eps[i, l], Eps[j, k], Eps[a, b, c]
+              L[p, i], Q[q, j], Conj[ub[r]], Conj[db[s]], H[k], Conj[H[l]],
+              Eps[i, l], Eps[j, k]
            ],
 
   "15c" -> Op[Wt[G["15c"][p, q, r, s]],
-              L[p, i], Q[q, a, j], Conj[ub[r, b]], Conj[db[s, c]], H[k], Conj[H[l]],
-              Eps[i, j], Eps[k, l], Eps[a, b, c]
+              L[p, i], Q[q, j], Conj[ub[r]], Conj[db[s]], H[k], Conj[H[l]],
+              Eps[i, j], Eps[k, l]
            ]
 
 |>;
@@ -70,13 +70,12 @@ BViolatingOperatorsDim8 = <|
 BViolatingOperatorsDim9 = <|
 
   "19"  -> Op[Wt[G["19"][p,q,r,s,t,u]],
-              Conj[eb[p]], Conj[eb[q]], eb[r], db[s,a], db[t,b], db[u,c],
-              Eps[a, b, c]
+              Conj[eb[p]], Conj[eb[q]], eb[r], db[s], db[t], db[u]
            ],
 
   "20"  -> Op[Wt[G["20"][p,q,r,s]],
-              Conj[eb[p]], Conj[Q[q,a,i]], Conj[Q[r,b,j]], Conj[Q[s,c,k]], H[l], H[m], H[n],
-              Eps[i, l], Eps[j, m], Eps[k, n], Eps[a, b, c]
+              Conj[eb[p]], Conj[Q[q,i]], Conj[Q[r,j]], Conj[Q[s,k]], H[l], H[m], H[n],
+              Eps[i, l], Eps[j, m], Eps[k, n]
            ]
 
 (* , "21"  -> Prod[G["21"][r,s,t,u,v,w] *)

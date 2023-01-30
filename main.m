@@ -113,11 +113,17 @@ ApplyRules[start_, rules_, edgeList_, n_] :=
   Nest[Apply[ApplyRules, #] &, {start, rules, edgeList}, n];
 
 
-ToStringRep[db[r_, a_]] :=
-  ToString@StringForm["\!\(\*SuperscriptBox[SubscriptBox[OverscriptBox[\(d\), \(_\)], \ \(`1`\)], \(`2`\)]\)", r, a];
+(* ToStringRep[db[r_, a_]] := *)
+(*   ToString@StringForm["\!\(\\*SuperscriptBox[SubscriptBox[OverscriptBox[\(d\), \(_\)], \ \(`1`\)], \(`2`\)]\)", r, a]; *)
 
-ToStringRep[ub[r_, a_]] :=
-  ToString@StringForm["\!\(\*SuperscriptBox[SubscriptBox[OverscriptBox[\(u\), \(_\)], \ \(`1`\)], \(`2`\)]\)", r, a];
+(* ToStringRep[ub[r_, a_]] := *)
+(*   ToString@StringForm["\!\(\\*SuperscriptBox[SubscriptBox[OverscriptBox[\(u\), \(_\)], \ \(`1`\)], \(`2`\)]\)", r, a]; *)
+
+ToStringRep[db[r_]] :=
+  ToString@StringForm["\!\(\*SubscriptBox[OverscriptBox[\(d\), \(_\)], \(`1`\)]\)", r];
+
+ToStringRep[ub[r_]] :=
+  ToString@StringForm["\!\(\*SubscriptBox[OverscriptBox[\(u\), \(_\)], \(`1`\)]\)", r];
 
 ToStringRep[eb[r_]] :=
   ToString@StringForm["\!\(\*SubscriptBox[OverscriptBox[\(e\), \(_\)], \(`1`\)]\)", r];
@@ -125,9 +131,12 @@ ToStringRep[eb[r_]] :=
 ToStringRep[L[r_, i_]] :=
   ToString@StringForm["\!\(\*SuperscriptBox[SubscriptBox[\(L\), \(`1`\)], \(`2`\)]\)", r, i];
 
-ToStringRep[Q[r_, a_, i_]] :=
-  ToString@StringForm[
-    "\!\(\*SuperscriptBox[SubscriptBox[\(Q\), \(`1`\)], \(`2`\\\ \ `3`\)]\)", r, a, i];
+ToStringRep[Q[r_, i_]] :=
+  ToString@StringForm["\!\(\*SuperscriptBox[SubscriptBox[\(Q\), \(`1`\)], \(`2`\)]\)", r, i];
+
+(* ToStringRep[Q[r_, a_, i_]] := *)
+(*   ToString@StringForm[ *)
+(*     "\!\(\\*SuperscriptBox[SubscriptBox[\(Q\), \(`1`\)], \(`2`\\\ \ `3`\)]\)", r, a, i]; *)
 
 ToStringRep[H[i_]] :=
   ToString@StringForm["\!\(\*SuperscriptBox[\(H\), \(`1`\)]\)", i];
