@@ -94,17 +94,21 @@ ApplyRules[start_, rules_, edgeList_] :=
     (*Updage edgeList to contain edge between rule and final state*)
     updatedEdgeList = Join[updatedEdgeList, Table[{start, $i[[1]]} \[DirectedEdge] $i[[2]], {$i, rulesAndStates}]];
 
-    {Last /@ rulesAndStates, rules, updatedEdgeList}
+    (* If no rules have been applied successfully, return the initial state *)
+    Block[{maybeNewState = Last /@ rulesAndStates, newState},
+      newState = If[maybeNewState === {}, {start}, maybeNewState];
+      {DeleteDuplicates[newState], rules, updatedEdgeList}
+    ]
   ];
 
 ApplyRules[{x_Op, y___}, rules_, edgeList_] :=
   Block[
     {result, newStart, newEdgeList},
 
-    result = ApplyRules[#, rules, edgeList] & /@ {x, y};
+    result = Map[ApplyRules[#, rules, edgeList] &, {x, y}];
     newStart = Join @@ First /@ result;
     newEdgeList = DeleteDuplicates[Join @@ Last /@ result];
-    {newStart, rules, newEdgeList}
+    {DeleteDuplicates[newStart], rules, newEdgeList}
   ];
 
 ApplyRules[{}, rules_, edgeList_] := {{}, rules, edgeList};
