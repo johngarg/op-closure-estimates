@@ -250,9 +250,11 @@ LatticeProtonDecayExpression[proc_String] :=
     (* Whole list is Abs[]^2, but this applies to each element *)
     guts =
     Abs[
-      Plus @@@ Table[
-        MatrixElement[meson, op, baryon]/M["\[CapitalLambda]"]^2
-               , {op, ProcessToWETTable[proc]}]
+            Plus @@@ Table[
+                    Abs[ (* This abs will mean we are slightly overestimating some rates *)
+                            MatrixElement[meson, op, baryon]/M["\[CapitalLambda]"]^2
+                    ],
+                    {op, ProcessToWETTable[proc]}]
     ]^2;
 
     prefactor1 * prefactor2 * (Plus @@ guts)
