@@ -222,7 +222,7 @@ makeMatchingExpr[{matchedExpr_, rule_RuleDelayed} \[DirectedEdge] Op[matchedOp :
 
     flavourList = List[flavour];
     flavourRelabellings = getFlavourRelabellings[flavourList];
-    (Op[name] @@ flavourList) (Select[matchedExpr, Head[#] == Wt &] /. Wt -> Identity /. Op -> Times) /. flavourRelabellings
+    (Op[name] @@ flavourList) (Select[matchedExpr, Head[#] == Wt &] /. Wt -> Identity /. Op -> Times) (* /. flavourRelabellings *)
   ];
 
 
