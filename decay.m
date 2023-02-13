@@ -132,7 +132,7 @@ ExtractBaryonMesonLepton[proc_String] :=
 
 
 MatrixElement::usage = "An intermediate function to construct hadronic matrix
-elements for use with LatticeProtonDecayExpression.";
+elements for use with LatticeNucleonDecayExpression.";
 MatrixElement[meson_String, G[x_String][f__], baryon_String] := G["~"<>x][f] AngleBracket[meson, Op[x][f], baryon];
 MatrixElement[meson_String, Plus[x__], baryon_String] := Table[MatrixElement[meson, i, baryon], {i, List @@ x}];
 
@@ -234,11 +234,11 @@ LatticeReplacements =
 PackageExport["LatticeReplacements"]
 
 
-LatticeProtonDecayExpression::usage = "Calculates proton decay expression from
+LatticeNucleonDecayExpression::usage = "Calculates proton decay expression from
 hadronic matrix elements calculated on the Lattice. The expression is taken from
 2111.01608.";
 
-LatticeProtonDecayExpression[proc_String] :=
+LatticeNucleonDecayExpression[proc_String] :=
   Block[
     {prefactor1, prefactor2, guts, baryon, meson, lepton}
   ,
@@ -259,4 +259,4 @@ LatticeProtonDecayExpression[proc_String] :=
 
     prefactor1 * prefactor2 * (Plus @@ guts)
   ];
-PackageExport["LatticeProtonDecayExpression"]
+PackageExport["LatticeNucleonDecayExpression"]

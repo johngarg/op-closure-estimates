@@ -472,7 +472,7 @@ LoopRules = {
   Op[H[i_], Conj[H[j_]], rst___] :>
     Op[Eps[i, j], rst,
        MatchingValues["i" -> i, "j" -> j],
-       Wt[loop]]
+       Wt[hloop]]
 
 };
 
@@ -481,197 +481,15 @@ EpsDeltaRules = {
     Op[Wt[2], rst,
        MatchingValues["i" -> i, "j" -> j]],
 
-  (* Op[Delta[i_, j_], Delta[i_, j_], rst___] :> *)
-  (*   Op[Wt[3], rst, *)
-  (*      MatchingValues["i" -> i, "j" -> j]], *)
-
   Op[Eps[m_, n_], Eps[i_, m_], Eps[l_, n_], rst___] :>
     Op[Eps[l, i], rst,
        MatchingValues["i" -> i, "m" -> m, "n" -> n, "l" -> l]]
 
-  (* Op[Delta[a_, c_], Eps[a_, b_, d_], rst___] :> *)
-  (*   Op[Eps[c, b, d], rst, *)
-  (*      MatchingValues["a" -> a, "c" -> c, "b" -> b, "d" -> d]], *)
-
-  (* Op[Delta[d_, c_], Delta[c_, a_], Eps[a_, b_, ee_], rst___] :> *)
-  (*   Op[Eps[d, b, e], rst, *)
-  (*      MatchingValues["a" -> a, "c" -> c, "b" -> b, "d" -> d, *)
-  (*                     "ee" -> ee]] *)
 };
 
 FlavourDeltaRules = {
   Op[Delta[r_, p_], rst___] :>
     (Op[rst] /.  r -> p) ~Join~ Op[MatchingValues["r" -> r, "p" -> p]]
-};
-
-
-YukawaTransformations = {
-  Op[yu[r_, s_], rst___] :> Block[{y00 = Unique["yuk"]},
-                                  Op[Conjugate[Ru[r, y00]], yu[y00], Conjugate[Lu[s, y00]], rst]],
-  Op[yd[r_, s_], rst___] :> Block[{y00 = Unique["yuk"]},
-                                  Op[Conjugate[Rd[r, y00]], yd[y00], Conjugate[Ld[s, y00]], rst]],
-  Op[ye[r_, s_], rst___] :> Block[{y00 = Unique["yuk"]},
-                                  Op[Conjugate[Rl[r, y00]], yl[y00], Conjugate[Ll[s, y00]], rst]],
-
-  Op[Conj[yu[r_, s_]], rst___] :> Block[{y00 = Unique["yuk"]},
-                                        Op[Ru[r, y00], yu[y00], Lu[s, y00], rst]],
-  Op[Conj[yd[r_, s_]], rst___] :> Block[{y00 = Unique["yuk"]},
-                                        Op[Rd[r, y00], yd[y00], Ld[s, y00], rst]],
-  Op[Conj[ye[r_, s_]], rst___] :> Block[{y00 = Unique["yuk"]},
-                                        Op[Rl[r, y00], yl[y00], Ll[s, y00], rst]]
-};
-
-ExpandSU2 = {
-  Op["1"][r_, s_, t_, uu_] -> {
-    d[uu] e[r] u[s] u[t],
-    -d[s] e[r] u[t] u[uu],
-    -d[t] d[uu] u[s] \[Nu][r],
-    d[s] d[t] u[uu] \[Nu][r]
-    },
-
-  Op["2"][r_, s_, t_, uu_] -> {
-    Conj[eb[r]] Conj[ub[uu]] d[t] u[s],
-    Conj[eb[r]] Conj[ub[uu]] d[s] u[t]
-    },
-
-  Op["3"][r_, s_, t_, uu_] -> {
-    -Conj[db[uu]] Conj[eb[r]] Conj[ub[s]] Conj[ub[t]]
-    },
-
-  Op["4"][r_, s_, t_, uu_] -> {
-    -Conj[db[uu]] Conj[ub[t]] e[r] u[s],
-    -Conj[db[uu]] Conj[ub[t]] d[s] \[Nu][r]
-    },
-
-  Op["5"][r_, s_, t_, uu_] -> {
-    -Conj[H0] db[s] db[t] db[uu] e[r]
-(*,-HM db[s] db[t] db[uu] \[Nu][r]*)
-    },
-
-  Op["6a"][r_, s_, t_, uu_] -> {
-    H0 Conj[d[s]] Conj[d[t]] db[uu] e[r],
-    (*-HP Conj[d[t]] Conj[u[s]] db[uu] e[r],*)
-
-    H0 Conj[d[s]] Conj[u[t]] db[uu] \[Nu][r]
-(*,HP Conj[u[s]] Conj[u[t]] db[uu] \[Nu][r]*)
-     },
-
-  Op["6b"][r_, s_, t_, uu_] -> {
-    (*-HP Conj[d[t]] Conj[u[s]] db[uu] e[r],
-     -HP Conj[d[s]] Conj[u[t]] db[uu] e[r],*)
-
-    H0 Conj[d[t]] Conj[u[s]] db[uu] \[Nu][r],
-    H0 Conj[d[s]] Conj[u[t]] db[uu] \[Nu][r]
-     },
-
-  Op["7"][r_, s_, t_, uu_] -> {
-    -H0 Conj[d[s]] Conj[eb[r]] db[t] db[uu]
-(*,HP Conj[eb[r]] Conj[u[s]] db[t] db[uu]*)
-    },
-
-  Op["8"][r_, s_, t_, uu_] -> {
-    (*-HP db[t] db[uu] e[r] ub[
-     s],*)
-    -H0 db[t] db[uu] ub[s] \[Nu][r]
-    }
-};
-
-RemoveHiggs = {H0 -> vev/\[CapitalLambda],
-               Conj[H0] -> vev/\[CapitalLambda]};
-
-LEFTOperatorMatchingRules = {
-  (*\[Delta]B=\[Delta]L=1*)
-  Op[u[r_], d[s_], d[t_], \[Nu][u_], rst___] :> Op[Op["^S,LL_udd"][r, s, t, u], rst],
-  Op[Conj[u[r_]], Conj[d[s_]], Conj[d[t_]], Conj[\[Nu][u_]], rst___] :> Op[Conj[Op["^S,LL_udd"][r, s, t, u]], rst],
-
-  Op[d[r_], u[s_], u[t_], e[u_], rst___] :> Op[Op["^S,LL_duu"][r, s, t, u], rst],
-  Op[Conj[d[r_]], Conj[u[s_]], Conj[u[t_]], Conj[e[u_]], rst___] :> Op[Conj[Op["^S,LL_duu"][r, s, t, u]], rst],
-
-  Op[u[r_], u[s_], Conj[db[t_]], Conj[eb[u_]], rst___] :> Op[Op["^S,LR_uud"][r, s, t, u], rst],
-  Op[Conj[u[r_]], Conj[u[s_]], db[t_], eb[u_], rst___] :> Op[Conj[Op["^S,LR_uud"][r, s, t, u]], rst],
-
-  Op[d[r_], u[s_], Conj[ub[t_]], Conj[eb[u_]], rst___] :> Op[Op["^S,LR_duu"][r, s, t, u], rst],
-  Op[Conj[d[r_]], Conj[u[s_]], ub[t_], eb[u_], rst___] :> Op[Conj[Op["^S,LR_duu"][r, s, t, u]], rst],
-
-  Op[Conj[ub[r_]], Conj[ub[s_]], d[t_], e[u_], rst___] :> Op[Op["^S,RL_uud"][r, s, t, u], rst],
-  Op[ub[r_], ub[s_], Conj[d[t_]], Conj[e[u_]], rst___] :> Op[Conj[Op["^S,RL_uud"][r, s, t, u]], rst],
-
-  Op[Conj[db[r_]], Conj[ub[s_]], u[t_], e[u_], rst___] :> Op[Op["^S,RL_duu"][r, s, t, u], rst],
-  Op[db[r_], ub[s_], Conj[u[t_]], Conj[e[u_]], rst___] :> Op[Conj[Op["^S,RL_duu"][r, s, t, u]], rst],
-
-  Op[Conj[db[r_]], Conj[ub[s_]], d[t_], \[Nu][u_], rst___] :> Op[Op["^S,RL_dud"][r, s, t, u], rst],
-  Op[db[r_], ub[s_], Conj[d[t_]], Conj[\[Nu][u_]], rst___] :> Op[Conj[Op["^S,RL_dud"][r, s, t, u]], rst],
-
-  Op[Conj[db[r_]], Conj[db[s_]], u[t_], \[Nu][u_], rst___] :> Op[Op["^S,RL_ddu"][r, s, t, u], rst],
-  Op[db[r_], db[s_], Conj[u[t_]], Conj[\[Nu][u_]], rst___] :> Op[Conj[Op["^S,RL_ddu"][r, s, t, u]], rst],
-
-  Op[Conj[db[r_]], Conj[ub[s_]], Conj[ub[t_]], Conj[eb[u_]], rst___] :> Op[Op["^S,RR_duu"][r, s, t, u], rst],
-  Op[db[r_], ub[s_], ub[t_], eb[u_], rst___] :> Op[Conj[Op["^S,RR_duu"][r, s, t, u]], rst],
-
-  (*\[Delta]B=-\[Delta]L=1*)
-  Op[d[r_], d[s_], eb[t_], d[u_], rst___] :> Op[Op["^S,LL_ddd"][r, s, t, u], rst],
-  Op[Conj[d[r_]], Conj[d[s_]], Conj[eb[t_]], Conj[d[u_]], rst___] :> Op[Conj[Op["^S,LL_ddd"][r, s, t, u]], rst],
-
-  Op[u[r_], d[s_], Conj[\[Nu][t_]], Conj[db[u_]], rst___] :> Op[Op["^S,LR_udd"][r, s, t, u], rst],
-  Op[Conj[u[r_]], Conj[d[s_]], \[Nu][t_], db[u_], rst___] :> Op[Conj[Op["^S,LR_udd"][r, s, t, u]], rst],
-
-  Op[d[r_], d[s_], Conj[\[Nu][t_]], Conj[ub[u_]], rst___] :> Op[Op["^S,LR_ddu"][r, s, t, u], rst],
-  Op[Conj[d[r_]], Conj[d[s_]], \[Nu][t_], ub[u_], rst___] :> Op[Conj[Op["^S,LR_ddu"][r, s, t, u]], rst],
-
-  Op[d[r_], d[s_], Conj[e[t_]], Conj[db[u_]], rst___] :> Op[Op["^S,LR_ddd"][r, s, t, u], rst],
-  Op[Conj[d[r_]], Conj[d[s_]], e[t_], db[u_], rst___] :> Op[Conj[Op["^S,LR_ddd"][r, s, t, u]], rst],
-
-  Op[Conj[db[r_]], Conj[db[s_]], eb[t_], d[u_], rst___] :> Op[Op["^S,RL_ddd"][r, s, t, u], rst],
-  Op[db[r_], db[s_], Conj[eb[t_]], Conj[d[u_]], rst___] :> Op[Conj[Op["^S,RL_ddd"][r, s, t, u]], rst],
-
-  Op[Conj[ub[r_]], Conj[db[s_]], Conj[\[Nu][t_]], Conj[db[u_]], rst___] :> Op[Op["^S,RR_udd"][r, s, t, u], rst],
-  Op[ub[r_], db[s_], \[Nu][t_], db[u_], rst___] :> Op[Conj[Op["^S,RR_udd"][r, s, t, u]], rst],
-
-  Op[Conj[db[r_]], Conj[db[s_]], Conj[e[t_]], Conj[db[u_]], rst___] :> Op[Op["^S,RR_ddd"][r, s, t, u], rst],
-  Op[db[r_], db[s_], e[t_], db[u_], rst___] :> Op[Conj[Op["^S,RR_ddd"][r, s, t, u]], rst]
-
-};
-
-ToMassBasis = {
-  \[Nu][r_] :> Block[{y00 = Unique["mass"]}, Ll[r, y00] \[Nu][y00]],
-  e[r_] :> Block[{y00 = Unique["mass"]}, Ll[r, y00] e[y00]],
-  u[r_] :> Block[{y00 = Unique["mass"]}, Lu[r, y00] u[y00]],
-  d[r_] :> Block[{y00 = Unique["mass"]}, Ld[r, y00] d[y00]],
-  eb[r_] :> Block[{y00 = Unique["mass"]}, Rl[r, y00] eb[y00]],
-  ub[r_] :> Block[{y00 = Unique["mass"]}, Ru[r, y00] ub[y00]],
-  db[r_] :> Block[{y00 = Unique["mass"]}, Rd[r, y00] db[y00]]
-};
-
-MixingMatrixRules = {
-
-  Op[Conjugate[Lu[x_, y_]], Ld[x_, z_], rst__] :> Op[CKM[y, z], rst],
-
-  Op[Conjugate[Lu[x_, y_]], Lu[x_, z_], rst__] :> (Op[rst] /. y -> z),
-  Op[Conjugate[Ld[x_, y_]], Ld[x_, z_], rst__] :> (Op[rst] /. y -> z),
-  Op[Conjugate[Ll[x_, y_]], Ll[x_, z_], rst__] :> (Op[rst] /. y -> z),
-
-  Op[Conjugate[Ru[x_, y_]], Ru[x_, z_], rst__] :> (Op[rst] /. y -> z),
-  Op[Conjugate[Rd[x_, y_]], Rd[x_, z_], rst__] :> (Op[rst] /. y -> z),
-  Op[Conjugate[Rl[x_, y_]], Rl[x_, z_], rst__] :> (Op[rst] /. y -> z)
-
-};
-
-ToUpDiagonalBasis = {
-  Op[Ld[x_, y_], rst__] :> Op[CKM[x, y], rst],
-  Op[Lu[x_, y_], rst__] :> (Op[rst] /. y -> x),
-  Op[Ll[x_, y_], rst__] :> (Op[rst] /. y -> x),
-
-  Op[Ru[x_, y_], rst__] :> (Op[rst] /. y -> x),
-  Op[Rl[x_, y_], rst__] :> (Op[rst] /. y -> x),
-  Op[Rd[x_, y_], rst__] :> (Op[rst] /. y -> x),
-
-  Op[Conjugate[Ld[x_, y_]], rst__] :> Op[Conjugate[CKM[x, y]], rst],
-  Op[Conjugate[Lu[x_, y_]], rst__] :> (Op[rst] /. y -> x),
-  Op[Conjugate[Ll[x_, y_]], rst__] :> (Op[rst] /. y -> x),
-
-  Op[Conjugate[Ru[x_, y_]], rst__] :> (Op[rst] /. y -> x),
-  Op[Conjugate[Rl[x_, y_]], rst__] :> (Op[rst] /. y -> x),
-  Op[Conjugate[Rd[x_, y_]], rst__] :> (Op[rst] /. y -> x)
 };
 
 $MatchingRulesDim8 =

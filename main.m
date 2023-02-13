@@ -1,4 +1,4 @@
-$Assumptions = loop > 0 && vev > 0 && \[CapitalLambda] > 0;
+$Assumptions = hloop > 0 && loop > 0 && vev > 0 && \[CapitalLambda] > 0;
 
 Op::usage = "An orderless collection of objects representing the state of the operator as the rules are applied.";
 SetAttributes[Op, Orderless];
@@ -192,10 +192,6 @@ ToStringRep[G[x_][y__]] := ToString[G[x][y]];
 ToStringRep[Deriv] := "\[PartialD]";
 
 
-ToMath[loop] := 1/(16 \[Pi]^2);
-ToMath[x_] := x;
-
-
 RuleLabel[lhs_ :> rhs_] := ToStringRep[lhs] <> "\n \[Rule] " <> ToStringRep[rhs];
 
 
@@ -226,13 +222,6 @@ makeMatchingExpr[{matchedExpr_, rule_RuleDelayed} \[DirectedEdge] Op[matchedOp :
   ];
 
 
-(* MatchOperator[label_String, n_] := ApplyRules[ *)
-(*   BViolatingOperatorsDim8[label], *)
-(*   $MatchingRules, *)
-(*   {}, *)
-(*   n]; *)
-(* MatchOperator[label_String] := MatchOperator[label, 4]; *)
-
 MatchOperator[op_Op, rules_, n_] := ApplyRules[op, rules, {}, n];
 
 RawMatchingData[graph_] :=
@@ -261,39 +250,6 @@ Conj[x_Ll] := Conjugate[x];
 
 MaybeMakePattern[x_Integer] := x;
 MaybeMakePattern[x_Symbol] := $pattern[x, Blank[]];
-
-
-MatchingData::usage = "Returns the matching data for the operator
-SMEFT operator `label` transformed into the mass basis.";
-MatchingData[label_String] :=
-  Block[
-    {matching, graph, transformed, flavourIndices, flavourReplacements, flavoured, path},
-
-    matching =
-    Timing[
-      If[MemberQ[Keys[BViolatingOperatorsDim8], label],
-         MatchOperator[BViolatingOperatorsDim8[label], $MatchingRulesDim8, 4],
-         MatchOperator[BViolatingOperatorsDim9[label], $MatchingRulesDim9, 4]
-      ]
-    ];
-
-
-    Print["Operator ", label, " took ", matching[[1]], " seconds."];
-
-    graph = MultiwayGraph[matching[[2]]];
-
-    transformed =
-    Join @@
-    Table[
-      Op @@@ (
-        expr /. ExpandSU2 /. ToMassBasis
-         ) //. YukawaTransformations //. MixingMatrixRules //. ToUpDiagonalBasis /. LEFTOperatorMatchingRules,
-      {expr, RawMatchingData[graph]}
-    ];
-
-    transformed
-
-  ];
 
 ChooseFlavour::usage = "Transforms `Op` matching expression to have flavour
 indices given by `flavour` list. Can also be applied after
@@ -408,7 +364,7 @@ CleanMatchingExpressionAndMakeRule[
     ];
 
     func = If[Head[leftOp] === Conj, Conjugate, Identity];
-    rhs = Refine[func /@ (Times[x, smeftOp, y] /. RemoveHiggs)];
+    rhs = Refine[func /@ Times[x, smeftOp, y]];
 
     result =
     {(Op[label] @@ (MaybeMakePattern /@ List[flavLEFT]) /. $pattern -> Pattern) -> rhs /. relabellings};
@@ -419,6 +375,119 @@ CleanMatchingExpressionAndMakeRule[
 
 CleanMatchingExpressionAndMakeRule[x_Op] :=
   CleanMatchingExpressionAndMakeRule[(x /. Op[y__] :> Times[y])];
+
+ToMassBasis = {
+        Times[x___, ye[r_, s_], y___] :> (Times[ye[r], x, y] /. s -> r),
+        Times[x___, yu[r_, s_], y___] :> (Times[yu[r], x, y] /. s -> r),
+        yd[r_, s_] :> yd[r] Conjugate[CKM[r, s]],
+
+        Times[x___, Conj[ye[r_, s_]],
+              y___] :> (Times[ye[r], x, y] /. s -> r),
+        Times[x___, Conj[yu[r_, s_]],
+              y___] :> (Times[yu[r], x, y] /. s -> r),
+        Conj[yd[r_, s_]] :> yd[r] CKM[r, s] (* FIXME Not 100% sure about whether
+        the indices here should be transposed *)
+
+};
+
+ExtractMatchingData[data_] := RawMatchingData @ MultiwayGraph @ data;
+
+ApplyFlavourAndMakeRule[rawData_, flavour_] :=
+ ChooseFlavour[#, flavour] & /@ (Join @@
+    CleanMatchingExpressionAndMakeRule /@ (rawData //. ToMassBasis));
+
+GuidedMatchingDim9[opLabel_String] :=
+        Block[{first, second, third, fourth},
+              first = ApplyRules[BViolatingOperatorsDim9[opLabel], Join[YukawaRules, LoopRules], {}, 2];
+              second = Apply[ApplyRules[#1, Join[EpsDeltaRules, FlavourDeltaRules], #3, 2] &, first];
+              third = Apply[ApplyRules[#1, Join[DerivativeRules], #3, 1] &, second];
+              Apply[ApplyRules[#1, OperatorMatchingRulesDim7, #3, 1] &, third]
+        ];
+
+MatchingDataDim8[opLabel_, flavour_] :=
+        Block[{d8ex = EchoTiming @ MatchOperator[BViolatingOperatorsDim8[opLabel], $MatchingRulesDim8, 4]},
+              ApplyFlavourAndMakeRule[ExtractMatchingData[d8ex], flavour] // DeleteDuplicates
+        ];
+
+MatchingDataDim9[opLabel_, flavour_] :=
+        Block[{d9ex = EchoTiming @ GuidedMatchingDim9[opLabel]},
+              ApplyFlavourAndMakeRule[ExtractMatchingData[d9ex], flavour] // DeleteDuplicates
+        ];
+
+$NFlavours = 3;
+TreeLevelMatching = {
+        (* Delta B = - Delta L *)
+        G["~^S,LL_udd"][p_, q_, r_, s_] :> -2 Sum[CKM[q, qp] CKM[r, rp] 1/2 (Op["1"][p, qp, rp, s] + Op["1"][qp, p, rp, s]), {qp, $NFlavours}, {rp, $NFlavours}],
+        G["~^S,LL_duu"][p_, q_, r_, s_] :> -2 Sum[CKM[p, pp] 1/2 (Op["1"][pp, q, r, s] + Op["1"][q, pp, r, s]), {pp, $NFlavours}],
+        G["~^S,LR_duu"][p_, q_, r_, s_] :> -2 Sum[CKM[p, pp] 1/2 (Op["2"][pp, q, r, s] + Op["2"][q, pp, r, s]), {pp, $NFlavours}],
+        G["~^S,RL_duu"][p_, q_, r_, s_] :> Op["4"][p, q, r, s],
+        G["~^S,RL_dud"][p_, q_, r_, s_] :> -Sum[CKM[r, rp] Op["4"][p, q, rp, s], {rp, $NFlavours}],
+        G["~^S,RL_ddu"][p_, q_, r_, s_] :> 1/2 (Op["11"][p, q, r, s] - Op["11"][q, p, r, s]) M["vev"]^2/(2 M["\[CapitalLambda]"]^2),
+        G["~^S,RR_duu"][p_, q_, r_, s_] :> Op["3"][p, q, r, s],
+
+        (* Delta B = - Delta L *)
+        G["~^S,LL_ddd"][p_, q_, r_, s_] :> Op["?"][],
+        G["~^S,LR_udd"][p_, q_, r_, s_] :> -(Op["6a"][q, p, s, r] + Conj[Op["6b"][p, q, s, r]] + Conj[Op["6b"][q, p, s, r]]) M["vev"]/(Sqrt[2] M["\[CapitalLambda]"]),
+        G["~^S,LR_ddu"][p_, q_, r_, s_] :> Op["?"][],
+        G["~^S,LR_ddd"][p_, q_, r_, s_] :> Conj[Op["6a"][p, q, s, r]] M["vev"]/(Sqrt[2] M["\[CapitalLambda]"]),
+        G["~^S,RL_ddd"][p_, q_, r_, s_] :> 1/2 (Conj[Op["7"][p, q, s, r]] - Conj[Op["7"][q, p, s, r]]) M["vev"]/(Sqrt[2] M["\[CapitalLambda]"]),
+        G["~^S,RR_udd"][p_, q_, r_, s_] :> - 1/2 (Conj[Op["8"][q, s, p, r]] - Conj[Op["8"][s, q, p, r]]) M["vev"]/(2 Sqrt[2] M["\[CapitalLambda]"]),
+        G["~^S,RR_ddd"][p_, q_, r_, s_] :> - 1/2 (Conj[Op["5"][p, q, s, r]] - Conj[Op["5"][q, p, s, r]]) M["vev"]/(Sqrt[2] M["\[CapitalLambda]"])
+
+};
+
+MatchingData[label_, flavour_] :=
+        If[MemberQ[Keys[BViolatingOperatorsDim8], label],
+           MatchingDataDim8[label, flavour],
+           MatchingDataDim9[label, flavour]
+        ];
+
+
+NumericReplacements =
+Join[
+        LatticeReplacements,
+        NumericValues,
+        {loop -> 1/(16 \[Pi]^2), hloop -> (1/(16 \[Pi]^2) + M["vev"]^2/(2 M["\[CapitalLambda]"]^2))}
+];
+
+NucleonDecays[label_String, flavour_List, "Symbolic"] :=
+        Block[{expr, matching},
+              matching = MatchingData[label, flavour];
+              NucleonDecaysWithMatchingData[label, matching, "Symbolic"]
+        ];
+
+NucleonDecays[label_String, flavour_List, "Numeric"] :=
+        NucleonDecays[label, flavour, "Symbolic"] //. NumericReplacements;
+
+NucleonDecays[label_String, flavour_List] :=
+        NucleonDecays[label, flavour, "Numeric"];
+
+NucleonDecaysWithMatchingData[label_String, matching_, "Symbolic"] :=
+        Block[{expr},
+              Table[
+                      expr = LatticeNucleonDecayExpression[proc];
+                      proc -> expr //. Join[MatElemReplacements] /. TreeLevelMatching /. matching /. Op[x_][y___] :> 0 /. Conj -> Conjugate,
+                      {proc,  If[MemberQ[Keys[BViolatingOperatorsDim8], label],
+                                 ProtonDecayProcessesDim6,
+                                 ProtonDecayProcessesDim7
+                              ]
+                      }
+              ]
+        ];
+
+NucleonDecaysWithMatchingData[label_String, matching_, "Numeric"] :=
+        NucleonDecaysWithMatchingData[label, matching, "Symbolic"] //. NumericReplacements;
+
+NucleonDecaysWithMatchingData[label_String, matching_] :=
+        NucleonDecaysWithMatchingData[label, matching, "Numeric"]
+
+
+ExtractDominantMatchingByRate[] := $NotImplemented;
+
+
+
+
+
 
 
 WriteMatchingData::usage = "Write the matching data with general flavour
@@ -436,6 +505,7 @@ WriteMatchingData[label_String, path_String] :=
       Print[filepath <> " written!"];
     ]
   ];
+
 
 NucleonDecayMatchingData::usage = "Uses the matching data to match against
 operators that contribute to nucleon decays. Flavour structure is optional.";
@@ -530,7 +600,7 @@ ProtonDecayRates[data_, flavour_] :=
     ];
 
     protonDecayExpressions = Table[
-      proc -> LatticeProtonDecayExpression[proc],
+      proc -> LatticeNucleonDecayExpression[proc],
       {proc, ProtonDecayProcesses}
     ];
 
