@@ -116,13 +116,6 @@ ApplyRules[{}, rules_, edgeList_] := {{}, rules, edgeList};
 ApplyRules[start_, rules_, edgeList_, n_] :=
   Nest[Apply[ApplyRules, #] &, {start, rules, edgeList}, n];
 
-
-(* ToStringRep[db[r_, a_]] := *)
-(*   ToString@StringForm["\!\(\\*SuperscriptBox[SubscriptBox[OverscriptBox[\(d\), \(_\)], \ \(`1`\)], \(`2`\)]\)", r, a]; *)
-
-(* ToStringRep[ub[r_, a_]] := *)
-(*   ToString@StringForm["\!\(\\*SuperscriptBox[SubscriptBox[OverscriptBox[\(u\), \(_\)], \ \(`1`\)], \(`2`\)]\)", r, a]; *)
-
 ToStringRep[db[r_]] :=
   ToString@StringForm["\!\(\*SubscriptBox[OverscriptBox[\(d\), \(_\)], \(`1`\)]\)", r];
 
@@ -137,10 +130,6 @@ ToStringRep[L[r_, i_]] :=
 
 ToStringRep[Q[r_, i_]] :=
   ToString@StringForm["\!\(\*SuperscriptBox[SubscriptBox[\(Q\), \(`1`\)], \(`2`\)]\)", r, i];
-
-(* ToStringRep[Q[r_, a_, i_]] := *)
-(*   ToString@StringForm[ *)
-(*     "\!\(\\*SuperscriptBox[SubscriptBox[\(Q\), \(`1`\)], \(`2`\\\ \ `3`\)]\)", r, a, i]; *)
 
 ToStringRep[H[i_]] :=
   ToString@StringForm["\!\(\*SuperscriptBox[\(H\), \(`1`\)]\)", i];
@@ -199,7 +188,7 @@ $DummyIndexList::usage = "Allowed indices to use as replacements."
 $DummyIndexList = {x, y, z, w, xx, yy, zz, ww};
 
 
-getFlavourRelabellings[x_List] :=
+GetFlavourRelabellings[x_List] :=
   Block[
     {indicesToRelabel},
 
@@ -212,16 +201,17 @@ getFlavourRelabellings[x_List] :=
   ];
 
 
-makeMatchingExpr[{matchedExpr_, rule_RuleDelayed} \[DirectedEdge] Op[matchedOp : Op[name_][flavour__]]] :=
+MakeMatchingExpr[{matchedExpr_, rule_RuleDelayed} \[DirectedEdge] Op[matchedOp : Op[name_][flavour__]]] :=
   Block[
     {flavourRelabellings, flavourList},
 
     flavourList = List[flavour];
-    flavourRelabellings = getFlavourRelabellings[flavourList];
+    flavourRelabellings = GetFlavourRelabellings[flavourList];
     (Op[name] @@ flavourList) (Select[matchedExpr, Head[#] == Wt &] /. Wt -> Identity /. Op -> Times) (* /. flavourRelabellings *)
   ];
 
 
+MatchOperator::usage = "A wrapper around `ApplyRules` for easy usage.";
 MatchOperator[op_Op, rules_, n_] := ApplyRules[op, rules, {}, n];
 
 RawMatchingData[graph_] :=
@@ -235,18 +225,11 @@ RawMatchingData[graph_] :=
           Select[edgeList,
                  MatchQ[#, _List \[DirectedEdge] Op[Conj[Op[_][___]]]] &];
           matchedLeaves = Join[matchedLeaves, matchedLeavesConj];
-          makeMatchingExpr /@ matchedLeaves
+          MakeMatchingExpr /@ matchedLeaves
     ]
   ];
 
 Conj[x_ y_] := Conj[x] Conj[y];
-Conj[x_Ru] := Conjugate[x];
-Conj[x_Rd] := Conjugate[x];
-Conj[x_Rl] := Conjugate[x];
-Conj[x_Lu] := Conjugate[x];
-Conj[x_Ld] := Conjugate[x];
-Conj[x_Ll] := Conjugate[x];
-
 
 MaybeMakePattern[x_Integer] := x;
 MaybeMakePattern[x_Symbol] := $pattern[x, Blank[]];
@@ -317,34 +300,6 @@ ChooseFlavour[
   ];
 
 
-ExpandYukSums::usage = "Function to expand sums of indices that are repeated but
-not present in any operator coefficient. (They come from rotating the fields
-into the mass basis.) These indices are marked with names like \"yuk197\",
-etc.";
-ExpandYukSums[expr_] :=
-  Block[{replaced, indices, sumHelper, sum$},
-        replaced =
-        ReplaceList[
-          expr, {Times[x___, CKM[idx__], y___] :> List[idx],
-                 Times[x___, Conjugate[CKM[idx__]], y___] :> List[idx]}];
-        indices =
-        DeleteDuplicates[
-          Select[Flatten[replaced],
-                 With[{s = ToString[#]},
-                      StringLength[s] >= 4 && StringTake[s, 3] === "yuk"] &]];
-
-        If[
-          indices === {},
-          expr,
-          sumHelper =
-          sum$[expr, Sequence @@ Table[{idx, 3}, {idx, indices}]];
-          sumHelper /. sum$ -> Sum
-        ]
-  ];
-
-ApplyExpandYukSums[op_ -> rhs_] := op -> ExpandYukSums[rhs];
-
-
 CleanMatchingExpressionAndMakeRule::usage = "Makes summed variables look nice, turns
 matching expressions into rules mapping WET to SMEFT operator expressions";
 CleanMatchingExpressionAndMakeRule[
@@ -366,10 +321,7 @@ CleanMatchingExpressionAndMakeRule[
     func = If[Head[leftOp] === Conj, Conjugate, Identity];
     rhs = Refine[func /@ Times[x, smeftOp, y]];
 
-    result =
-    {(Op[label] @@ (MaybeMakePattern /@ List[flavLEFT]) /. $pattern -> Pattern) -> rhs /. relabellings};
-
-    ApplyExpandYukSums /@ result
+    {(Op[label] @@ (MaybeMakePattern /@ List[flavLEFT]) /. $pattern -> Pattern) -> rhs /. relabellings}
 
   ];
 
@@ -436,6 +388,8 @@ TreeLevelMatching = {
 
 };
 
+MatchingData::usage = "A central function of the package, it returns the
+matching raw data in the interaction basis.";
 MatchingData[label_, flavour_] :=
         If[MemberQ[Keys[BViolatingOperatorsDim8], label],
            MatchingDataDim8[label, flavour],
@@ -450,6 +404,10 @@ Join[
         {loop -> 1/(16 \[Pi]^2), hloop -> (1/(16 \[Pi]^2) + M["vev"]^2/(2 M["\[CapitalLambda]"]^2))}
 ];
 
+
+NucleonDecays::usage = "Returns replacement list mapping nucleon decay process
+name (as a string) to the expression.";
+
 NucleonDecays[label_String, flavour_List, "Symbolic"] :=
         Block[{expr, matching},
               matching = MatchingData[label, flavour];
@@ -461,6 +419,10 @@ NucleonDecays[label_String, flavour_List, "Numeric"] :=
 
 NucleonDecays[label_String, flavour_List] :=
         NucleonDecays[label, flavour, "Numeric"];
+
+
+NucleonDecaysWithMatchingData::usage = "Like `NucleonDecays` but takes matching
+data as an argument to save computation time.";
 
 NucleonDecaysWithMatchingData[label_String, matching_, "Symbolic"] :=
         Block[{expr},
@@ -479,7 +441,25 @@ NucleonDecaysWithMatchingData[label_String, matching_, "Numeric"] :=
         NucleonDecaysWithMatchingData[label, matching, "Symbolic"] //. NumericReplacements;
 
 NucleonDecaysWithMatchingData[label_String, matching_] :=
-        NucleonDecaysWithMatchingData[label, matching, "Numeric"]
+        NucleonDecaysWithMatchingData[label, matching, "Numeric"];
+
+
+FlavourToString[flavour_List] := StringRiffle[ToString /@ flavour, ""];
+
+
+WriteMatchingData::usage = "Writes the matching data in the interaction basis to
+a file.";
+WriteMatchingData[label_String, flavour_List, path_String] :=
+  Block[
+    {data, filepath},
+
+    data = MatchingData[label, flavour];
+    filepath = path <> "op" <> label <> "_" <> FlavourToString[flavour] <> ".dat";
+    Export[filepath, data];
+    (* TODO Only print this when Export works *)
+    Print[filepath <> " written!"];
+
+  ];
 
 
 ExtractDominantMatchingByRate[] := $NotImplemented;
@@ -490,21 +470,6 @@ ExtractDominantMatchingByRate[] := $NotImplemented;
 
 
 
-WriteMatchingData::usage = "Write the matching data with general flavour
-indices.";
-WriteMatchingData[label_String, path_String] :=
-  Block[
-    {matchingData, data, filepath},
-
-    matchingData = MatchingData[label];
-    Table[
-      data = CleanMatchingExpressionAndMakeRule /@ matchingData;
-      filepath = path <> "op" <> label <> ".dat";
-      Export[filepath, data];
-      (* TODO Only print this when Export works *)
-      Print[filepath <> " written!"];
-    ]
-  ];
 
 
 NucleonDecayMatchingData::usage = "Uses the matching data to match against
