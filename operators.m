@@ -51,7 +51,7 @@ BViolatingOperatorsDim8 = <|
           ],
 
   "15a" -> Op[Wt[G["15a"][p, q, r, s]],
-              L[p, i], Q[q, j], Conj[ub[r, b]], Conj[db[s]], H[k], Conj[H[l]],
+              L[p, i], Q[q, j], Conj[ub[r]], Conj[db[s]], H[k], Conj[H[l]],
               Eps[i, k], Eps[j, l]
            ],
 
