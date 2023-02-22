@@ -55,7 +55,7 @@ MultiwayGraphRuleWeights[graph_] :=
 
 
 ApplyRules::usage = "Apply `rules` once on `start` and update the edge list.";
-ApplyRules[start_, rules_, edgeList_] :=
+ApplyRules[replaceFunc_][start_, rules_, edgeList_] :=
   Block[
     {rulesAndStates, startString, updatedEdgeList, fields, epsilons},
 
@@ -68,7 +68,10 @@ ApplyRules[start_, rules_, edgeList_] :=
           Block[
             {tuple, ruleApplications, vals, rulesWithCorrectVars},
 
-            ruleApplications = ReplaceList[start, rule];
+            ruleApplications = replaceFunc[start, rule];
+            (* ReplaceList returns an extra list layer, so add this in by hand for Repalce *)
+            ruleApplications = If[replaceFunc === Replace, {ruleApplications}, ruleApplications];
+
             vals = ruleApplications /. Op[x___, MatchingValues[y___]] :> List[y];
             rule = rule /. MatchingValues[x___] -> Nothing;
             ruleApplications = ruleApplications /. MatchingValues[x___] -> Nothing;
@@ -95,26 +98,32 @@ ApplyRules[start_, rules_, edgeList_] :=
     updatedEdgeList = Join[updatedEdgeList, Table[{start, $i[[1]]} \[DirectedEdge] $i[[2]], {$i, rulesAndStates}]];
 
     (* If no rules have been applied successfully, return the initial state *)
-    Block[{maybeNewState = Last /@ rulesAndStates, newState},
+    Block[{maybeNewState = Last /@ rulesAndStates, newState, return},
       newState = If[maybeNewState === {}, {start}, maybeNewState];
       {DeleteDuplicates[newState], rules, updatedEdgeList}
     ]
   ];
 
-ApplyRules[{x_Op, y___}, rules_, edgeList_] :=
+ApplyRules[start_, rules_, edgeList_] := ApplyRules[ReplaceList][start, rules, edgeList];
+
+ApplyRules[replaceFunc_][{x_Op, y___}, rules_, edgeList_] :=
   Block[
     {result, newStart, newEdgeList},
 
-    result = Map[ApplyRules[#, rules, edgeList] &, {x, y}];
+    result = Map[ApplyRules[replaceFunc][#, rules, edgeList] &, {x, y}];
     newStart = Join @@ First /@ result;
     newEdgeList = DeleteDuplicates[Join @@ Last /@ result];
     {DeleteDuplicates[newStart], rules, newEdgeList}
   ];
+ApplyRules[{x_Op, y___}, rules_, edgeList_] := ApplyRules[ReplaceList][{x, y}, rules, edgeList];
 
 ApplyRules[{}, rules_, edgeList_] := {{}, rules, edgeList};
+ApplyRules[replaceFunc_][{}, rules_, edgeList_] := {{}, rules, edgeList};
 
-ApplyRules[start_, rules_, edgeList_, n_] :=
-  Nest[Apply[ApplyRules, #] &, {start, rules, edgeList}, n];
+ApplyRules[replaceFunc_][start_, rules_, edgeList_, n_Integer] :=
+  Nest[Apply[ApplyRules[replaceFunc], #] &, {start, rules, edgeList}, n];
+
+ApplyRules[start_, rules_, edgeList_, n_Integer] := ApplyRules[ReplaceList][start, rules, edgeList, n];
 
 ToStringRep[db[r_]] :=
   ToString@StringForm["\!\(\*SubscriptBox[OverscriptBox[\(d\), \(_\)], \(`1`\)]\)", r];
@@ -348,16 +357,22 @@ ApplyFlavourAndMakeRule[rawData_, flavour_] :=
  ChooseFlavour[#, flavour] & /@ (Join @@
     CleanMatchingExpressionAndMakeRule /@ (rawData //. ToMassBasis));
 
+GuidedMatchingDim8[opLabel_String] :=
+        Block[{first},
+              first = ApplyRules[BViolatingOperatorsDim8[opLabel], $MatchingRulesDim8, {}, 3];
+              Apply[ApplyRules[Replace][#1, OperatorMatchingRulesDim6, #3, 1] &, first]
+        ];
+
 GuidedMatchingDim9[opLabel_String] :=
         Block[{first, second, third, fourth},
               first = ApplyRules[BViolatingOperatorsDim9[opLabel], Join[YukawaRules, LoopRules], {}, 2];
               second = Apply[ApplyRules[#1, Join[EpsDeltaRules, FlavourDeltaRules], #3, 2] &, first];
               third = Apply[ApplyRules[#1, Join[DerivativeRules], #3, 1] &, second];
-              Apply[ApplyRules[#1, OperatorMatchingRulesDim7, #3, 1] &, third]
+              Apply[ApplyRules[Replace][#1, OperatorMatchingRulesDim7, #3, 1] &, third]
         ];
 
 MatchingDataDim8[opLabel_, flavour_] :=
-        Block[{d8ex = EchoTiming @ MatchOperator[BViolatingOperatorsDim8[opLabel], $MatchingRulesDim8, 4]},
+        Block[{d8ex = EchoTiming @ GuidedMatchingDim8[opLabel]},
               ApplyFlavourAndMakeRule[ExtractMatchingData[d8ex], flavour] // DeleteDuplicates
         ];
 
@@ -366,30 +381,42 @@ MatchingDataDim9[opLabel_, flavour_] :=
               ApplyFlavourAndMakeRule[ExtractMatchingData[d9ex], flavour] // DeleteDuplicates
         ];
 
+(* Deal with all symmetries and degeneracies in the matching here! *)
+OpSMEFT["1"][p_, q_, r_, s_] := Plus @@ (Op["1"] @@@ Map[{s}~Join~# &, Permutations[{p, q, r}]]);
+OpSMEFT["2"][p_, q_, r_, s_] := Op["2"][s, p, q, r] + Op["2"][s, q, p, r];
+OpSMEFT["3"][p_, q_, r_, s_] := Op["3"][s, q, r, p] + Op["3"][s, r, q, p];
+OpSMEFT["4"][p_, q_, r_, s_] := Op["4"][s, r, q, p];
+OpSMEFT["5"][p_, q_, r_, s_] := Plus @@ (Op["5"] @@@ Map[{s}~Join~# &, Permutations[{p, q, r}]]);
+OpSMEFT["6a"][p_, q_, r_, s_] := Op["6a"][s, p, q, r] + Op["6a"][s, q, p, r];
+OpSMEFT["6b"][p_, q_, r_, s_] := Op["6b"][s, p, q, r] + Op["6b"][s, q, p, r];
+OpSMEFT["7"][p_, q_, r_, s_] := Op["7"][s, r, p, q] + Op["7"][s, r, q, p];
+OpSMEFT["8"][p_, q_, r_, s_] := Op["8"][s, r, p, q] + Op["8"][s, r, q, p];
+OpSMEFT["11"][p_, q_, r_, s_] := Op["11"][s, r, p, q] + Op["11"][s, r, q, p];
+
 $NFlavours = 3;
 TreeLevelMatching = {
         (* Delta B = - Delta L *)
-        G["~^S,LL_udd"][p_, q_, r_, s_] :> -2 Sum[CKM[q, qp] CKM[r, rp] 1/2 (Op["1"][p, qp, rp, s] + Op["1"][qp, p, rp, s]), {qp, $NFlavours}, {rp, $NFlavours}],
-        G["~^S,LL_duu"][p_, q_, r_, s_] :> -2 Sum[CKM[p, pp] 1/2 (Op["1"][pp, q, r, s] + Op["1"][q, pp, r, s]), {pp, $NFlavours}],
-        G["~^S,LR_duu"][p_, q_, r_, s_] :> -2 Sum[CKM[p, pp] 1/2 (Op["2"][pp, q, r, s] + Op["2"][q, pp, r, s]), {pp, $NFlavours}],
-        G["~^S,RL_duu"][p_, q_, r_, s_] :> Op["4"][p, q, r, s],
-        G["~^S,RL_dud"][p_, q_, r_, s_] :> -Sum[CKM[r, rp] Op["4"][p, q, rp, s], {rp, $NFlavours}],
-        G["~^S,RL_ddu"][p_, q_, r_, s_] :> 1/2 (Op["11"][p, q, r, s] - Op["11"][q, p, r, s]) M["vev"]^2/(2 M["\[CapitalLambda]"]^2),
-        G["~^S,RR_duu"][p_, q_, r_, s_] :> Op["3"][p, q, r, s],
+        G["~^S,LL_udd"][p_, q_, r_, s_] :> -2 Sum[CKM[q, qp] CKM[r, rp] OpSMEFT["1"][p, qp, rp, s], {qp, $NFlavours}, {rp, $NFlavours}],
+        G["~^S,LL_duu"][p_, q_, r_, s_] :> -2 Sum[CKM[p, pp] OpSMEFT["1"][pp, q, r, s], {pp, $NFlavours}],
+        G["~^S,LR_duu"][p_, q_, r_, s_] :> -2 Sum[CKM[p, pp] OpSMEFT["2"][pp, q, r, s], {pp, $NFlavours}],
+        G["~^S,RL_duu"][p_, q_, r_, s_] :> OpSMEFT["4"][p, q, r, s],
+        G["~^S,RL_dud"][p_, q_, r_, s_] :> -Sum[CKM[r, rp] OpSMEFT["4"][p, q, rp, s], {rp, $NFlavours}],
+        G["~^S,RL_ddu"][p_, q_, r_, s_] :> OpSMEFT["11"][p, q, r, s] M["vev"]^2/(2 M["\[CapitalLambda]"]^2),
+        G["~^S,RR_duu"][p_, q_, r_, s_] :> OpSMEFT["3"][p, q, r, s],
 
         (* Delta B = - Delta L *)
-        G["~^S,LL_ddd"][p_, q_, r_, s_] :> Op["?"][],
-        G["~^S,LR_udd"][p_, q_, r_, s_] :> -(Op["6a"][q, p, s, r] + Conj[Op["6b"][p, q, s, r]] + Conj[Op["6b"][q, p, s, r]]) M["vev"]/(Sqrt[2] M["\[CapitalLambda]"]),
-        G["~^S,LR_ddu"][p_, q_, r_, s_] :> Op["?"][],
-        G["~^S,LR_ddd"][p_, q_, r_, s_] :> Conj[Op["6a"][p, q, s, r]] M["vev"]/(Sqrt[2] M["\[CapitalLambda]"]),
-        G["~^S,RL_ddd"][p_, q_, r_, s_] :> 1/2 (Conj[Op["7"][p, q, s, r]] - Conj[Op["7"][q, p, s, r]]) M["vev"]/(Sqrt[2] M["\[CapitalLambda]"]),
-        G["~^S,RR_udd"][p_, q_, r_, s_] :> - 1/2 (Conj[Op["8"][q, s, p, r]] - Conj[Op["8"][s, q, p, r]]) M["vev"]/(2 Sqrt[2] M["\[CapitalLambda]"]),
-        G["~^S,RR_ddd"][p_, q_, r_, s_] :> - 1/2 (Conj[Op["5"][p, q, s, r]] - Conj[Op["5"][q, p, s, r]]) M["vev"]/(Sqrt[2] M["\[CapitalLambda]"])
+        G["~^S,LL_ddd"][p_, q_, r_, s_] :> OpSMEFT["?"][],
+        G["~^S,LR_udd"][p_, q_, r_, s_] :> -(OpSMEFT["6a"][q, p, s, r] + 2*Conj[OpSMEFT["6b"][p, q, s, r]]) M["vev"]/(Sqrt[2] M["\[CapitalLambda]"]),
+        G["~^S,LR_ddu"][p_, q_, r_, s_] :> OpSMEFT["?"][],
+        G["~^S,LR_ddd"][p_, q_, r_, s_] :> Conj[OpSMEFT["6a"][p, q, s, r]] M["vev"]/(Sqrt[2] M["\[CapitalLambda]"]),
+        G["~^S,RL_ddd"][p_, q_, r_, s_] :> Conj[OpSMEFT["7"][p, q, s, r]] M["vev"]/(Sqrt[2] M["\[CapitalLambda]"]),
+        G["~^S,RR_udd"][p_, q_, r_, s_] :> - Conj[OpSMEFT["8"][q, s, p, r]] M["vev"]/(2 Sqrt[2] M["\[CapitalLambda]"]),
+        G["~^S,RR_ddd"][p_, q_, r_, s_] :> - Conj[OpSMEFT["5"][p, q, s, r]] M["vev"]/(Sqrt[2] M["\[CapitalLambda]"])
 
 };
 
 MatchingData::usage = "A central function of the package, it returns the
-matching raw data in the interaction basis.";
+matching raw data in the mass basis.";
 MatchingData[label_, flavour_] :=
         If[MemberQ[Keys[BViolatingOperatorsDim8], label],
            MatchingDataDim8[label, flavour],
@@ -462,8 +489,43 @@ WriteMatchingData[label_String, flavour_List, path_String] :=
   ];
 
 
-ExtractDominantMatchingByRate[] := $NotImplemented;
+ExtractDominantMatchingByOperator::usage = "Returns a replacement list mapping
+each SMEFT coefficient that is generated and contributes to nucleon decay to the
+dominant symbolic expressions. `data` is a replacement list like:
 
+{Op[\"1\"][x_, 1, 1, 1] -> loop^2 CKM[2, x] yu[1] yu[2] G[\"9\"][1, 1, 1, 2],
+ Op[\"2\"][x_, 1, 2, 1] -> -loop^2 CKM[1, x] yu[1] yu[2] G[\"9\"][1, 1, 1, 2],
+ ...
+}.
+
+That is, the output of `MatchingData`.
+
+We don't want to draw significance to any cancellations, so this is the main
+function to use, not `NucleonDecayMatchingData`.";
+ExtractDominantMatchingByOperator[data_] :=
+  Block[
+    {maximumContributions, withNumericValue, cleanContributions},
+
+    cleanContributions = NucleonDecayMatchingData[data, flavour];
+
+    numericReplacements =
+    {loop -> 1/(16 \[Pi]^2)}~Join~NumericValues;
+
+    (* For each of these, just take the maximum by numeric value *)
+    maximumContributions =
+    Table[
+      (First[row] /. Op -> G) ->
+      First[
+        MaximalBy[Abs[Last[row]], Abs[#] /. G[x_][y__] :> 1 /. numericReplacements &]
+      ],
+      {row, cleanContributions}
+    ];
+
+    (* Decided not to return both the analytic and the numerical value here... *)
+    (* withNumericValue = #[[1]] -> <| "Analytic" -> #[[2]], "Numerical" -> Abs[#[[2]]] /. numericReplacements |> & /@ maximumContributions; *)
+    ReverseSortBy[maximumContributions, Abs[Last[#]] /. G[x_][y__] :> 1 /. numericReplacements &]
+
+  ];
 
 
 

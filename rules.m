@@ -493,13 +493,13 @@ FlavourDeltaRules = {
 };
 
 $MatchingRulesDim8 =
-Join[YukawaRules, LoopRules, EpsDeltaRules, OperatorMatchingRulesDim6];
+Join[YukawaRules, LoopRules, EpsDeltaRules];
 
 $MatchingRulesDim9 =
-Join[YukawaRules, LoopRules, EpsDeltaRules, DerivativeRules, FlavourDeltaRules, OperatorMatchingRulesDim7];
+Join[YukawaRules, LoopRules, EpsDeltaRules, DerivativeRules, FlavourDeltaRules];
 
 
-(* LEFT Symmetries, or should this be done at the level of the SMEFT? *)
+(* LEFT Symmetries, or should this be done at the level of the SMEFT? Just do both! *)
 
 (* These should be all of the operators for which a choice needs to be made
 about where the strange quark should go. *)
