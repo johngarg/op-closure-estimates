@@ -68,6 +68,9 @@ NumericValues =
 , yl[1] -> 0.48583  * 10^(-6) / VEV
 , yl[2] -> 102.347 * 10^(-3) / VEV
 , yl[3] -> 1.73850 / VEV
+, ye[1] -> 0.48583  * 10^(-6) / VEV
+, ye[2] -> 102.347 * 10^(-3) / VEV
+, ye[3] -> 1.73850 / VEV
 , M["\[Nu]"] -> 0.05 * 10^(-9)
 , g -> Sqrt[4*\[Pi] * \[Alpha]em/sin\[Theta]wSquared ]
 , CKM[1,2] -> CKM\[Lambda]
