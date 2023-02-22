@@ -514,3 +514,9 @@ Op["^S,RL_ddd"][1,2,1,1] := Op["^S,RL_ddd"][2,1,1,1];
 Op["^S,LR_ddd"][1,2,1,1] := Op["^S,LR_ddd"][2,1,1,1];
 Op["^S,RR_ddd"][1,1,1,2] := Op["^S,RR_ddd"][2,1,1,1];
 Op["^S,RR_ddd"][1,2,1,1] := Op["^S,RR_ddd"][2,1,1,1];
+
+Op["~^S,LL_ddd"][p_, p_, r_, s_] := 0;
+Op["~^S,LR_ddu"][p_, p_, r_, s_] := 0;
+Op["~^S,LR_ddd"][p_, p_, r_, s_] := 0;
+Op["~^S,RL_ddd"][p_, p_, r_, s_] := 0;
+Op["~^S,RR_ddd"][p_, p_, r_, s_] := 0;
