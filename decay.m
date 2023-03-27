@@ -68,11 +68,15 @@ NumericValues =
 , yl[1] -> 0.48583  * 10^(-6) / VEV
 , yl[2] -> 102.347 * 10^(-3) / VEV
 , yl[3] -> 1.73850 / VEV
+, ye[1] -> 0.48583  * 10^(-6) / VEV
+, ye[2] -> 102.347 * 10^(-3) / VEV
+, ye[3] -> 1.73850 / VEV
 , M["\[Nu]"] -> 0.05 * 10^(-9)
 , g -> Sqrt[4*\[Pi] * \[Alpha]em/sin\[Theta]wSquared ]
 , CKM[1,2] -> CKM\[Lambda]
 , CKM[2,1] -> -CKM\[Lambda]
 , CKM[3,2] -> -CKMA * CKM\[Lambda]^2
+, CKM[2,3] -> CKMA * CKM\[Lambda]^2
 , CKM[3,1] -> CKMA * CKM\[Lambda]^3*(1-CKM\[Rho] - I *CKM\[Eta])
 , CKM[1,3] -> CKMA*CKM\[Lambda]^3 *(CKM\[Rho] - I *CKM\[Eta])
 , CKM[1,1] ->  1-0.5*CKM\[Lambda]^2
@@ -132,7 +136,7 @@ ExtractBaryonMesonLepton[proc_String] :=
 
 
 MatrixElement::usage = "An intermediate function to construct hadronic matrix
-elements for use with LatticeProtonDecayExpression.";
+elements for use with LatticeNucleonDecayExpression.";
 MatrixElement[meson_String, G[x_String][f__], baryon_String] := G["~"<>x][f] AngleBracket[meson, Op[x][f], baryon];
 MatrixElement[meson_String, Plus[x__], baryon_String] := Table[MatrixElement[meson, i, baryon], {i, List @@ x}];
 
@@ -234,11 +238,11 @@ LatticeReplacements =
 PackageExport["LatticeReplacements"]
 
 
-LatticeProtonDecayExpression::usage = "Calculates proton decay expression from
+LatticeNucleonDecayExpression::usage = "Calculates proton decay expression from
 hadronic matrix elements calculated on the Lattice. The expression is taken from
 2111.01608.";
 
-LatticeProtonDecayExpression[proc_String] :=
+LatticeNucleonDecayExpression[proc_String] :=
   Block[
     {prefactor1, prefactor2, guts, baryon, meson, lepton}
   ,
@@ -250,11 +254,13 @@ LatticeProtonDecayExpression[proc_String] :=
     (* Whole list is Abs[]^2, but this applies to each element *)
     guts =
     Abs[
-      Plus @@@ Table[
-        MatrixElement[meson, op, baryon]/M["\[CapitalLambda]"]^2
-               , {op, ProcessToWETTable[proc]}]
+            Plus @@@ Table[
+                    Abs[ (* This abs will mean we are slightly overestimating some rates *)
+                            MatrixElement[meson, op, baryon]/M["\[CapitalLambda]"]^2
+                    ],
+                    {op, ProcessToWETTable[proc]}]
     ]^2;
 
     prefactor1 * prefactor2 * (Plus @@ guts)
   ];
-PackageExport["LatticeProtonDecayExpression"]
+PackageExport["LatticeNucleonDecayExpression"]
