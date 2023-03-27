@@ -1,4 +1,4 @@
-$Assumptions = hloop > 0 && loop > 0 && vev > 0 && \[CapitalLambda] > 0;
+$Assumptions = hloop > 0 && loop > 0 && vev > 0 && \[CapitalLambda] > 0 && LAMBDA > 0;
 
 Op::usage = "An orderless collection of objects representing the state of the operator as the rules are applied.";
 SetAttributes[Op, Orderless];
@@ -360,7 +360,7 @@ ApplyFlavourAndMakeRule[rawData_, flavour_] :=
 GuidedMatchingDim8[opLabel_String] :=
         Block[{first},
               first = ApplyRules[BViolatingOperatorsDim8[opLabel], $MatchingRulesDim8, {}, 3];
-              Apply[ApplyRules[Replace][#1, OperatorMatchingRulesDim6, #3, 1] &, first]
+              Apply[ApplyRules[ReplaceList][#1, OperatorMatchingRulesDim6, #3, 1] &, first]
         ];
 
 GuidedMatchingDim9[opLabel_String] :=
@@ -368,7 +368,7 @@ GuidedMatchingDim9[opLabel_String] :=
               first = ApplyRules[BViolatingOperatorsDim9[opLabel], Join[YukawaRules, LoopRules], {}, 2];
               second = Apply[ApplyRules[#1, Join[EpsDeltaRules, FlavourDeltaRules], #3, 2] &, first];
               third = Apply[ApplyRules[#1, Join[DerivativeRules], #3, 1] &, second];
-              Apply[ApplyRules[Replace][#1, OperatorMatchingRulesDim7, #3, 1] &, third]
+              Apply[ApplyRules[ReplaceList][#1, OperatorMatchingRulesDim7, #3, 1] &, third]
         ];
 
 MatchingDataDim8[opLabel_, flavour_] :=
@@ -382,16 +382,16 @@ MatchingDataDim9[opLabel_, flavour_] :=
         ];
 
 (* Deal with all symmetries and degeneracies in the matching here! *)
-OpSMEFT["1"][p_, q_, r_, s_] := Plus @@ (Op["1"] @@@ Map[{s}~Join~# &, Permutations[{p, q, r}]]);
+OpSMEFT["1"][p_, q_, r_, s_] := Op["1"][s, p, q, r];
 OpSMEFT["2"][p_, q_, r_, s_] := Op["2"][s, p, q, r] + Op["2"][s, q, p, r];
-OpSMEFT["3"][p_, q_, r_, s_] := Op["3"][s, q, r, p] + Op["3"][s, r, q, p];
+OpSMEFT["3"][p_, q_, r_, s_] := Op["3"][s, q, r, p];
 OpSMEFT["4"][p_, q_, r_, s_] := Op["4"][s, r, q, p];
-OpSMEFT["5"][p_, q_, r_, s_] := Plus @@ (Op["5"] @@@ Map[{s}~Join~# &, Permutations[{p, q, r}]]);
-OpSMEFT["6a"][p_, q_, r_, s_] := Op["6a"][s, p, q, r] + Op["6a"][s, q, p, r];
+OpSMEFT["5"][p_, q_, r_, s_] := Op["5"][s, r, p, q] - Op["5"][s, r, q, p];
+OpSMEFT["6a"][p_, q_, r_, s_] := Op["6a"][s, p, q, r];
 OpSMEFT["6b"][p_, q_, r_, s_] := Op["6b"][s, p, q, r] + Op["6b"][s, q, p, r];
-OpSMEFT["7"][p_, q_, r_, s_] := Op["7"][s, r, p, q] + Op["7"][s, r, q, p];
-OpSMEFT["8"][p_, q_, r_, s_] := Op["8"][s, r, p, q] + Op["8"][s, r, q, p];
-OpSMEFT["11"][p_, q_, r_, s_] := Op["11"][s, r, p, q] + Op["11"][s, r, q, p];
+OpSMEFT["7"][p_, q_, r_, s_] := Op["7"][s, r, p, q] - Op["7"][s, r, q, p];
+OpSMEFT["8"][p_, q_, r_, s_] := Op["8"][s, r, p, q] - Op["8"][s, r, q, p];
+OpSMEFT["11"][p_, q_, r_, s_] := Op["11"][s, r, p, q] - Op["11"][s, r, q, p];
 
 $NFlavours = 3;
 TreeLevelMatching = {
@@ -651,3 +651,31 @@ ExtractDominantMatchingByRate::usage = "Returns a replacement list mapping each
 nucleon decay process that is generated to a numerical expression that
 dominantes the nucleon decay limit. This is useful for the final table.";
 ExtractDominantMatchingByRate[data_] := $NotImplemented;
+
+(* Taken from old code *)
+MinimalFlavourStructures =
+<|"1" -> {1, 1, 1, 1}, "2" -> {1, 1, 1, 1},
+  "3" -> {1, 1, 1, 1}, "4" -> {1, 1, 1, 1}, "5" -> {1, 1, 1, 2},
+  "6a" -> {1, 1, 1, 1}, "6b" -> {1, 1, 1, 1}, "7" -> {1, 1, 1, 2},
+  "8" -> {1, 1, 1, 1}, "9" -> {1, 1, 1, 2}, "10" -> {1, 1, 2, 1},
+  "11" -> {1, 1, 1, 2}, "12a" -> {1, 1, 1, 1}, "12b" -> {1, 1, 1, 1},
+  "12c" -> {1, 1, 1, 1}, "12d" -> {1, 1, 1, 1},
+  "13a" -> {1, 1, 1, 1}, "13b" -> {1, 1, 1, 1}, "14" -> {1, 1, 1, 1},
+  "15a" -> {1, 1, 1, 1}, "15b" -> {1, 1, 1, 1},
+  "15c" -> {1, 1, 1, 1}, "16" -> {1, 1, 1, 1, 1, 1},
+  "17" -> {1, 1, 1, 1, 1, 1}, "18" -> {1, 1, 1, 1, 1, 1},
+  "19" -> {1, 1, 1, 1, 1, 2}, "20" -> {1, 1, 1, 2},
+  "21" -> {1, 1, 1, 1, 2, 1}, "22" -> {1, 1, 1, 1, 1, 1},
+  "23" -> {1, 1, 1, 1, 1, 1}, "24a" -> {1, 1, 1, 1, 1, 1},
+  "24b" -> {1, 1, 1, 1, 1, 1}, "25a" -> {1, 1, 1, 1, 1, 1},
+  "25b" -> {1, 1, 1, 1, 1, 1}, "26" -> {1, 1, 1, 1, 1, 1},
+  "27" -> {1, 1, 1, 1, 1, 1}, "28" -> {1, 1, 1, 1, 1, 2},
+  "29" -> {1, 1, 1, 2}, "30" -> {1, 1, 2, 1},
+  "31" -> {1, 1, 1, 1, 1, 1}, "32" -> {1, 1, 1, 1, 1, 1},
+  "33" -> {1, 1, 1, 1, 1, 1}, "34a" -> {1, 1, 1, 1, 1, 1},
+  "34b" -> {1, 1, 1, 1, 1, 1}, "35a" -> {1, 1, 1, 1},
+  "35b" -> {1, 1, 1, 1}, "35c" -> {1, 1, 1, 1},
+  "35d" -> {1, 1, 1, 1}, "36" -> {1, 1, 1, 1}, "37" -> {1, 1, 1, 2},
+  "38" -> {1, 1, 1, 1, 1, 1}, "39" -> {1, 1, 1, 1, 1, 1},
+  "40" -> {1, 1, 1, 1, 1, 2}, "41" -> {1, 1, 1, 1, 1, 2}
+|>;
