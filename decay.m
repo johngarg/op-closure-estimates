@@ -76,6 +76,7 @@ NumericValues =
 , CKM[1,2] -> CKM\[Lambda]
 , CKM[2,1] -> -CKM\[Lambda]
 , CKM[3,2] -> -CKMA * CKM\[Lambda]^2
+, CKM[2,3] -> CKMA * CKM\[Lambda]^2
 , CKM[3,1] -> CKMA * CKM\[Lambda]^3*(1-CKM\[Rho] - I *CKM\[Eta])
 , CKM[1,3] -> CKMA*CKM\[Lambda]^3 *(CKM\[Rho] - I *CKM\[Eta])
 , CKM[1,1] ->  1-0.5*CKM\[Lambda]^2
