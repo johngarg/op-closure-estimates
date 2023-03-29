@@ -1,57 +1,57 @@
 OperatorMatchingRulesDim6 = {
   (* Op 1 *)
-  Op[L[r], Q[s], Q[t], Q[u], rst___Wt] :> Op[Op["1"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[L[r], Q[s], Q[t], Q[u], Deriv, Deriv, rst___Wt] :> Op[Op["1"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[L[r]], Conj[Q[s]], Conj[Q[t]], Conj[Q[u]], rst___Wt] :> Op[Conj[Op["1"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[L[r]], Conj[Q[s]], Conj[Q[t]], Conj[Q[u]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["1"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[L[r_], Q[s_], Q[t_], Q[u_], rst___Wt] :> Op[Op["1"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[L[r_], Q[s_], Q[t_], Q[u_], Deriv, Deriv, rst___Wt] :> Op[Op["1"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[L[r_]], Conj[Q[s_]], Conj[Q[t_]], Conj[Q[u_]], rst___Wt] :> Op[Conj[Op["1"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[L[r_]], Conj[Q[s_]], Conj[Q[t_]], Conj[Q[u_]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["1"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
   (* Op 2 *)
-  Op[Conj[eb[r]], Q[s], Q[t], Conj[ub[u]], rst___Wt] :> Op[Op["2"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[eb[r]], Q[s], Q[t], Conj[ub[u]], Deriv, Deriv, rst___Wt] :> Op[Op["2"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[eb[r], Conj[Q[s]], Conj[Q[t]], ub[u], rst___Wt] :> Op[Conj[Op["2"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[eb[r], Conj[Q[s]], Conj[Q[t]], ub[u], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["2"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[eb[r_]], Q[s_], Q[t_], Conj[ub[u_]], rst___Wt] :> Op[Op["2"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[eb[r_]], Q[s_], Q[t_], Conj[ub[u_]], Deriv, Deriv, rst___Wt] :> Op[Op["2"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[eb[r_], Conj[Q[s_]], Conj[Q[t_]], ub[u_], rst___Wt] :> Op[Conj[Op["2"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[eb[r_], Conj[Q[s_]], Conj[Q[t_]], ub[u_], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["2"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
   (* Op 3 *)
-  Op[Conj[eb[r]], Conj[ub[s]], Conj[ub[t]], Conj[db[u]], rst___Wt] :> Op[Op["3"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[eb[r]], Conj[ub[s]], Conj[ub[t]], Conj[db[u]], Deriv, Deriv, rst___Wt] :> Op[Op["3"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[eb[r], ub[s], ub[t], db[u], rst___Wt] :> Op[Conj[Op["3"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[eb[r], ub[s], ub[t], db[u], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["3"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[eb[r_]], Conj[ub[s_]], Conj[ub[t_]], Conj[db[u_]], rst___Wt] :> Op[Op["3"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[eb[r_]], Conj[ub[s_]], Conj[ub[t_]], Conj[db[u_]], Deriv, Deriv, rst___Wt] :> Op[Op["3"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[eb[r_], ub[s_], ub[t_], db[u_], rst___Wt] :> Op[Conj[Op["3"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[eb[r_], ub[s_], ub[t_], db[u_], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["3"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
   (* Op 4 *)
-  Op[L[r], Q[s], Conj[ub[t]], Conj[db[u]], rst___Wt] :> Op[Op["4"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[L[r], Q[s], Conj[ub[t]], Conj[db[u]], Deriv, Deriv, rst___Wt] :> Op[Op["4"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[L[r]], Conj[Q[s]], ub[t], db[u], rst___Wt] :> Op[Conj[Op["4"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[L[r]], Conj[Q[s]], ub[t], db[u], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["4"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]]
+  Op[L[r_], Q[s_], Conj[ub[t_]], Conj[db[u_]], rst___Wt] :> Op[Op["4"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[L[r_], Q[s_], Conj[ub[t_]], Conj[db[u_]], Deriv, Deriv, rst___Wt] :> Op[Op["4"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[L[r_]], Conj[Q[s_]], ub[t_], db[u_], rst___Wt] :> Op[Conj[Op["4"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[L[r_]], Conj[Q[s_]], ub[t_], db[u_], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["4"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]]
 };
 
 OperatorMatchingRulesDim7 = {
   (* Op 5 *)
-  Op[L[r], db[s], db[t], db[u], Conj[H[]], rst___Wt] :> Op[Op["5"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[L[r], db[s], db[t], db[u], Conj[H[]], Deriv, Deriv, rst___Wt] :> Op[Op["5"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[L[r]], Conj[db[s]], Conj[db[t]], Conj[db[u]], H[], rst___Wt] :> Op[Conj[Op["5"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[L[r]], Conj[db[s]], Conj[db[t]], Conj[db[u]], H[], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["5"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[L[r_], db[s_], db[t_], db[u_], Conj[H[]], rst___Wt] :> Op[Op["5"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[L[r_], db[s_], db[t_], db[u_], Conj[H[]], Deriv, Deriv, rst___Wt] :> Op[Op["5"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[L[r_]], Conj[db[s_]], Conj[db[t_]], Conj[db[u_]], H[], rst___Wt] :> Op[Conj[Op["5"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[L[r_]], Conj[db[s_]], Conj[db[t_]], Conj[db[u_]], H[], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["5"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
   (* Op 6 *)
-  Op[Deriv, L[r], Conj[Q[s]], db[t], db[u], rst___Wt] :> Op[Op["6"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Deriv, L[r], Conj[Q[s]], db[t], db[u], Deriv, Deriv, rst___Wt] :> Op[Op["6"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[Deriv, L[r]], Q[s], Conj[db[t]], Conj[db[u]], rst___Wt] :> Op[Conj[Op["6"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[Deriv, L[r]], Q[s], Conj[db[t]], Conj[db[u]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["6"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Deriv, L[r_], Conj[Q[s_]], db[t_], db[u_], rst___Wt] :> Op[Op["6"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Deriv, L[r_], Conj[Q[s_]], db[t_], db[u_], Deriv, Deriv, rst___Wt] :> Op[Op["6"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[Deriv, L[r_]], Q[s_], Conj[db[t_]], Conj[db[u_]], rst___Wt] :> Op[Conj[Op["6"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[Deriv, L[r_]], Q[s_], Conj[db[t_]], Conj[db[u_]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["6"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
   (* Op 7 *)
-  Op[Conj[eb[r]], db[s], db[t], Deriv, db[u], rst___Wt] :> Op[Op["7"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[eb[r]], db[s], db[t], Deriv, db[u], Deriv, Deriv, rst___Wt] :> Op[Op["7"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[eb[r], Conj[db[s]], Conj[db[t]], Conj[Deriv, db[u]], rst___Wt] :> Op[Conj[Op["7"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[eb[r], Conj[db[s]], Conj[db[t]], Conj[Deriv, db[u]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["7"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[eb[r_]], db[s_], db[t_], Deriv, db[u_], rst___Wt] :> Op[Op["7"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[eb[r_]], db[s_], db[t_], Deriv, db[u_], Deriv, Deriv, rst___Wt] :> Op[Op["7"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[eb[r_], Conj[db[s_]], Conj[db[t_]], Conj[Deriv, db[u_]], rst___Wt] :> Op[Conj[Op["7"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[eb[r_], Conj[db[s_]], Conj[db[t_]], Conj[Deriv, db[u_]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["7"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
   (* Op 8 *)
-  Op[L[r], Conj[Q[s]], Conj[Q[t]], db[u], H[], rst___Wt] :> Op[Op["8"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[L[r], Conj[Q[s]], Conj[Q[t]], db[u], H[], Deriv, Deriv, rst___Wt] :> Op[Op["8"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[L[r]], Q[s], Q[t], Conj[db[u]], Conj[H[]], rst___Wt] :> Op[Conj[Op["8"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[L[r]], Q[s], Q[t], Conj[db[u]], Conj[H[]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["8"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[L[r_], Conj[Q[s_]], Conj[Q[t_]], db[u_], H[], rst___Wt] :> Op[Op["8"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[L[r_], Conj[Q[s_]], Conj[Q[t_]], db[u_], H[], Deriv, Deriv, rst___Wt] :> Op[Op["8"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[L[r_]], Q[s_], Q[t_], Conj[db[u_]], Conj[H[]], rst___Wt] :> Op[Conj[Op["8"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[L[r_]], Q[s_], Q[t_], Conj[db[u_]], Conj[H[]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["8"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
   (* Op 9 *)
-  Op[Conj[eb[r]], Conj[Q[s]], db[t], db[u], H[], rst___Wt] :> Op[Op["9"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[eb[r]], Conj[Q[s]], db[t], db[u], H[], Deriv, Deriv, rst___Wt] :> Op[Op["9"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[eb[r], Q[s], Conj[db[t]], Conj[db[u]], Conj[H[]], rst___Wt] :> Op[Conj[Op["9"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[eb[r], Q[s], Conj[db[t]], Conj[db[u]], Conj[H[]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["9"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[eb[r_]], Conj[Q[s_]], db[t_], db[u_], H[], rst___Wt] :> Op[Op["9"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[eb[r_]], Conj[Q[s_]], db[t_], db[u_], H[], Deriv, Deriv, rst___Wt] :> Op[Op["9"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[eb[r_], Q[s_], Conj[db[t_]], Conj[db[u_]], Conj[H[]], rst___Wt] :> Op[Conj[Op["9"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[eb[r_], Q[s_], Conj[db[t_]], Conj[db[u_]], Conj[H[]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["9"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
   (* Op 10 *)
-  Op[L[r], ub[s], db[t], db[u], H[], rst___Wt] :> Op[Op["10"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[L[r], ub[s], db[t], db[u], H[], Deriv, Deriv, rst___Wt] :> Op[Op["10"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[L[r]], Conj[ub[s]], Conj[db[t]], Conj[db[u]], Conj[H[]], rst___Wt] :> Op[Conj[Op["10"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
-  Op[Conj[L[r]], Conj[ub[s]], Conj[db[t]], Conj[db[u]], Conj[H[]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["10"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]]
+  Op[L[r_], ub[s_], db[t_], db[u_], H[], rst___Wt] :> Op[Op["10"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[L[r_], ub[s_], db[t_], db[u_], H[], Deriv, Deriv, rst___Wt] :> Op[Op["10"][r,s,t,u], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[L[r_]], Conj[ub[s_]], Conj[db[t_]], Conj[db[u_]], Conj[H[]], rst___Wt] :> Op[Conj[Op["10"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]],
+  Op[Conj[L[r_]], Conj[ub[s_]], Conj[db[t_]], Conj[db[u_]], Conj[H[]], Deriv, Deriv, rst___Wt] :> Op[Conj[Op["10"][r,s,t,u]], MatchingValues["r" -> r, "s" -> s, "t" -> t, "u" -> u]]
 };
 
 DerivativeRules = {

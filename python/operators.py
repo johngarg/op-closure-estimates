@@ -16,7 +16,7 @@ from neutrinomass.tensormethod.contract import invariants
 from neutrinomass.completions.core import EffectiveOperator
 
 PRINT_WL = True
-PRINT_RULE = False
+PRINT_RULE = True
 
 from hs import (
     H6_ΔB1_ΔL1,
@@ -114,17 +114,27 @@ def to_wl(op, label: str, matching_rule=False) -> None:
 
     if matching_rule:
         matching_vals_guts = ", ".join(f'"{idx}" -> {idx}' for idx in generation_indices)
+
+        # Replace indices on LHS with Mathematica patterns. This approach is
+        # specialised to one index in the fields!
+        gen_indices_replacements = [(f"[{i}]", f"[{i}_]") for i in generation_indices]
+        rule_field_strings = field_strings
+        rule_conj_field_strings = conj_field_strings
+        for i, j in gen_indices_replacements:
+            rule_field_strings = [s.replace(i, j) for s in rule_field_strings]
+            rule_conj_field_strings = [s.replace(i, j) for s in rule_conj_field_strings]
+
         print(f"(* Op {label} *)")
         print(
             f'Op['
-            + ", ".join(field_strings)
+            + ", ".join(rule_field_strings)
             + ", rst___Wt"
             + f'] :> Op[Op["{label}"][{coeff_indices}], MatchingValues[{matching_vals_guts}]'
             + "],"
         )
         print(
             f'Op['
-            + ", ".join(field_strings)
+            + ", ".join(rule_field_strings)
             + ", Deriv, Deriv"
             + ", rst___Wt"
             + f'] :> Op[Op["{label}"][{coeff_indices}], MatchingValues[{matching_vals_guts}]'
@@ -133,14 +143,14 @@ def to_wl(op, label: str, matching_rule=False) -> None:
         # Conjugates
         print(
             f'Op['
-            + ", ".join(conj_field_strings)
+            + ", ".join(rule_conj_field_strings)
             + ", rst___Wt"
             + f'] :> Op[Conj[Op["{label}"][{coeff_indices}]], MatchingValues[{matching_vals_guts}]'
             + "],"
         )
         print(
             f'Op['
-            + ", ".join(conj_field_strings)
+            + ", ".join(rule_conj_field_strings)
             + ", Deriv, Deriv"
             + ", rst___Wt"
             + f'] :> Op[Conj[Op["{label}"][{coeff_indices}]], MatchingValues[{matching_vals_guts}]'

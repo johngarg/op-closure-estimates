@@ -134,14 +134,13 @@ ToStringRep[ub[r_]] :=
 ToStringRep[eb[r_]] :=
   ToString@StringForm["\!\(\*SubscriptBox[OverscriptBox[\(e\), \(_\)], \(`1`\)]\)", r];
 
-ToStringRep[L[r_, i_]] :=
-  ToString@StringForm["\!\(\*SuperscriptBox[SubscriptBox[\(L\), \(`1`\)], \(`2`\)]\)", r, i];
+ToStringRep[L[r_]] :=
+  ToString@StringForm["\!\(\*SubscriptBox[\(L\), \(`1`\)]\)", r];
 
-ToStringRep[Q[r_, i_]] :=
-  ToString@StringForm["\!\(\*SuperscriptBox[SubscriptBox[\(Q\), \(`1`\)], \(`2`\)]\)", r, i];
+ToStringRep[Q[r_]] :=
+  ToString@StringForm["\!\(\*SubscriptBox[\(Q\), \(`1`\)]\)", r];
 
-ToStringRep[H[i_]] :=
-  ToString@StringForm["\!\(\*SuperscriptBox[\(H\), \(`1`\)]\)", i];
+ToStringRep[H[]] := "H";
 
 ToStringRep[Conj[x_]] :=
   StringJoin["\!\(\*SuperscriptBox[\(", ToStringRep[x], "\), \(\[Dagger]\)]\)"];
@@ -239,6 +238,7 @@ RawMatchingData[graph_] :=
   ];
 
 Conj[x_ y_] := Conj[x] Conj[y];
+Conj /: Op[x___, Conj[Deriv, y__], z___] := Op[x, Deriv, Conj[y], z];
 
 MaybeMakePattern[x_Integer] := x;
 MaybeMakePattern[x_Symbol] := $pattern[x, Blank[]];
