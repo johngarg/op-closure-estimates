@@ -15,7 +15,7 @@ from neutrinomass.tensormethod.parse_hs import FIELD_LOOKUP, parse
 from neutrinomass.tensormethod.contract import invariants
 from neutrinomass.completions.core import EffectiveOperator
 
-PRINT_WL = True
+PRINT_WL = False # False for LaTeX table
 PRINT_RULE = True
 
 from hs import (
@@ -185,18 +185,22 @@ terms_labels = [
 ]
 
 symmetries = {
-    "2": [("S", 2, 3)], # {"u", "Q", "Q", "e"}
-    "5": [("A", 3, 4)], # {"L*", "d", "d", "d", "H"}
+    "2": [("S", 2, 3)],
+    "5": [("A", 3, 4)],
+    "6": [("S", 3, 4)],
+    "7": [("S", 2, 4)],
     "9": [("A", 3, 4)],
     "14": [("A", 3, 4)],
     "15": [("A", 2, 3)],
     "16": [("A", 3, 4)],
     "25": [("A", 5, 6), ("S", 1, 2)],
     "26": [("A", 3, 4)],
+    "27": [("A", 4, 5), ("S", 2, 3)], # not sure about this one
     "35": [("A", 5, 6)],
     "36": [("A", 3, 4)],
     "37": [("A", 2, 3)],
     "47": [("A", 3, 4)],
+    "48": [("S", 3, 4)],
     }
 
 def flavour_indices_and_symmetries(op, symmetries):

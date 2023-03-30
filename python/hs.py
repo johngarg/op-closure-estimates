@@ -14,7 +14,6 @@ H, Hd, L, Ld, Q, Qd = symbols("H Hd L Ld Q Qd", cls=Function)
 eb, ebd, ub, ubd, db, dbd = symbols("eb ebd ub ubd db dbd", cls=Function)
 G, Gb, W, Wb, B, Bb = symbols("G Gb W Wb B Bb", cls=Function)
 
-# no derivs
 H6_ΔB1_ΔL1 = (
     57 * L(X) * Q(X) ** 3
     + 81 * dbd(X) * L(X) * Q(X) * ubd(X)
@@ -22,7 +21,6 @@ H6_ΔB1_ΔL1 = (
     + 81 * dbd(X) * ebd(X) * ubd(X) ** 2
 )
 
-# 2 derivs
 H7_ΔBn1_ΔL1 = (
     30 * D * db(X) ** 3 * ebd(X)
     + 24 * db(X) ** 3 * Hd(X) * L(X)
@@ -32,7 +30,6 @@ H7_ΔBn1_ΔL1 = (
     + 81 * db(X) ** 2 * H(X) * L(X) * ub(X)
 )
 
-# 11 derivs
 H8_ΔB1_ΔL1 = (
     27 * dbd(X) ** 2 * H(X) ** 2 * L(X) * Q(X)
     + 27 * dbd(X) * ebd(X) * H(X) ** 2 * Q(X) ** 2
