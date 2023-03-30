@@ -58,80 +58,80 @@ DerivativeRules = {
 
   Op[Deriv, Deriv, rst__] :> Op[rst],
 
-  Op[Deriv, eb[p_], rst__] :> Block[{x0 = Unique["x"], i0 = Unique["i"], j0 = Unique["j"]},
-                                    Op[Conj[L[x0, i0]], H[j0], Eps[i0, j0], rst,
-                                       MatchingValues["p" -> p, "x0" -> x0, "i0" -> i0, "j0" -> j0],
+  Op[Deriv, eb[p_], rst__] :> Block[{x0 = Unique["x"]},
+                                    Op[Conj[L[x0]], H[], rst,
+                                       MatchingValues["p" -> p, "x0" -> x0],
                                        Wt[Conj[ye[p, x0]]]
-                                    ]
-                              ],
-  Op[Deriv, Conj[eb[p_]], rst__] :> Block[{x0 = Unique["x"], i0 = Unique["i"], j0 = Unique["j"]},
-                                          Op[L[x0, i0], Conj[H[j0]], Eps[i0, j0], rst,
-                                             MatchingValues["p" -> p, "x0" -> x0, "i0" -> i0, "j0" -> j0],
+                                       ]
+                                    ],
+  Op[Deriv, Conj[eb[p_]], rst__] :> Block[{x0 = Unique["x"]},
+                                          Op[L[x0], Conj[H[]], rst,
+                                             MatchingValues["p" -> p, "x0" -> x0],
                                              Wt[ye[p, x0]]
-                                          ]
-                                    ],
-  Op[Deriv, L[p_, i_], rst__] :> Block[{x0 = Unique["x"]},
-                                       Op[Conj[eb[x0]], H[i], rst,
-                                             MatchingValues["p" -> p, "x0" -> x0],
-                                          Wt[Conj[ye[x0, p]]]
-                                          ]
-                                    ],
-  Op[Deriv, Conj[L[p_, i_]], rst__] :> Block[{x0 = Unique["x"]},
-                                             Op[eb[x0], Conj[H[i]], rst,
-                                                MatchingValues["p" -> p, "x0" -> x0],
-                                                Wt[ye[x0, p]]
                                              ]
-                                       ],
+                                          ],
+  Op[Deriv, L[p_], rst__] :> Block[{x0 = Unique["x"]},
+                                   Op[Conj[eb[x0]], H[], rst,
+                                      MatchingValues["p" -> p, "x0" -> x0],
+                                      Wt[Conj[ye[x0, p]]]
+                                      ]
+                                   ],
+  Op[Deriv, Conj[L[p_]], rst__] :> Block[{x0 = Unique["x"]},
+                                         Op[eb[x0], Conj[H[]], rst,
+                                            MatchingValues["p" -> p, "x0" -> x0],
+                                            Wt[ye[x0, p]]
+                                            ]
+                                         ],
 
-  Op[Deriv, db[p_], rst__] :> Block[{x0 = Unique["x"], i0 = Unique["i"], j0 = Unique["j"]},
-                                    Op[Conj[Q[x0, i0]], H[j0], Eps[i0, j0], rst,
-                                       MatchingValues["p" -> p, "x0" -> x0, "i0" -> i0, "j0" -> j0],
+  Op[Deriv, db[p_], rst__] :> Block[{x0 = Unique["x"]},
+                                    Op[Conj[Q[x0]], H[], rst,
+                                       MatchingValues["p" -> p, "x0" -> x0],
                                        Wt[Conj[yd[p, x0]]]
-                                    ]
-                              ],
-  Op[Deriv, Conj[db[p_]], rst__] :> Block[{x0 = Unique["x"], i0 = Unique["i"], j0 = Unique["j"]},
-                                          Op[Q[x0, i0], Conj[H[j0]], Eps[i0, j0], rst,
-                                             MatchingValues["p" -> p, "x0" -> x0, "i0" -> i0, "j0" -> j0],
-                                             Wt[yd[p, x0]]
-                                          ]
+                                       ]
                                     ],
-  Op[Deriv, Q[p_, i_], rst__] :> Block[{x0 = Unique["x"]},
-                                       Op[Conj[db[x0]], H[i], rst,
+  Op[Deriv, Conj[db[p_]], rst__] :> Block[{x0 = Unique["x"]},
+                                          Op[Q[x0], Conj[H[]], rst,
                                              MatchingValues["p" -> p, "x0" -> x0],
-                                          Wt[Conj[yd[x0, p]]]
-                                          ]
-                                    ],
-  Op[Deriv, Conj[Q[p_, i_]], rst__] :> Block[{x0 = Unique["x"]},
-                                             Op[db[x0], Conj[H[i]], rst,
-                                                MatchingValues["p" -> p, "x0" -> x0],
-                                                Wt[yd[x0, p]]
+                                             Wt[yd[p, x0]]
                                              ]
-                                       ],
+                                          ],
+  Op[Deriv, Q[p_], rst__] :> Block[{x0 = Unique["x"]},
+                                   Op[Conj[db[x0]], H[], rst,
+                                      MatchingValues["p" -> p, "x0" -> x0],
+                                      Wt[Conj[yd[x0, p]]]
+                                      ]
+                                   ],
+  Op[Deriv, Conj[Q[p_]], rst__] :> Block[{x0 = Unique["x"]},
+                                         Op[db[x0], Conj[H[]], rst,
+                                            MatchingValues["p" -> p, "x0" -> x0],
+                                            Wt[yd[x0, p]]
+                                            ]
+                                         ],
 
-  Op[Deriv, ub[p_], rst__] :> Block[{x0 = Unique["x"], i0 = Unique["i"], j0 = Unique["j"]},
-                                        Op[Conj[Q[x0, i0]], Conj[H[j0]], Eps[i0, j0], rst,
-                                           MatchingValues["p" -> p, "x0" -> x0, "i0" -> i0, "j0" -> j0],
-                                           Wt[Conj[yu[p, x0]]]
-                                        ]
-                                  ],
-  Op[Deriv, Conj[ub[p_]], rst__] :> Block[{x0 = Unique["x"], i0 = Unique["i"], j0 = Unique["j"]},
-                                              Op[Q[x0, i0], H[j0], Eps[i0, j0], rst,
-                                                 MatchingValues["p" -> p, "x0" -> x0, "i0" -> i0, "j0" -> j0],
-                                                 Wt[yu[p, x0]]
-                                              ]
-                                        ],
-  Op[Deriv, Q[p_, i_], rst__] :> Block[{x0 = Unique["x"]},
-                                       Op[Conj[ub[x0]], Conj[H[i]], rst,
-                                          MatchingValues["p" -> p, "x0" -> x0],
-                                          Wt[Conj[yu[x0, p]]]
+  Op[Deriv, ub[p_], rst__] :> Block[{x0 = Unique["x"]},
+                                    Op[Conj[Q[x0]], Conj[H[]], rst,
+                                       MatchingValues["p" -> p, "x0" -> x0],
+                                       Wt[Conj[yu[p, x0]]]
                                        ]
-                                 ],
-  Op[Deriv, Conj[Q[p_, i_]], rst__] :> Block[{x0 = Unique["x"]},
-                                             Op[ub[x0], H[i], rst,
-                                                MatchingValues["p" -> p, "x0" -> x0],
-                                                Wt[yu[x0, p]]
+                                    ],
+  Op[Deriv, Conj[ub[p_]], rst__] :> Block[{x0 = Unique["x"]},
+                                          Op[Q[x0], H[], rst,
+                                             MatchingValues["p" -> p, "x0" -> x0],
+                                             Wt[yu[p, x0]]
                                              ]
-                                       ]
+                                          ],
+  Op[Deriv, Q[p_], rst__] :> Block[{x0 = Unique["x"]},
+                                   Op[Conj[ub[x0]], Conj[H[]], rst,
+                                      MatchingValues["p" -> p, "x0" -> x0],
+                                      Wt[Conj[yu[x0, p]]]
+                                      ]
+                                   ],
+  Op[Deriv, Conj[Q[p_]], rst__] :> Block[{x0 = Unique["x"]},
+                                         Op[ub[x0], H[], rst,
+                                            MatchingValues["p" -> p, "x0" -> x0],
+                                            Wt[yu[x0, p]]
+                                            ]
+                                         ]
 };
 
 YukawaRules = {
