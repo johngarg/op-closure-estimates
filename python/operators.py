@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
-#!/usr/bin/env python3
 
 """Script to write latex table of operators appearing the paper."""
+
+import time
+print("\nThis script requires sympy version 1.2 to run!\n")
+time.sleep(2)
 
 import os
 from collections import defaultdict
