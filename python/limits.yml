@@ -1,0 +1,147 @@
+SUPER-KAMIOKANDE 2014:
+  experiment: Super-Kamiokande
+  inspire: Super-Kamiokande:2014otb
+  url: https://doi.org/10.1103/PhysRevD.90.072005
+  values:
+    p->K+nu: "> 5.9e33 @ 90% CL"
+
+KAMIOKANDE-II 1989:
+  experiment: Kamiokande-II
+  inspire: Kamiokande-II:1989avz
+  url: https://doi.org/10.1016/0370-2693(89)90058-0
+  values:
+    p->pi0e+: "> 2.6e32 @ 90% CL"
+    p->K+nu: "> 1.0e32 @ 90% CL"
+    n->K0nu: "> 0.1e32 @ 90% CL"
+
+SUPER-KAMIOKANDE 2005:
+  experiment: Super-Kamiokande
+  inspire: Super-Kamiokande:2005lev
+  url: https://doi.org/10.1103/PhysRevD.72.052007
+  values:
+    p->K+nu: "> 2.33e33 @ 90% CL"
+    n->K0nu: "> 1.3e33 @ 90% CL"
+    p->K0mu+: "> 1.3e33 @ 90% CL"
+    p->K0e+: "> 1.0e33 @ 90% CL"
+
+SUPER-KAMIOKANDE 2012:
+  experiment: Super-Kamiokande
+  inspire: Super-Kamiokande:2012zik
+  url: https://doi.org/10.1103/PhysRevD.86.012006
+  values:
+    p->K0mu+: "> 1.6e33 @ 90% CL"
+
+SUPER-KAMIOKANDE 2013:
+  experiment: Super-Kamiokande
+  inspire: Super-Kamiokande:2013rwg
+  url: https://doi.org/10.1103/PhysRevLett.113.121802
+  values:
+    n->pi0nu: "> 1.1e33 @ 90% CL"
+    p->pi+nu: "> 3.9e32 @ 90% CL"
+
+IMB-3 1999:
+  experiment: IMB-3
+  inspire: McGrew:1999nd
+  url: https://doi.org/10.1103/PhysRevD.59.052004
+  values:
+    n->eta0nu: "> 150e30 @ 90% CL"
+    n->K-e+: "> 17e30 @ 90% CL"
+    n->K-mu+: "> 26e30 @ 90% CL"
+
+SUPER-KAMIOKANDE 2020:
+  experiment: Super-Kamiokande
+  inspire: Super-Kamiokande:2020wjk
+  url: https://doi.org/10.1103/PhysRevD.102.112011
+  values:
+    p->pi0e+: "> 2.4e34 @ 90% CL"
+    p->pi0mu+: "> 1.6e34 @ 90% CL"
+
+SUPER-KAMIOKANDE 2017:
+  experiment: Super-Kamiokande
+  inspire: Super-Kamiokande:2017gev
+  url: https://doi.org/10.1103/PhysRevD.96.012003
+  values:
+    p->eta0e+: "> 10e33 @ 90% CL"
+    p->eta0mu+: "> 4.7e33 @ 90% CL"
+    p->rho0e+: "> 0.72e33 @ 90% CL"
+    p->rho0mu+: "> 0.57e33 @ 90% CL"
+    p->omega0e+: "> 1.6e33 @ 90% CL"
+    p->omega0mu+: "> 2.8e33 @ 90% CL"
+    n->pi-e+: "> 5.3e33 @ 90% CL"
+    n->pi-mu+: "> 3.5e33 @ 90% CL"
+    n->rho-e+: "> 0.03e33 @ 90% CL"
+    n->rho-mu+: "> 0.06e33 @ 90% CL"
+
+IMB 1988:
+  experiment: IMB
+  inspire: Seidel:1988ut
+  url: https://doi.org/10.1103/PhysRevLett.61.2522
+  values:
+    n->rho0nu: "> 1.9e31 @ 90% CL"
+    p->rho0mu+: "> 3.0e31 @ 90% CL"
+    n->eta0nu: "> 1.6e31 @ 90% CL"
+    n->omega0nu: "> 0.6e31 @ 90% CL"
+    p->omega0mu+: "> 1.0e31 @ 90% CL"
+    p->rho+nu: "> 1.3e31 @ 90% CL"
+    n->rho-mu+: "> 1.1e31 @ 90% CL"
+    n->rho+mu-: "> 0.7e31 @ 90% CL"
+    p->gammae+: "> 46e31 @ 90% CL"
+    p->gammamu+: "> 38e31 @ 90% CL"
+    p->pi0e+: "> 31e31 @ 90% CL"
+    n->pi-e+: "> 10e31 @ 90% CL"
+    n->pi+e-: "> 6.5e31 @ 90% CL"
+    p->pi0mu+: "> 27e31 @ 90% CL"
+    n->pi-mu+: "> 6.3e31 @ 90% CL"
+    n->pi+mu-: "> 4.9e31 @ 90% CL"
+    p->eta0e+: "> 10e31 @ 90% CL"
+    p->eta0mu+: "> 3.4e31 @ 90% CL"
+    p->omega0e+: "> 2.6e31 @ 90% CL"
+    p->K0e+: "> 7.0e31 @ 90% CL"
+    n->rho-e+: "> 3.8e31 @ 90% CL"
+    n->rho+e-: "> 6.2e31 @ 90% CL"
+    p->K0mu+: "> 1.9e31 @ 90% CL"
+
+FREJUS-NEMO-2 1991:
+  experiment: NEMO-3
+  inspire: Frejus:1991ben
+  url: https://doi.org/10.1016/0370-2693(91)91479-F
+  values:
+    n->gammanu: "> 2.4e31 @ 90% CL"
+    n->e-e+nu: "> 7.4e31 @ 90% CL"
+    n->e-mu+nu: "> 4.7e31 @ 90% CL"
+    n->mu-mu+nu: "> 4.2e31 @ 90% CL"
+    p->e+nunu: "> 1.1e31 @ 90% CL"
+    p->mu+nunu: "> 2.1e31 @ 90% CL"
+    n->pi+e-: "> 5.5e31 @ 90% CL"
+    n->pi+mu-: "> 3.3e31 @ 90% CL"
+    n->K+e-: "> 3.2e31 @ 90% CL"
+    n->K+mu-: "> 5.7e31 @ 90% CL"
+    p->pi+pi+e-: "> 3.0e31 @ 90% CL"
+    p->pi+pi+mu-: "> 1.7e31 @ 90% CL"
+    n->pi+pi0e-: "> 2.9e31 @ 90% CL"
+    n->pi+pi0mu-: "> 3.4e31 @ 90% CL"
+    p->pi+K+e-: "> 2.0e31 @ 90% CL"
+    p->pi+K+mu-: "> 0.5e31 @ 90% CL"
+    pn->ne+: "> 10.3e31 @ 90% CL"
+    pn->nmu+: "> 8.9e31 @ 90% CL"
+    pp->pe+: "> 8.2e31 @ 90% CL"
+    pp->pmu+: "> 6.8e31 @ 90% CL"
+    pp->delta+e+: "> 4.1e31 @ 90% CL"
+    pp->delta+mu+: "> 3.8e31 @ 90% CL"
+    pn->delta0e+: "> 5.7e31 @ 90% CL"
+    pn->delta0mu+: "> 7.1e31 @ 90% CL"
+    nn->delta-e+: "> 2.6e31 @ 90% CL"
+    nn->delta-mu+: "> 3.4e31 @ 90% CL"
+    pp->pi+pi+: "> 0.7e30 @ 90% CL"
+    pn->pi+pi0: "> 2.0e30 @ 90% CL"
+    nn->pi0pi0: "> 3.4e30 @ 90% CL"
+    nn->pi+pi-: "> 0.7e30 @ 90% CL"
+    pp->e+e+: "> 5.8e30 @ 90% CL"
+    pp->e+mu-: "> 3.6e30 @ 90% CL"
+    pp->mu+mu+: "> 1.7e30 @ 90% CL"
+    pn->e+nu: "> 2.8e30 @ 90% CL"
+    pn->mu+nu: "> 1.6e30 @ 90% CL"
+    n->nuenuenue: "> 3.0e25 @ 90% CL"
+    n->numunumunumu: "> 12e25 @ 90% CL"
+    nn->nuenue: "> 1.2e25 @ 90% CL"
+    nn->numunumu: "> 0.6e25 @ 90% CL"
