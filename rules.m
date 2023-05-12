@@ -134,6 +134,8 @@ DerivativeRules = {
                                          ]
 };
 
+TwoDerivativeRule = {Op[Deriv, Deriv, rst__] :> Op[rst]};
+
 YukawaRules = {
   (* Up Yukawa *)
   (* ub H \[Rule] Qd *)

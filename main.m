@@ -366,7 +366,7 @@ GuidedMatchingDim8[opLabel_String] :=
 GuidedMatchingDim9[opLabel_String] :=
         Block[{first, second, third, fourth},
               first = ApplyRules[BViolatingOperatorsDim9[opLabel], Join[YukawaRules, LoopRules, OperatorMatchingRulesDim7], {}, 2];
-              second = Apply[ApplyRules[#1, Join[FlavourDeltaRules, DerivativeRules, OperatorMatchingRulesDim7], #3, 3] &, first];
+              second = Apply[ApplyRules[#1, Join[FlavourDeltaRules, TwoDerivativeRule, OperatorMatchingRulesDim7], #3, 3] &, first];
               Apply[ApplyRules[ReplaceList][#1, OperatorMatchingRulesDim7, #3, 1] &, second]
         ];
 
