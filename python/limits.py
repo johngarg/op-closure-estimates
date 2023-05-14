@@ -4,6 +4,14 @@ from dataclasses import dataclass
 from typing import List
 import sympy as sym
 
+from tables import (
+    D6_LEFT_OPERATOR_SYMMETRIES,
+    D7_LEFT_OPERATOR_SYMMETRIES,
+    PROCESSES,
+    HALF,
+)
+
+
 @dataclass
 class Measurement:
     """Class for future or past measurements."""
@@ -18,26 +26,6 @@ class Measurement:
     is_future: bool = False
     ineq: str = ">"  # one of "<" or ">"
 
-# Limits
-PROCESSES = {
-    "p->pi0e+",
-    "p->pi0mu+",
-    "p->eta0e+",
-    "p->eta0mu+",
-    "p->K0e+",
-    "p->K0mu+",
-    "p->pi+nu",
-    "p->K+nu",
-    "n->pi0nu",
-    "n->eta0nu",
-    "n->K0nu",
-    "n->K+e-",
-    "n->K+mu-",
-    "n->pi-e+",
-    "n->pi-mu+",
-    "n->pi+e-",
-    "n->pi+mu-",
-}
 
 def parse_limits(yaml_path: str, is_future: bool = False) -> List[Measurement]:
     """Parse yaml data file of limits into a list of `Measurement` objects.
@@ -69,6 +57,7 @@ def parse_limits(yaml_path: str, is_future: bool = False) -> List[Measurement]:
 
     return measurements
 
+
 def most_stringent_limit(measurements: List[Measurement], process: str) -> Measurement:
     if process not in [m.process for m in measurements]:
         return "Missing"
@@ -76,6 +65,7 @@ def most_stringent_limit(measurements: List[Measurement], process: str) -> Measu
     return max(
         (m for m in measurements if m.process == process), key=lambda x: x.value,
     )
+
 
 def print_process_limits(measurements: List[Measurement]):
     output = {}
@@ -86,20 +76,26 @@ def print_process_limits(measurements: List[Measurement]):
         if isinstance(meas, str):
             output[process] = meas
             continue
-        gamma, cite = 1./value_in_inv_gev(meas.value), meas.ref
+        gamma, cite = 1.0 / value_in_inv_gev(meas.value), meas.ref
         output[process] = (gamma, cite)
 
     return output
 
 
-V = sym.MatrixSymbol('V', 3, 3)
-V_matrix = sym.Matrix([[0.973, 0.2245, 0.008], [0.22, 0.987, 0.04], [0.008, 0.0388, 1.013]])
+def derive_general_limits():
+    for left_operator in LEFT_OPERATOR_SYMMETRIES:
+        pass
 
-C = sym.symarray('C', (3,3,3,3))
-i,j,k,l,m = sym.symbols('i j k l m')
-C = sym.tensor.Array(C)
 
-sum_ = sym.summation(V[0,j]*C[0,j,k,0]*V[0,k], (j,0,2), (k,0,2))
+# V = sym.MatrixSymbol("V", 3, 3)
+# V_matrix = sym.Matrix(
+#     [[0.973, 0.2245, 0.008], [0.22, 0.987, 0.04], [0.008, 0.0388, 1.013]]
+# )
+# C = sym.symarray("C", (3, 3, 3, 3))
+# i, j, k, l, m = sym.symbols("i j k l m")
+# C = sym.tensor.Array(C)
 
-# TODO Each of the coefficients here should be constrained separately
-print(sum_.subs({V: V_matrix}))
+# sum_ = sym.summation(V[0, j] * V[0, k] * C[0, j, k, 0], (j, 0, 2), (k, 0, 2))
+
+## TODO Each of the coefficients here should be constrained separately
+# print(sum_.subs({V: V_matrix}))
