@@ -1,15 +1,26 @@
 #!/usr/bin/env python3
 
 from dataclasses import dataclass
-from typing import List
+from typing import List, Tuple
 import sympy as sym
+from math import pi
+
+from collections import defaultdict
 
 from tables import (
     D6_LEFT_OPERATOR_SYMMETRIES,
     D7_LEFT_OPERATOR_SYMMETRIES,
-    PROCESSES,
+    ALLOWED_PROCESSES,
     HALF,
+    V,
+    LAMBDA,
+    VEV,
+    LATTICE_VALUES,
+    CANONICAL_MATRIX_ELEMENTS,
+    MATRIX_ELEMENTS,
+    TREE_LEVEL_MATCHING,
 )
+from constants import CKM, MASSES, VEV_VAL
 
 
 @dataclass
@@ -82,20 +93,58 @@ def print_process_limits(measurements: List[Measurement]):
     return output
 
 
-def derive_general_limits():
-    for left_operator in LEFT_OPERATOR_SYMMETRIES:
-        pass
+def get_matrix_element(
+    left_operator: Tuple[str, Tuple[int, int, int, int]], baryon: str, meson: str
+) -> float:
+    """Extracts the underlying hadronic matrix element from the data in
+    tables.py
+
+    """
+    spinors = MATRIX_ELEMENTS[left_operator]
+    num_factor, canon_mat_elem = CANONICAL_MATRIX_ELEMENTS[(meson, spinors, baryon)]
+    return num_factor * LATTICE_VALUES[canon_mat_elem]
 
 
-V = sym.MatrixSymbol("V", 3, 3)
-V_matrix = sym.Matrix(
-    [[0.973, 0.2245, 0.008], [0.22, 0.987, 0.04], [0.008, 0.0388, 1.013]]
-)
-# C = sym.symarray("C", (3, 3, 3, 3))
-i, j, k, l, m = sym.symbols("i j k l m")
-C = sym.tensor.Array(C)
+def dim_6_decay_rate(
+    operator, matrix_element: float, baryon: str, meson: str, masses=MASSES,
+):
+    prefactor = 1 / (32 * pi)
+    kinematics = masses[meson] * (1 - masses[meson] ** 2 / masses[baryon] ** 2) ** 2
+    return (
+        prefactor * kinematics * sym.Abs(matrix_element * operator / LAMBDA ** 2) ** 2
+    )
 
-sum_ = sym.summation(V[0, j] * V[0, k] * C[0, j, k, 0], (j, 0, 2), (k, 0, 2))
 
-## TODO Each of the coefficients here should be constrained separately
-print(sum_.subs({V: V_matrix}))
+def derive_general_limits(
+    operator_dimension=6,
+    operator_to_quantum_numbers=D6_LEFT_OPERATOR_SYMMETRIES,
+    quantum_numbers_to_processes=ALLOWED_PROCESSES,
+):
+    measurements = parse_limits("limits.yml")
+    for left_operator, quantum_numbers in operator_to_quantum_numbers.items():
+        processes = quantum_numbers_to_processes[quantum_numbers]
+        for process in processes:
+            # Get baryon and meson
+            baryon, meson_lepton = process.split("->")
+            meson = meson_lepton[:-2]
+            matrix_elem = get_matrix_element(left_operator, baryon, meson)
+
+            ## TODO Check this with a few examples with Mathematica to make sure you haven't made a mistake
+            # print(left_operator, process, get_matrix_element(left_operator, process))
+
+            limit = most_stringent_limit(measurements=measurements, process=process)
+            for smeft_op_expr in TREE_LEVEL_MATCHING[left_operator]:
+                smeft_op_expr = smeft_op_expr.subs({V: CKM})
+                # print(left_operator, process, smeft_op_expr)
+                gamma = dim_6_decay_rate(
+                    operator=smeft_op_expr,
+                    matrix_element=matrix_elem,
+                    baryon=baryon,
+                    meson=meson,
+                )
+                gamma = gamma.subs({VEV: VEV_VAL})
+                lambda_limit = sym.solve(limit.value - gamma, LAMBDA)
+                print(lambda_limit[-1])
+
+
+# print(sum_.subs({V: V_matrix}))

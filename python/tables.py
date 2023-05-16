@@ -4,6 +4,7 @@ from fractions import Fraction
 import itertools
 import sympy as sym
 import numpy as np
+from math import sqrt
 
 # Limits
 PROCESSES = {
@@ -178,7 +179,8 @@ ALLOWED_PROCESSES = {
     (-1, 1, -1, -1): ["p->K0e+"],
     (0, 1, -1, -1): ["p->K+nu", "n->K0nu"],
     (0, 1, -1, 1): ["p->K+nu", "n->K0nu"],
-    (3 * HALF, 1, -1, 1): ["n->pi+e-"],
+    (1, 1, -1, 1): ["n->K+e-"],
+    (3 * HALF, 0, -1, 1): ["n->pi+e-"],
     ## Should not appear
     # (0, -1, -1, -1): ["p->K0e+", "n->K-e+"],
     # (1, -1, -1, -1): ["n->K0nu"],
@@ -187,12 +189,8 @@ ALLOWED_PROCESSES = {
 
 
 V = sym.MatrixSymbol("V", 3, 3)
-V_matrix = sym.Matrix(
-    [[0.973, 0.2245, 0.008], [0.22, 0.987, 0.04], [0.008, 0.0388, 1.013]]
-)
-
-VEV = sym.Symbol("VEV")
-LAMBDA = sym.Symbol("LAMBDA")
+VEV = sym.Symbol("VEV", real=True)
+LAMBDA = sym.Symbol("LAMBDA", real=True)
 C, K, G = {}, {}, {}
 smeft_coefficient_labels = {
     "qqql",
@@ -213,70 +211,82 @@ smeft_coefficient_labels = {
     "udqlHHD",
 }
 
-def set_symmetry(label, key, zero_expr):
-    p,r,s,q = key
 
-    if K[label][p,r,s,q] in removed:
-        C[label][p,r,s,q] = removed[K[label][p,r,s,q]]
+def set_symmetry(label, key, zero_expr):
+    p, r, s, q = key
+
+    if K[label][p, r, s, q] in removed:
+        C[label][p, r, s, q] = removed[K[label][p, r, s, q]]
         return
 
     zero_expr = zero_expr.xreplace(removed)
     if zero_expr == 0:
-        C[label][p,r,s,q] = K[label][p,r,s,q]
+        C[label][p, r, s, q] = K[label][p, r, s, q]
         return
 
-    to_remove = K[label][p,r,s,q]
+    to_remove = K[label][p, r, s, q]
     sol = sym.solve(zero_expr, to_remove)
     assert len(sol) == 1
     removed[to_remove] = sol[0]
-    assert K[label][p,r,s,q] in removed
-    C[label][p,r,s,q] = sol[0]
+    assert K[label][p, r, s, q] in removed
+    C[label][p, r, s, q] = sol[0]
     return
 
 
 for label in smeft_coefficient_labels:
-    C[label] = sym.symarray(f"K_{label}", (3, 3, 3, 3))
-    K[label] = sym.symarray(f"C_{label}", (3, 3, 3, 3))
+    C[label] = sym.symarray(f"K_{label}", (3, 3, 3, 3), real=True)
+    K[label] = sym.symarray(f"C_{label}", (3, 3, 3, 3), real=True)
 
 removed = {}
 ## Declare (anti)symmetric couplings below.
 for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     # Dimension 6 (10.1.2: https://arxiv.org/pdf/1804.05863.pdf)
     lbl = "qque"
-    set_symmetry(lbl, (p,q,r,s), K[lbl][p,q,r,s] + K[lbl][q,p,r,s])
+    set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] + K[lbl][q, p, r, s])
     lbl = "qqql"
-    set_symmetry(lbl, (p,r,s,q), K[lbl][p,r,s,q] + K[lbl][r,p,s,q] - K[lbl][s,p,r,q] - K[lbl][s,r,p,q])
+    set_symmetry(
+        lbl,
+        (p, r, s, q),
+        K[lbl][p, r, s, q]
+        + K[lbl][r, p, s, q]
+        - K[lbl][s, p, r, q]
+        - K[lbl][s, r, p, q],
+    )
 
     # Dimension 7 (Table 2: https://arxiv.org/pdf/1901.10302.pdf and eq. 6)
     # Symmetry here is {2,1}
     lbl = "l~dddH"
-    set_symmetry(lbl, (p,r,s,q), K[lbl][p,r,s,q] + K[lbl][p,r,q,s])
-    set_symmetry(lbl, (p,r,s,q), K[lbl][p,r,s,q] + K[lbl][p,s,q,r] + K[lbl][p,q,r,s])
+    set_symmetry(lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, r, q, s])
+    set_symmetry(
+        lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, s, q, r] + K[lbl][p, q, r, s]
+    )
     lbl = "e~qddH~"
-    set_symmetry(lbl, (p,r,s,q), K[lbl][p,r,s,q] + K[lbl][p,r,q,s])
+    set_symmetry(lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, r, q, s])
     lbl = "l~qdDd"
-    set_symmetry(lbl, (p,q,r,s), K[lbl][p,q,r,s] - K[lbl][p,q,s,r])
+    set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] - K[lbl][p, q, s, r])
     # Symmetrise on all three quark indices manually
     lbl = "e~dddD"
-    Q,R,S = sorted([q,r,s])
-    C[lbl][p,q,r,s] = K[lbl][p,Q,R,S]
+    Q, R, S = sorted([q, r, s])
+    C[lbl][p, q, r, s] = K[lbl][p, Q, R, S]
     # TODO There are many more symmetries there that I've not accounted for, is
     # what I'm doing correct?
 
     # Dimension 8 (Checked with Sym2Int)
     lbl = "ddqlHH"
-    set_symmetry(lbl, (p,q,r,s), K[lbl][p,q,r,s] + K[lbl][q,p,r,s])
+    set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] + K[lbl][q, p, r, s])
 
     # Dimension 9 (From https://arxiv.org/pdf/2007.08125.pdf p. 19)
     lbl = "eqqqHHH"
-    set_symmetry(lbl, (p,r,s,q), K[lbl][p,r,s,q] + K[lbl][p,r,q,s])
-    set_symmetry(lbl, (p,r,s,q), K[lbl][p,r,s,q] + K[lbl][p,s,q,r] + K[lbl][p,q,r,s])
+    set_symmetry(lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, r, q, s])
+    set_symmetry(
+        lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, s, q, r] + K[lbl][p, q, r, s]
+    )
     lbl = "luqqHHH"
-    set_symmetry(lbl, (p,q,r,s), K[lbl][p,q,r,s] + K[lbl][p,q,s,r])
+    set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] + K[lbl][p, q, s, r])
     lbl = "qqedHHD"
-    set_symmetry(lbl, (p,q,r,s), K[lbl][p,q,r,s] - K[lbl][q,p,r,s])
+    set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] - K[lbl][q, p, r, s])
     lbl = "qqlqHHD"
-    set_symmetry(lbl, (p,q,r,s), K[lbl][p,q,r,s] - K[lbl][q,p,r,s])
+    set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] - K[lbl][q, p, r, s])
 
 ## Convert to array called G
 for k, v in C.items():
@@ -304,7 +314,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RL_duu", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"G['qque'][{p}, {q}, {r}, {s}]"
+    ] = f"G['duql'][{p}, {q}, {r}, {s}]"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RL_dud", (p + 1, q + 1, r + 1, s + 1))
@@ -386,7 +396,7 @@ for k, v in TREE_LEVEL_MATCHING_STR.items():
         terms = eval(f"sym.summation({v})").args
         expanded_terms = []
         for term in terms:
-            if isinstance(term.expand(), sym.core.add.Add):
+            if isinstance(term.expand(), sym.add.Add):
                 expanded_terms += list(term.expand().args)
             else:
                 expanded_terms.append(term)
@@ -394,3 +404,223 @@ for k, v in TREE_LEVEL_MATCHING_STR.items():
         TREE_LEVEL_MATCHING[k] = expanded_terms
     else:
         TREE_LEVEL_MATCHING[k] = (eval(v),)
+
+
+MATRIX_ELEMENTS = {
+    ("S,LL_udd", (1, 1, 1, 1)): ("u", "d", "L", "d", "L"),
+    ("S,LL_udd", (1, 2, 1, 1)): ("u", "s", "L", "d", "L"),
+    ("S,LL_udd", (1, 1, 2, 1)): ("u", "d", "L", "s", "L"),
+    ("S,LL_duu", (1, 1, 1, 1)): ("d", "u", "L", "u", "L"),
+    ("S,LL_duu", (2, 1, 1, 1)): ("s", "u", "L", "u", "L"),
+    ("S,LR_duu", (1, 1, 1, 1)): ("d", "u", "L", "u", "R"),
+    ("S,LR_duu", (2, 1, 1, 1)): ("s", "u", "L", "u", "R"),
+    ("S,RL_duu", (1, 1, 1, 1)): ("d", "u", "R", "u", "L"),
+    ("S,RL_duu", (2, 1, 1, 1)): ("s", "u", "R", "u", "L"),
+    ("S,RL_dud", (1, 1, 1, 1)): ("d", "u", "R", "d", "L"),
+    ("S,RL_dud", (2, 1, 1, 1)): ("s", "u", "R", "d", "L"),
+    ("S,RL_dud", (1, 1, 2, 1)): ("d", "u", "R", "s", "L"),
+    ("S,RL_ddu", (1, 2, 1, 1)): ("d", "s", "R", "u", "L"),
+    ("S,RR_duu", (1, 1, 1, 1)): ("d", "u", "R", "u", "R"),
+    ("S,RR_duu", (2, 1, 1, 1)): ("s", "u", "R", "u", "R"),
+    ("S,LL_ddd", (1, 2, 1, 1)): ("d", "s", "L", "d", "L"),
+    ("S,LR_udd", (1, 1, 1, 1)): ("u", "d", "L", "d", "R"),
+    ("S,LR_udd", (1, 2, 1, 1)): ("u", "s", "L", "d", "R"),
+    ("S,LR_udd", (1, 1, 1, 2)): ("u", "d", "L", "s", "R"),
+    ("S,LR_ddu", (1, 2, 1, 1)): ("d", "s", "L", "u", "R"),
+    ("S,LR_ddd", (1, 2, 1, 1)): ("d", "s", "L", "d", "R"),
+    ("S,RL_ddd", (1, 2, 1, 1)): ("d", "s", "R", "d", "L"),
+    ("S,RR_udd", (1, 1, 1, 1)): ("u", "d", "R", "d", "R"),
+    ("S,RR_udd", (1, 2, 1, 1)): ("u", "s", "R", "d", "R"),
+    ("S,RR_udd", (1, 1, 1, 2)): ("u", "d", "R", "s", "R"),
+    ("S,RR_ddd", (1, 2, 1, 1)): ("d", "s", "R", "d", "R"),
+}
+
+CANONICAL_MATRIX_ELEMENTS = {
+    ("pi+", ("u", "d", "L", "d", "L"), "p"): (
+        1,
+        ("pi+", ("u", "d", "L", "d", "L"), "p"),
+    ),
+    ("pi0", ("u", "d", "L", "d", "L"), "n"): (
+        -sqrt(2),
+        ("pi+", ("u", "d", "L", "d", "L"), "p"),
+    ),
+    ("eta0", ("u", "d", "L", "d", "L"), "n"): (
+        1,
+        ("eta0", ("u", "d", "L", "u", "L"), "p"),
+    ),
+    ("K+", ("u", "s", "L", "d", "L"), "p"): (1, ("K+", ("u", "s", "L", "d", "L"), "p")),
+    ("K0", ("u", "s", "L", "d", "L"), "n"): (
+        -1,
+        ("K+", ("d", "s", "L", "u", "L"), "p"),
+    ),
+    ("K+", ("u", "d", "L", "s", "L"), "p"): (1, ("K+", ("u", "d", "L", "s", "L"), "p")),
+    ("K0", ("u", "d", "L", "s", "L"), "n"): (1, ("K+", ("u", "d", "L", "s", "L"), "p")),
+    ("pi0", ("d", "u", "L", "u", "L"), "p"): (
+        -sqrt(2),
+        ("pi+", ("u", "d", "L", "d", "L"), "p"),
+    ),
+    ("eta0", ("d", "u", "L", "u", "L"), "p"): (
+        -1,
+        ("eta0", ("u", "d", "L", "u", "L"), "p"),
+    ),
+    ("pi-", ("d", "u", "L", "u", "L"), "n"): (
+        -1,
+        ("pi+", ("u", "d", "L", "d", "L"), "p"),
+    ),
+    ("K0", ("s", "u", "L", "u", "L"), "p"): (
+        -1,
+        ("K0", ("u", "s", "L", "u", "L"), "p"),
+    ),
+    ("pi0", ("d", "u", "L", "u", "R"), "p"): (
+        -sqrt(2),
+        ("pi+", ("u", "d", "L", "d", "R"), "p"),
+    ),
+    ("eta0", ("d", "u", "L", "u", "R"), "p"): (
+        -1,
+        ("eta0", ("u", "d", "L", "u", "R"), "p"),
+    ),
+    ("pi-", ("d", "u", "L", "u", "R"), "n"): (
+        -1,
+        ("pi+", ("u", "d", "L", "d", "R"), "p"),
+    ),
+    ("K0", ("s", "u", "L", "u", "R"), "p"): (
+        -1,
+        ("K0", ("u", "s", "L", "u", "R"), "p"),
+    ),
+    ("pi0", ("d", "u", "R", "u", "L"), "p"): (
+        -sqrt(2),
+        ("pi+", ("u", "d", "L", "d", "R"), "p"),
+    ),
+    ("eta0", ("d", "u", "R", "u", "L"), "p"): (
+        -1,
+        ("eta0", ("u", "d", "L", "u", "R"), "p"),
+    ),
+    ("pi-", ("d", "u", "R", "u", "L"), "n"): (
+        -1,
+        ("pi+", ("u", "d", "L", "d", "R"), "p"),
+    ),
+    ("K0", ("s", "u", "R", "u", "L"), "p"): (
+        -1,
+        ("K0", ("u", "s", "L", "u", "R"), "p"),
+    ),
+    ("pi+", ("d", "u", "R", "d", "L"), "p"): (
+        -1,
+        ("pi+", ("u", "d", "L", "d", "R"), "p"),
+    ),
+    ("pi0", ("d", "u", "R", "d", "L"), "n"): (
+        sqrt(2),
+        ("pi+", ("u", "d", "L", "d", "R"), "p"),
+    ),
+    ("eta0", ("d", "u", "R", "d", "L"), "n"): (
+        -1,
+        ("eta0", ("u", "d", "L", "u", "R"), "p"),
+    ),
+    ("K+", ("s", "u", "R", "d", "L"), "p"): (
+        -1,
+        ("K+", ("u", "s", "L", "d", "R"), "p"),
+    ),
+    ("K0", ("s", "u", "R", "d", "L"), "n"): (1, ("K+", ("d", "s", "L", "u", "R"), "p")),
+    ("K+", ("d", "u", "R", "s", "L"), "p"): (
+        -1,
+        ("K+", ("u", "d", "L", "s", "R"), "p"),
+    ),
+    ("K0", ("d", "u", "R", "s", "L"), "n"): (
+        -1,
+        ("K+", ("u", "d", "L", "s", "R"), "p"),
+    ),
+    ("K+", ("d", "s", "R", "u", "L"), "p"): (1, ("K+", ("d", "s", "L", "u", "R"), "p")),
+    ("K0", ("d", "s", "R", "u", "L"), "n"): (
+        -1,
+        ("K+", ("u", "s", "L", "d", "R"), "p"),
+    ),
+    ("pi0", ("d", "u", "R", "u", "R"), "p"): (
+        -sqrt(2),
+        ("pi+", ("u", "d", "L", "d", "L"), "p"),
+    ),
+    ("eta0", ("d", "u", "R", "u", "R"), "p"): (
+        -1,
+        ("eta0", ("u", "d", "L", "u", "L"), "p"),
+    ),
+    ("pi-", ("d", "u", "R", "u", "R"), "n"): (
+        -1,
+        ("pi+", ("u", "d", "L", "d", "L"), "p"),
+    ),
+    ("K0", ("s", "u", "R", "u", "R"), "p"): (
+        -1,
+        ("K0", ("u", "s", "L", "u", "L"), "p"),
+    ),
+    ("K+", ("d", "s", "L", "d", "L"), "n"): (
+        -1,
+        ("K0", ("u", "s", "L", "u", "L"), "p"),
+    ),
+    ("pi+", ("u", "d", "L", "d", "R"), "p"): (
+        1,
+        ("pi+", ("u", "d", "L", "d", "R"), "p"),
+    ),
+    ("pi0", ("u", "d", "L", "d", "R"), "n"): (
+        -sqrt(2),
+        ("pi+", ("u", "d", "L", "d", "R"), "p"),
+    ),
+    ("eta0", ("u", "d", "L", "d", "R"), "n"): (
+        1,
+        ("eta0", ("u", "d", "L", "u", "R"), "p"),
+    ),
+    ("K+", ("u", "s", "L", "d", "R"), "p"): (1, ("K+", ("u", "s", "L", "d", "R"), "p")),
+    ("K0", ("u", "s", "L", "d", "R"), "n"): (
+        -1,
+        ("K+", ("d", "s", "L", "u", "R"), "p"),
+    ),
+    ("K+", ("u", "d", "L", "s", "R"), "p"): (1, ("K+", ("u", "d", "L", "s", "R"), "p")),
+    ("K0", ("u", "d", "L", "s", "R"), "n"): (1, ("K+", ("u", "d", "L", "s", "R"), "p")),
+    ("K+", ("d", "s", "L", "u", "R"), "p"): (1, ("K+", ("d", "s", "L", "u", "R"), "p")),
+    ("K0", ("d", "s", "L", "u", "R"), "n"): (
+        -1,
+        ("K+", ("u", "s", "L", "d", "R"), "p"),
+    ),
+    ("K+", ("d", "s", "L", "d", "R"), "n"): (
+        -1,
+        ("K0", ("u", "s", "L", "u", "R"), "p"),
+    ),
+    ("K+", ("d", "s", "R", "d", "L"), "n"): (
+        -1,
+        ("K0", ("u", "s", "L", "u", "R"), "p"),
+    ),
+    ("pi+", ("u", "d", "R", "d", "R"), "p"): (
+        1,
+        ("pi+", ("u", "d", "L", "d", "L"), "p"),
+    ),
+    ("pi0", ("u", "d", "R", "d", "R"), "n"): (
+        -sqrt(2),
+        ("pi+", ("u", "d", "L", "d", "L"), "p"),
+    ),
+    ("eta0", ("u", "d", "R", "d", "R"), "n"): (
+        1,
+        ("eta0", ("u", "d", "L", "u", "L"), "p"),
+    ),
+    ("K+", ("u", "s", "R", "d", "R"), "p"): (1, ("K+", ("u", "s", "L", "d", "L"), "p")),
+    ("K0", ("u", "s", "R", "d", "R"), "n"): (
+        -1,
+        ("K+", ("d", "s", "L", "u", "L"), "p"),
+    ),
+    ("K+", ("u", "d", "R", "s", "R"), "p"): (1, ("K+", ("u", "d", "L", "s", "L"), "p")),
+    ("K0", ("u", "d", "R", "s", "R"), "n"): (1, ("K+", ("u", "d", "L", "s", "L"), "p")),
+    ("K+", ("d", "s", "R", "d", "R"), "n"): (
+        -1,
+        ("K0", ("u", "s", "L", "u", "L"), "p"),
+    ),
+}
+
+LATTICE_VALUES = {
+    ("pi+", ("u", "d", "L", "d", "L"), "p"): 0.151,
+    ("pi+", ("u", "d", "L", "d", "R"), "p"): -0.159,
+    ("K0", ("u", "s", "L", "u", "L"), "p"): 0.043,
+    ("K0", ("u", "s", "L", "u", "R"), "p"): 0.0854,
+    ("K+", ("u", "s", "L", "d", "L"), "p"): 0.0284,
+    ("K+", ("u", "s", "L", "d", "R"), "p"): -0.0398,
+    ("K+", ("u", "d", "L", "s", "L"), "p"): 0.1006,
+    ("K+", ("u", "d", "L", "s", "R"), "p"): -0.109,
+    ("K+", ("d", "s", "L", "u", "L"), "p"): -0.0717,
+    ("K+", ("d", "s", "L", "u", "R"), "p"): -0.0443,
+    ("eta0", ("u", "d", "L", "u", "R"), "p"): 0.006,
+    ("eta0", ("u", "d", "L", "u", "L"), "p"): 0.113,
+}
