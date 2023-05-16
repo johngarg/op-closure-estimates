@@ -87,15 +87,15 @@ def derive_general_limits():
         pass
 
 
-# V = sym.MatrixSymbol("V", 3, 3)
-# V_matrix = sym.Matrix(
-#     [[0.973, 0.2245, 0.008], [0.22, 0.987, 0.04], [0.008, 0.0388, 1.013]]
-# )
+V = sym.MatrixSymbol("V", 3, 3)
+V_matrix = sym.Matrix(
+    [[0.973, 0.2245, 0.008], [0.22, 0.987, 0.04], [0.008, 0.0388, 1.013]]
+)
 # C = sym.symarray("C", (3, 3, 3, 3))
-# i, j, k, l, m = sym.symbols("i j k l m")
-# C = sym.tensor.Array(C)
+i, j, k, l, m = sym.symbols("i j k l m")
+C = sym.tensor.Array(C)
 
-# sum_ = sym.summation(V[0, j] * V[0, k] * C[0, j, k, 0], (j, 0, 2), (k, 0, 2))
+sum_ = sym.summation(V[0, j] * V[0, k] * C[0, j, k, 0], (j, 0, 2), (k, 0, 2))
 
 ## TODO Each of the coefficients here should be constrained separately
-# print(sum_.subs({V: V_matrix}))
+print(sum_.subs({V: V_matrix}))
