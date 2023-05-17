@@ -5,6 +5,8 @@ from typing import List, Tuple
 import sympy as sym
 from math import pi
 
+from itertools import product
+
 from collections import defaultdict
 
 from tables import (
@@ -116,11 +118,11 @@ def dim_6_decay_rate(
 
 
 def derive_general_limits(
-    operator_dimension=6,
     operator_to_quantum_numbers=D6_LEFT_OPERATOR_SYMMETRIES,
     quantum_numbers_to_processes=ALLOWED_PROCESSES,
 ):
     measurements = parse_limits("limits.yml")
+    best_limits = {}
     for left_operator, quantum_numbers in operator_to_quantum_numbers.items():
         processes = quantum_numbers_to_processes[quantum_numbers]
         for process in processes:
@@ -132,10 +134,10 @@ def derive_general_limits(
             ## TODO Check this with a few examples with Mathematica to make sure you haven't made a mistake
             # print(left_operator, process, get_matrix_element(left_operator, process))
 
-            limit = most_stringent_limit(measurements=measurements, process=process)
+            lifetime_limit = most_stringent_limit(measurements=measurements, process=process)
             for smeft_op_expr in TREE_LEVEL_MATCHING[left_operator]:
                 smeft_op_expr = smeft_op_expr.subs({V: CKM})
-                # print(left_operator, process, smeft_op_expr)
+
                 gamma = dim_6_decay_rate(
                     operator=smeft_op_expr,
                     matrix_element=matrix_elem,
@@ -143,8 +145,81 @@ def derive_general_limits(
                     meson=meson,
                 )
                 gamma = gamma.subs({VEV: VEV_VAL})
-                lambda_limit = sym.solve(limit.value - gamma, LAMBDA)
-                print(lambda_limit[-1])
 
 
-# print(sum_.subs({V: V_matrix}))
+                inv_gev_per_year = 7.625e30
+                value_in_inv_gev = lambda x: inv_gev_per_year * x
+                gamma_limit = 1.0 / value_in_inv_gev(lifetime_limit.value)
+                lambda_limits = sym.solve(gamma_limit - gamma, LAMBDA)
+
+                # TODO Do something better here than just assuming the last one is positive
+                lambda_limit = lambda_limits[-1]
+                assert len(lambda_limit.free_symbols) == 1
+                smeft_op = list(lambda_limit.free_symbols)[0]
+
+                # Keep only the best limit on each operator
+                is_better = True
+                if smeft_op in best_limits:
+                    # Set coeffs to 1 and check which limit is best
+                    is_better = best_limits[smeft_op][0].subs({smeft_op: 1}) < lambda_limit.subs({smeft_op: 1})
+
+                if is_better:
+                    best_limits[smeft_op] = (lambda_limit, process, left_operator)
+
+    return best_limits
+
+PROCESS_TO_LATEX = {
+    'p->K+nu':   r"p \to K^{+} \bar{\nu}",
+    'n->K0nu':   r"n \to K^{0} \bar{\nu}",
+    'p->K0e+':     r"p \to K^{0} e^{+}",
+    'p->K0mu+':    r"p \to K^{0} \mu^{+}",
+    'p->pi+nu':  r"p \to \pi^{+} \bar{\nu}",
+    'n->pi0nu':  r"n \to \pi^{0} \bar{\nu}",
+    'n->eta0nu': r"n \to \eta^{0} \bar{\nu}",
+
+    'p->pi0e+': r"p \to \pi^{0} e^{+}",
+    'p->K+nu': r"p \to K^{+} \nu",
+    'n->pi0nu': r"n \to \pi^{0} \nu",
+    'n->K+e-': r"n \to K^{+} e^{-}",
+    'n->K0nu': r"n \to K^{0} \nu"
+}
+
+def typeset_operator_label(label: str) -> str:
+    return r"$" + PROCESS_TO_LATEX[label] + "$"
+
+def typeset_left_operator(key: Tuple[str, Tuple[int, int, int, int]]):
+    label, flavour = key
+    p,q,r,s = flavour
+    sup, sub = key[0].split("_")
+    return f"$[C_{{{sub}}}^{{{sup}}}]_{{{p}{q}{r}{s}}}$"
+
+def print_limits(best_limits):
+    for k,v in best_limits.items():
+        latex_expr = sym.latex(v[0]).replace("K", "C")
+        latex_expr = latex_expr.replace("qqql", "qqql,")
+        latex_expr = latex_expr.replace("duql", "duql,")
+        latex_expr = latex_expr.replace("qque", "qque,")
+        latex_expr = latex_expr.replace("duue", "duue,")
+        latex_expr = latex_expr.replace("ddqlHH", "ddqlHH,")
+        latex_expr = latex_expr.replace("eqqqHHH", "eqqqHHH,")
+        latex_expr = latex_expr.replace("l~dqqH~", "\\bar{l}dqq\\tilde{H},")
+        latex_expr = latex_expr.replace("e~qddH~", "\\bar{e}qdd\\tilde{H},")
+        latex_expr = latex_expr.replace("l~dudH~", "\\bar{l}dud\\tilde{H},")
+        latex_expr = latex_expr.replace("l~dddH", "\\bar{l}dddH,")
+        latex_expr = latex_expr.replace("luqqHHH", "luqqHHH,")
+        latex_expr = latex_expr.replace(" \\cdot 10^{15}", "e15")
+        latex_expr = latex_expr.replace("\\left|", "")
+        latex_expr = latex_expr.replace("\\right|", "")
+
+        number, expr = latex_expr.split(" \sqrt")
+        latex_expr = f"\\tabnum{{{number}}} \\sqrt{expr}"
+
+        # Replace all zero indexing
+        index_perms = [" ".join(x) for x in product("012", "012", "012", "012")][::-1]
+
+        add_one_index_perms = [" ".join(str(int(i)+1) for i in x.split()) for x in index_perms]
+
+        for perm1, perm2 in zip(index_perms, add_one_index_perms):
+            latex_expr = latex_expr.replace(perm1, perm2)
+
+        print(f"${latex_expr}$ & {typeset_operator_label(v[1])} & {typeset_left_operator(v[2])} \\\\")

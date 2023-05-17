@@ -393,10 +393,10 @@ TREE_LEVEL_MATCHING = {}
 for k, v in TREE_LEVEL_MATCHING_STR.items():
     # If summation needed, execute
     if v.endswith(", 0, 2)"):
-        terms = eval(f"sym.summation({v})").args
+        terms = eval(f"sym.summation({v})").expand().args
         expanded_terms = []
         for term in terms:
-            if isinstance(term.expand(), sym.add.Add):
+            if isinstance(term.expand(), sym.core.add.Add):
                 expanded_terms += list(term.expand().args)
             else:
                 expanded_terms.append(term)
