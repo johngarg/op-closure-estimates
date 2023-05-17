@@ -193,19 +193,19 @@ VEV = sym.Symbol("VEV", real=True)
 LAMBDA = sym.Symbol("LAMBDA", real=True)
 C, K, G = {}, {}, {}
 smeft_coefficient_labels = {
-    "qqql",
-    "qque",
-    "duue",
-    "duql",
-    "l~dddH",
-    "l~dqqH~",
-    "e~qddH~",
-    "l~dudH~",
+    "qqql", # 1
+    "qque", # 2
+    "duue", # 3
+    "duql", # 4
+    "l~dddH", # conj(5)
+    "l~dqqH~", # conj(8)
+    "e~qddH~", # conj(9)
+    "l~dudH~", # conj(10)
     "l~qdDd",
     "e~dddD",
-    "ddqlHH",
-    "eqqqHHH",
-    "luqqHHH",
+    "ddqlHH", # 16
+    "eqqqHHH", # 26
+    "luqqHHH", # 37
     "qqedHHD",
     "qqlqHHD",
     "udqlHHD",

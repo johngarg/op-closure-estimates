@@ -340,7 +340,7 @@ CleanMatchingExpressionAndMakeRule[x_Op] :=
 ToMassBasis = {
         Times[x___, ye[r_, s_], y___] :> (Times[ye[r], x, y] /. s -> r),
         Times[x___, yu[r_, s_], y___] :> (Times[yu[r], x, y] /. s -> r),
-        yd[r_, s_] :> yd[r] Conjugate[CKM[r, s]],
+        yd[r_, s_] :> yd[r] Conjugate[CKM[s, r]],
 
         Times[x___, Conj[ye[r_, s_]],
               y___] :> (Times[ye[r], x, y] /. s -> r),
