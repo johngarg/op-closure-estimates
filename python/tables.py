@@ -193,19 +193,19 @@ VEV = sym.Symbol("VEV", real=True)
 LAMBDA = sym.Symbol("LAMBDA", real=True)
 C, K, G = {}, {}, {}
 smeft_coefficient_labels = {
-    "qqql", # 1
-    "qque", # 2
-    "duue", # 3
-    "duql", # 4
-    "l~dddH", # conj(5)
-    "l~dqqH~", # conj(8)
-    "e~qddH~", # conj(9)
-    "l~dudH~", # conj(10)
+    "qqql",  # 1
+    "qque",  # 2
+    "duue",  # 3
+    "duql",  # 4
+    "l~dddH",  # conj(5)
+    "l~dqqH~",  # conj(8)
+    "e~qddH~",  # conj(9)
+    "l~dudH~",  # conj(10)
     "l~qdDd",
     "e~dddD",
-    "ddqlHH", # 16
-    "eqqqHHH", # 26
-    "luqqHHH", # 37
+    "ddqlHH",  # 16
+    "eqqqHHH",  # 26
+    "luqqHHH",  # 37
     "qqedHHD",
     "qqlqHHD",
     "udqlHHD",
@@ -234,15 +234,15 @@ def set_symmetry(label, key, zero_expr):
 
 
 for label in smeft_coefficient_labels:
-    C[label] = sym.symarray(f"K_{label}", (3, 3, 3, 3), real=True)
-    K[label] = sym.symarray(f"C_{label}", (3, 3, 3, 3), real=True)
+    C[label] = sym.symarray(f"K_{label}", (3, 3, 3, 3))
+    K[label] = sym.symarray(f"C_{label}", (3, 3, 3, 3))
 
 removed = {}
 ## Declare (anti)symmetric couplings below.
 for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     # Dimension 6 (10.1.2: https://arxiv.org/pdf/1804.05863.pdf)
     lbl = "qque"
-    set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] + K[lbl][q, p, r, s])
+    set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] - K[lbl][q, p, r, s])
     lbl = "qqql"
     set_symmetry(
         lbl,
@@ -396,13 +396,13 @@ for k, v in TREE_LEVEL_MATCHING_STR.items():
         terms = eval(f"sym.summation({v})").expand().args
         expanded_terms = []
         for term in terms:
-            if isinstance(term.expand(), sym.core.add.Add):
+            if isinstance(term.expand(), sym.add.Add):
                 expanded_terms += list(term.expand().args)
             else:
                 expanded_terms.append(term)
 
         TREE_LEVEL_MATCHING[k] = expanded_terms
-    elif "] + G" in v or "] - G" in v: # No summation but (anti)symmetrised
+    elif "] + G" in v or "] - G" in v:  # No summation but (anti)symmetrised
         terms = eval(v).expand().args
         TREE_LEVEL_MATCHING[k] = terms
     else:
