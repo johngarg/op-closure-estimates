@@ -346,8 +346,7 @@ ToMassBasis = {
               y___] :> (Times[ye[r], x, y] /. s -> r),
         Times[x___, Conj[yu[r_, s_]],
               y___] :> (Times[yu[r], x, y] /. s -> r),
-        Conj[yd[r_, s_]] :> yd[r] CKM[r, s] (* FIXME Not 100% sure about whether
-        the indices here should be transposed *)
+        Conj[yd[r_, s_]] :> yd[r] CKM[s, r]
 
 };
 
