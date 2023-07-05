@@ -22,6 +22,9 @@ yd = [2.56e-3 / VEV_VAL, 50.90e-3 / VEV_VAL, 2.702 / VEV_VAL]
 yu = [1.18e-3 / VEV_VAL, 0.594 / VEV_VAL, 161.98 / VEV_VAL]
 ye = [0.48583e-6 / VEV_VAL, 102.347e-3 / VEV_VAL, 1.73850 / VEV_VAL]
 
+
+# TODO 5, 8, 9, 10, 34, 38, 44 are implicitely conjugated! This needs to be
+# dealt with in the LaTeX export
 for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     LOOP_LEVEL_MATCHING["11,"][C["duql"][s, r, q, p]] = (
         loop * yu[r] * X["11,"][p, q, r, s],
