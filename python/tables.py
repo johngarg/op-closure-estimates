@@ -1,10 +1,129 @@
 #!/usr/bin/env python3
 
+from collections import defaultdict
 from fractions import Fraction
 import itertools
 import sympy as sym
 import numpy as np
 from math import sqrt
+
+WCXF = {
+    "qqql": {
+        (1, 1, 1, 1),
+        (1, 1, 1, 2),
+        (1, 1, 1, 3),
+        (1, 1, 2, 1),
+        (1, 1, 2, 2),
+        (1, 1, 2, 3),
+        (1, 1, 3, 1),
+        (1, 1, 3, 2),
+        (1, 1, 3, 3),
+        (1, 2, 1, 1),
+        (1, 2, 1, 2),
+        (1, 2, 1, 3),
+        (1, 2, 2, 1),
+        (1, 2, 2, 2),
+        (1, 2, 2, 3),
+        (1, 2, 3, 1),
+        (1, 2, 3, 2),
+        (1, 2, 3, 3),
+        (1, 3, 1, 1),
+        (1, 3, 1, 2),
+        (1, 3, 1, 3),
+        (1, 3, 2, 1),
+        (1, 3, 2, 2),
+        (1, 3, 2, 3),
+        (1, 3, 3, 1),
+        (1, 3, 3, 2),
+        (1, 3, 3, 3),
+        (2, 1, 2, 1),
+        (2, 1, 2, 2),
+        (2, 1, 2, 3),
+        (2, 1, 3, 1),
+        (2, 1, 3, 2),
+        (2, 1, 3, 3),
+        (2, 2, 2, 1),
+        (2, 2, 2, 2),
+        (2, 2, 2, 3),
+        (2, 2, 3, 1),
+        (2, 2, 3, 2),
+        (2, 2, 3, 3),
+        (2, 3, 1, 1),
+        (2, 3, 1, 2),
+        (2, 3, 1, 3),
+        (2, 3, 2, 1),
+        (2, 3, 2, 2),
+        (2, 3, 2, 3),
+        (2, 3, 3, 1),
+        (2, 3, 3, 2),
+        (2, 3, 3, 3),
+        (3, 1, 3, 1),
+        (3, 1, 3, 2),
+        (3, 1, 3, 3),
+        (3, 2, 3, 1),
+        (3, 2, 3, 2),
+        (3, 2, 3, 3),
+        (3, 3, 3, 1),
+        (3, 3, 3, 2),
+        (3, 3, 3, 3),
+    },
+    "qque": {
+        (1, 1, 1, 1),
+        (1, 1, 1, 2),
+        (1, 1, 1, 3),
+        (1, 1, 2, 1),
+        (1, 1, 2, 2),
+        (1, 1, 2, 3),
+        (1, 1, 3, 1),
+        (1, 1, 3, 2),
+        (1, 1, 3, 3),
+        (1, 2, 1, 1),
+        (1, 2, 1, 2),
+        (1, 2, 1, 3),
+        (1, 2, 2, 1),
+        (1, 2, 2, 2),
+        (1, 2, 2, 3),
+        (1, 2, 3, 1),
+        (1, 2, 3, 2),
+        (1, 2, 3, 3),
+        (1, 3, 1, 1),
+        (1, 3, 1, 2),
+        (1, 3, 1, 3),
+        (1, 3, 2, 1),
+        (1, 3, 2, 2),
+        (1, 3, 2, 3),
+        (1, 3, 3, 1),
+        (1, 3, 3, 2),
+        (1, 3, 3, 3),
+        (2, 2, 1, 1),
+        (2, 2, 1, 2),
+        (2, 2, 1, 3),
+        (2, 2, 2, 1),
+        (2, 2, 2, 2),
+        (2, 2, 2, 3),
+        (2, 2, 3, 1),
+        (2, 2, 3, 2),
+        (2, 2, 3, 3),
+        (2, 3, 1, 1),
+        (2, 3, 1, 2),
+        (2, 3, 1, 3),
+        (2, 3, 2, 1),
+        (2, 3, 2, 2),
+        (2, 3, 2, 3),
+        (2, 3, 3, 1),
+        (2, 3, 3, 2),
+        (2, 3, 3, 3),
+        (3, 3, 1, 1),
+        (3, 3, 1, 2),
+        (3, 3, 1, 3),
+        (3, 3, 2, 1),
+        (3, 3, 2, 2),
+        (3, 3, 2, 3),
+        (3, 3, 3, 1),
+        (3, 3, 3, 2),
+        (3, 3, 3, 3),
+    },
+}
 
 # Limits
 PROCESSES = {
@@ -227,9 +346,18 @@ def set_symmetry(label, key, zero_expr):
         return
 
     to_remove = K[label][p, r, s, q]
+
+    # Make sure that throwing away the coefficient with the _largest_ flavour
+    # indices correctly reproduces the wcxf Warsaw basis:
+    # https://wcxf.github.io/assets/pdf/SMEFT.Warsaw.pdf
+    if label in WCXF:
+        print(f"{label}: {p,r,s,q}")
+        assert (p + 1, r + 1, s + 1, q + 1) not in WCXF[label]
+
     sol = sym.solve(zero_expr, to_remove)
     assert len(sol) == 1
     removed[to_remove] = sol[0]
+    removed_tally[label].append(to_remove)
     assert K[label][p, r, s, q] in removed
     C[label][p, r, s, q] = sol[0]
     return
@@ -240,8 +368,9 @@ for label in smeft_coefficient_labels:
     K[label] = sym.symarray(f"C_{label}", (3, 3, 3, 3))
 
 removed = {}
+removed_tally = defaultdict(list)
 ## Declare (anti)symmetric couplings below.
-for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
+for p, q, r, s in list(itertools.product(*[[2, 1, 0]] * 4)):
     # Dimension 6 (10.1.2: https://arxiv.org/pdf/1804.05863.pdf)
     lbl = "qque"
     set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] - K[lbl][q, p, r, s])
@@ -304,15 +433,15 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
     # Delta (B - L) = 0
     TREE_LEVEL_MATCHING_STR[
         ("S,LL_udd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"-2 * V[{q}, qp] * V[{r}, rp] * HALF * (G['qqql'][{p}, qp, rp, {s}] + G['qqql'][qp, {p}, rp, {s}]), (qp, 0, 2), (rp, 0, 2)"
+    ] = f"V[{q}, qp] * V[{r}, rp] * (G['qqql'][rp, qp, {p}, {s}] - G['qqql'][rp, {p}, qp, {s}] + G['qqql'][qp, {p}, rp, {s}]), (qp, 0, 2), (rp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LL_duu", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"-2 * V[{p}, pp] * HALF * (G['qqql'][pp, {q}, {r}, {s}] + G['qqql'][{q}, pp, {r}, {s}]), (pp, 0, 2)"
+    ] = f"V[{p}, pp] * (G['qqql'][{r}, {q}, pp, {s}] - G['qqql'][{r}, pp, {q}, {s}] + G['qqql'][{q}, pp, {r}, {s}]), (pp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LR_duu", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"-2 * V[{p}, pp] * HALF * (G['qque'][pp, {q}, {r}, {s}] + G['qque'][{q}, pp, {r}, {s}]), (pp, 0, 2)"
+    ] = f"- V[{p}, pp] * (G['qque'][pp, {q}, {r}, {s}] + G['qque'][{q}, pp, {r}, {s}]), (pp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RL_duu", (p + 1, q + 1, r + 1, s + 1))
@@ -324,7 +453,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RL_ddu", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"2 * HALF * (G['ddqlHH'][{p}, {q}, {r}, {s}] - G['ddqlHH'][{p}, {q}, {r}, {s}]) * VEV**2 / (2 * LAMBDA**2)"
+    ] = f"(G['ddqlHH'][{p}, {q}, {r}, {s}] - G['ddqlHH'][{q}, {p}, {r}, {s}]) * VEV**2 / (2 * LAMBDA**2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RR_duu", (p + 1, q + 1, r + 1, s + 1))
@@ -333,7 +462,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
     # Delta (B - L) = -2
     TREE_LEVEL_MATCHING_STR[
         ("S,LL_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"2 * V[{s}, sp] * V[{p}, pp] * V[{q}, qp] * HALF * (G['eqqqHHH'][{r}, sp, pp, qp] - G['eqqqHHH'][{r}, sp, qp, pp]) * VEV**3 / (2*sym.sqrt(2)*LAMBDA**3), (sp, 0, 2), (pp, 0, 2), (qp, 0, 2)"
+    ] = f"V[{s}, sp] * V[{p}, pp] * V[{q}, qp] * (G['eqqqHHH'][{r}, sp, pp, qp] - G['eqqqHHH'][{r}, sp, qp, pp]) * VEV**3 / (2*sym.sqrt(2)*LAMBDA**3), (sp, 0, 2), (pp, 0, 2), (qp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LR_udd", (p + 1, q + 1, r + 1, s + 1))
@@ -341,15 +470,15 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LR_ddu", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"2 * V[{p}, pp] * V[{q}, qp] * HALF * (G['luqqHHH'][{r}, {s}, pp, qp] - G['luqqHHH'][{r}, {s}, qp, pp]) * VEV**3 / (2*sym.sqrt(2)*LAMBDA**3), (pp, 0, 2), (qp, 0, 2)"
+    ] = f"V[{p}, pp] * V[{q}, qp] * (G['luqqHHH'][{r}, {s}, pp, qp] - G['luqqHHH'][{r}, {s}, qp, pp]) * VEV**3 / (2*sym.sqrt(2)*LAMBDA**3), (pp, 0, 2), (qp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LR_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"- V[{p}, pp] * V[{q}, qp] * HALF * (G['l~dqqH~'][{r}, {s}, pp, qp] - G['l~dqqH~'][{r}, {s}, qp, pp]) * VEV / (sym.sqrt(2)*LAMBDA), (pp, 0, 2), (qp, 0, 2)"
+    ] = f"V[{p}, pp] * V[{q}, qp] * (G['l~dqqH~'][{r}, {s}, qp, pp] - G['l~dqqH~'][{r}, {s}, pp, qp]) * VEV / (sym.sqrt(2)*LAMBDA), (pp, 0, 2), (qp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RL_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"- 2 * V[{s}, sp] * HALF * (G['e~qddH~'][{r}, sp, {p}, {q}] - G['e~qddH~'][{r}, sp, {q}, {p}]) * VEV / (sym.sqrt(2)*LAMBDA), (sp, 0, 2)"
+    ] = f"V[{s}, sp] * (G['e~qddH~'][{r}, sp, {q}, {p}] - G['e~qddH~'][{r}, sp, {p}, {q}]) * VEV / (sym.sqrt(2)*LAMBDA), (sp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RR_udd", (p + 1, q + 1, r + 1, s + 1))
@@ -376,15 +505,15 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
     # \Delta(B - L) = -2
     TREE_LEVEL_MATCHING_STR[
         ("V,LL_ddu", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{p}, pp] * V[{q}, qp] * HALF * (G['qqlqHHD'][pp, qp, {r}, {s}] + G['qqlqHHD'][qp, pp, {r}, {s}]) * VEV**2 / (2*LAMBDA**2), (pp, 0, 2), (qp, 0, 2)"
+    ] = f"V[{p}, pp] * V[{q}, qp] * (G['qqlqHHD'][pp, qp, {r}, {s}] + G['qqlqHHD'][qp, pp, {r}, {s}]) * VEV**2 / (4*LAMBDA**2), (pp, 0, 2), (qp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("V,LL_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{p}, pp] * V[{q}, qp] * V[{s}, sp] * HALF * (G['qqlqHHD'][pp, qp, {r}, sp] + G['qqlqHHD'][qp, pp, {r}, sp]) * VEV**2 / (2*LAMBDA**2), (pp, 0, 2), (qp, 0, 2), (sp, 0, 2)"
+    ] = f"V[{p}, pp] * V[{q}, qp] * V[{s}, sp] * (G['qqlqHHD'][pp, qp, {r}, sp] + G['qqlqHHD'][qp, pp, {r}, sp]) * VEV**2 / (4*LAMBDA**2), (pp, 0, 2), (qp, 0, 2), (sp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("V,LR_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"HALF * (G['qqedHHD'][{p}, {q}, {r}, {s}] + G['qqedHHD'][{q}, {p}, {r}, {s}]) * VEV**2 / (2*LAMBDA**2)"
+    ] = f"(G['qqedHHD'][{p}, {q}, {r}, {s}] + G['qqedHHD'][{q}, {p}, {r}, {s}]) * VEV**2 / (4*LAMBDA**2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("V,RL_udd", (p + 1, q + 1, r + 1, s + 1))
