@@ -215,6 +215,8 @@ smeft_coefficient_labels = {
 def set_symmetry(label, key, zero_expr):
     p, r, s, q = key
 
+    # If the operator coefficient has already been removed, it is redundant and
+    # can be expressed in terms of others
     if K[label][p, r, s, q] in removed:
         C[label][p, r, s, q] = removed[K[label][p, r, s, q]]
         return
@@ -396,7 +398,7 @@ for k, v in TREE_LEVEL_MATCHING_STR.items():
         terms = eval(f"sym.summation({v})").expand().args
         expanded_terms = []
         for term in terms:
-            if isinstance(term.expand(), sym.add.Add):
+            if isinstance(term.expand(), sym.core.add.Add):
                 expanded_terms += list(term.expand().args)
             else:
                 expanded_terms.append(term)

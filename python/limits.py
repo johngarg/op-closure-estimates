@@ -351,7 +351,7 @@ def _derive_loop_limits_helper(
     term, out, general_limits, fieldstring_label, fieldstring_coeff_exprs
 ):
     # term here is a coeff, it could be negative, so fix that too
-    if isinstance(term, sym.mul.Mul):
+    if isinstance(term, sym.core.mul.Mul):
         term *= -1
 
     if term in general_limits:
@@ -395,7 +395,7 @@ def derive_loop_limits(matching_dict=LOOP_LEVEL_MATCHING, general_limits=None):
     out = []
     for fieldstring_label, matching_data in matching_dict.items():
         for smeft_coeff_expr, fieldstring_coeff_exprs in matching_data.items():
-            if isinstance(smeft_coeff_expr, sym.add.Add):
+            if isinstance(smeft_coeff_expr, sym.core.add.Add):
                 terms = smeft_coeff_expr.args
                 for term in terms:
                     _derive_loop_limits_helper(
@@ -406,7 +406,7 @@ def derive_loop_limits(matching_dict=LOOP_LEVEL_MATCHING, general_limits=None):
                         fieldstring_coeff_exprs=fieldstring_coeff_exprs,
                     )
 
-            elif isinstance(smeft_coeff_expr, sym.symbol.Symbol):
+            elif isinstance(smeft_coeff_expr, sym.core.symbol.Symbol):
                 _derive_loop_limits_helper(
                     term=smeft_coeff_expr,
                     out=out,
@@ -415,8 +415,8 @@ def derive_loop_limits(matching_dict=LOOP_LEVEL_MATCHING, general_limits=None):
                     fieldstring_coeff_exprs=fieldstring_coeff_exprs,
                 )
 
-            elif isinstance(smeft_coeff_expr, sym.mul.Mul):
-                assert isinstance(-1 * smeft_coeff_expr, sym.symbol.Symbol)
+            elif isinstance(smeft_coeff_expr, sym.core.mul.Mul):
+                assert isinstance(-1 * smeft_coeff_expr, sym.core.symbol.Symbol)
                 _derive_loop_limits_helper(
                     term=-1 * smeft_coeff_expr,
                     out=out,
