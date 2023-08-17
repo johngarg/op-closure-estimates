@@ -569,7 +569,15 @@ for k, v in TREE_LEVEL_MATCHING_STR.items():
 
         TREE_LEVEL_MATCHING[k] = expanded_terms
     elif "] + G" in v or "] - G" in v:  # No summation but (anti)symmetrised
-        terms = eval(v).expand().args
+        # Dispatch on what the expression looks like
+        expr = eval(v)
+        if isinstance(expr, sym.core.mul.Mul) or expr == 0:
+            terms = (expr,)
+        elif isinstance(expr, sym.core.add.Add):
+            terms = eval(v).expand().args
+        else:
+            raise Exception(f"Incorrect parsing of expression: {v}")
+
         TREE_LEVEL_MATCHING[k] = terms
     else:
         TREE_LEVEL_MATCHING[k] = (eval(v),)
