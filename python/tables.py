@@ -352,7 +352,6 @@ def set_symmetry(label, key, zero_expr):
     # indices correctly reproduces the wcxf Warsaw basis:
     # https://wcxf.github.io/assets/pdf/SMEFT.Warsaw.pdf
     if label in WCXF:
-        print(f"{label}: {p,r,s,q}")
         assert (p + 1, r + 1, s + 1, q + 1) not in WCXF[label]
 
     sol = sym.solve(zero_expr_replaced, to_remove)
