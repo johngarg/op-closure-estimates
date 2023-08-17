@@ -340,8 +340,9 @@ def set_symmetry(label, key, zero_expr):
         C[label][p, r, s, q] = removed[K[label][p, r, s, q]]
         return
 
-    zero_expr = zero_expr.xreplace(removed)
-    if zero_expr == 0:
+    # Replace redundant operators, wherever they are in the expression
+    zero_expr_replaced = zero_expr.xreplace(removed)
+    if zero_expr_replaced == 0:
         C[label][p, r, s, q] = K[label][p, r, s, q]
         return
 
@@ -354,7 +355,7 @@ def set_symmetry(label, key, zero_expr):
         print(f"{label}: {p,r,s,q}")
         assert (p + 1, r + 1, s + 1, q + 1) not in WCXF[label]
 
-    sol = sym.solve(zero_expr, to_remove)
+    sol = sym.solve(zero_expr_replaced, to_remove)
     assert len(sol) == 1
     removed[to_remove] = sol[0]
     removed_tally[label].append(to_remove)
@@ -387,37 +388,57 @@ for p, q, r, s in list(itertools.product(*[[2, 1, 0]] * 4)):
     # Dimension 7 (Table 2: https://arxiv.org/pdf/1901.10302.pdf and eq. 6)
     # Symmetry here is {2,1}
     lbl = "l~dddH"
-    set_symmetry(lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, r, q, s])
-    set_symmetry(
-        lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, s, q, r] + K[lbl][p, q, r, s]
-    )
+    set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] + K[lbl][p, q, s, r])
+    ## These symmetries are now implemented by hand below
+    # set_symmetry(
+    #     lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, s, q, r] + K[lbl][p, q, r, s]
+    # )
     lbl = "e~qddH~"
-    set_symmetry(lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, r, q, s])
+    set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] + K[lbl][p, q, s, r])
+
     lbl = "l~qdDd"
     set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] - K[lbl][p, q, s, r])
     # Symmetrise on all three quark indices manually
     lbl = "e~dddD"
     Q, R, S = sorted([q, r, s])
     C[lbl][p, q, r, s] = K[lbl][p, Q, R, S]
-    # TODO There are many more symmetries there that I've not accounted for, is
-    # what I'm doing correct?
 
     # Dimension 8 (Checked with Sym2Int)
     lbl = "ddqlHH"
     set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] + K[lbl][q, p, r, s])
 
+    ## TODO There is an argument to remove these
     # Dimension 9 (From https://arxiv.org/pdf/2007.08125.pdf p. 19)
     lbl = "eqqqHHH"
     set_symmetry(lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, r, q, s])
     set_symmetry(
         lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, s, q, r] + K[lbl][p, q, r, s]
     )
+
     lbl = "luqqHHH"
     set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] + K[lbl][p, q, s, r])
     lbl = "qqedHHD"
     set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] - K[lbl][q, p, r, s])
     lbl = "qqlqHHD"
     set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] - K[lbl][q, p, r, s])
+
+## Implement additional symmetries for l~dddH
+set_symmetry(
+    "l~dddH",
+    (2, 2, 1, 0),
+    K["l~dddH"][2, 0, 2, 1] + K["l~dddH"][2, 1, 0, 2] + K["l~dddH"][2, 2, 1, 0],
+)
+set_symmetry(
+    "l~dddH",
+    (1, 2, 1, 0),
+    K["l~dddH"][1, 0, 2, 1] + K["l~dddH"][1, 1, 0, 2] + K["l~dddH"][1, 2, 1, 0],
+)
+set_symmetry(
+    "l~dddH",
+    (0, 2, 1, 0),
+    K["l~dddH"][0, 0, 2, 1] + K["l~dddH"][0, 1, 0, 2] + K["l~dddH"][0, 2, 1, 0],
+)
+
 
 ## Convert to array called G
 for k, v in C.items():
