@@ -407,13 +407,13 @@ for p, q, r, s in list(itertools.product(*[[2, 1, 0]] * 4)):
     lbl = "ddqlHH"
     set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] + K[lbl][q, p, r, s])
 
-    ## TODO There is an argument to remove these
     # Dimension 9 (From https://arxiv.org/pdf/2007.08125.pdf p. 19)
     lbl = "eqqqHHH"
-    set_symmetry(lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, r, q, s])
-    set_symmetry(
-        lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, s, q, r] + K[lbl][p, q, r, s]
-    )
+    set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] + K[lbl][p, q, s, r])
+    ## These symmetries are now implemented by hand below
+    # set_symmetry(
+    #     lbl, (p, r, s, q), K[lbl][p, r, s, q] + K[lbl][p, s, q, r] + K[lbl][p, q, r, s]
+    # )
 
     lbl = "luqqHHH"
     set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] + K[lbl][p, q, s, r])
@@ -422,7 +422,7 @@ for p, q, r, s in list(itertools.product(*[[2, 1, 0]] * 4)):
     lbl = "qqlqHHD"
     set_symmetry(lbl, (p, q, r, s), K[lbl][p, q, r, s] - K[lbl][q, p, r, s])
 
-## Implement additional symmetries for l~dddH
+## Implement additional symmetries for l~dddH and eqqqHHH
 set_symmetry(
     "l~dddH",
     (2, 2, 1, 0),
@@ -439,6 +439,21 @@ set_symmetry(
     K["l~dddH"][0, 0, 2, 1] + K["l~dddH"][0, 1, 0, 2] + K["l~dddH"][0, 2, 1, 0],
 )
 
+set_symmetry(
+    "eqqqHHH",
+    (2, 2, 1, 0),
+    K["eqqqHHH"][2, 0, 2, 1] + K["eqqqHHH"][2, 1, 0, 2] + K["eqqqHHH"][2, 2, 1, 0],
+)
+set_symmetry(
+    "eqqqHHH",
+    (1, 2, 1, 0),
+    K["eqqqHHH"][1, 0, 2, 1] + K["eqqqHHH"][1, 1, 0, 2] + K["eqqqHHH"][1, 2, 1, 0],
+)
+set_symmetry(
+    "eqqqHHH",
+    (0, 2, 1, 0),
+    K["eqqqHHH"][0, 0, 2, 1] + K["eqqqHHH"][0, 1, 0, 2] + K["eqqqHHH"][0, 2, 1, 0],
+)
 
 ## Convert to array called G
 for k, v in C.items():
