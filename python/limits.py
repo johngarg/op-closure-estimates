@@ -134,6 +134,17 @@ def dim_6_decay_rate(
     )
 
 
+def dim_7_decay_rate(operator, baryon: str, meson: str, masses=MASSES):
+    pion_decay_constant = 0.1302
+    lambda_qcd = 0.2
+    prefactor = 1 / (16 * pi * pion_decay_constant ** 2)
+    return (
+        prefactor
+        * masses[baryon]
+        * sym.Abs(operator * lambda_qcd ** 4 / LAMBDA ** 3) ** 2
+    )
+
+
 def process_smeft_label(label: str):
     _, lbl, p, q, r, s = label.split("_")
     return (lbl, f"{int(p)+1}{int(q)+1}{int(r)+1}{int(s)+1}")
@@ -153,9 +164,6 @@ def derive_best_general_limits(
             baryon, meson_lepton = process.split("->")
             meson = meson_lepton[:-2]
             matrix_elem = get_matrix_element(left_operator, baryon, meson)
-
-            ## TODO Check this with a few examples with Mathematica to make sure you haven't made a mistake
-            # print(left_operator, process, get_matrix_element(left_operator, process))
 
             lifetime_limit = most_stringent_limit(
                 measurements=measurements, process=process
@@ -226,7 +234,7 @@ def derive_general_limits(
     quantum_numbers_to_processes=ALLOWED_PROCESSES,
     decay_rates=None,  # Expecting list
 ):
-    """Copy of the previous function but return all limits, not just the best ones"""
+    """Copy of the previous function but return all limits, not just the best ones."""
     measurements = parse_limits("limits.yml")
     best_limits = {}
     for left_operator, quantum_numbers in operator_to_quantum_numbers.items():
