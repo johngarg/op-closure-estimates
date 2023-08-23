@@ -359,14 +359,14 @@ ApplyFlavourAndMakeRule[rawData_, flavour_] :=
 GuidedMatchingDim8[opLabel_String] :=
         Block[{first},
               first = ApplyRules[BViolatingOperatorsDim8[opLabel], $MatchingRulesDim8, {}, 3];
-              Apply[ApplyRules[ReplaceList][#1, OperatorMatchingRulesDim6, #3, 1] &, first]
+              Apply[ApplyRules[ReplaceList][#1, Join[OperatorMatchingRulesDim6, OperatorMatchingRulesDim8], #3, 1] &, first]
         ];
 
 GuidedMatchingDim9[opLabel_String] :=
         Block[{first, second, third, fourth},
               first = ApplyRules[BViolatingOperatorsDim9[opLabel], Join[YukawaRules, LoopRules, OperatorMatchingRulesDim7], {}, 2];
               second = Apply[ApplyRules[#1, Join[FlavourDeltaRules, TwoDerivativeRule, OperatorMatchingRulesDim7], #3, 3] &, first];
-              Apply[ApplyRules[ReplaceList][#1, OperatorMatchingRulesDim7, #3, 1] &, second]
+              Apply[ApplyRules[ReplaceList][#1, Join[OperatorMatchingRulesDim7, OperatorMatchingRulesDim9], #3, 1] &, second]
         ];
 
 MatchingDataDim8[opLabel_, flavour_] :=
