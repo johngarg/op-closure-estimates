@@ -468,11 +468,11 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
     # Delta (B - L) = 0
     TREE_LEVEL_MATCHING_STR[
         ("S,LL_udd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{q}, qp] * V[{r}, rp] * (G['qqql'][rp, qp, {p}, {s}] - G['qqql'][rp, {p}, qp, {s}] + G['qqql'][qp, {p}, rp, {s}]), (qp, 0, 2), (rp, 0, 2)"
+    ] = f"V[{q}, qp] * V[{r}, rp] * (G['qqql'][rp, qp, {p}, {s}] - G['qqql'][qp, rp, {p}, {s}] + G['qqql'][qp, {p}, rp, {s}]), (qp, 0, 2), (rp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LL_duu", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{p}, pp] * (G['qqql'][{r}, {q}, pp, {s}] - G['qqql'][{r}, pp, {q}, {s}] + G['qqql'][{q}, pp, {r}, {s}]), (pp, 0, 2)"
+    ] = f"V[{p}, pp] * (G['qqql'][{r}, {q}, pp, {s}] - G['qqql'][{q}, {r}, pp, {s}] + G['qqql'][{q}, pp, {r}, {s}]), (pp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LR_duu", (p + 1, q + 1, r + 1, s + 1))
