@@ -690,3 +690,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LOOP_LEVEL_MATCHING["24,"][C["duql"][s, r, q, p]] = (loop * X["24,"][p, q, r, s],)
+
+    ###################
+    ### Dimension 9 ###
+    ###################
