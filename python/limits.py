@@ -230,7 +230,7 @@ def derive_best_general_limits(
 
 
 def derive_general_limits(
-    operator_to_quantum_numbers=D6_LEFT_OPERATOR_SYMMETRIES,
+    operator_to_quantum_numbers={**D6_LEFT_OPERATOR_SYMMETRIES, **D7_LEFT_OPERATOR_SYMMETRIES},
     quantum_numbers_to_processes=ALLOWED_PROCESSES,
     decay_rates=None,  # Expecting list
 ):
@@ -239,11 +239,20 @@ def derive_general_limits(
     best_limits = {}
     for left_operator, quantum_numbers in operator_to_quantum_numbers.items():
         processes = quantum_numbers_to_processes[quantum_numbers]
+
+        # Specify mass-dimension of the left operator
+        if left_operator in D7_LEFT_OPERATOR_SYMMETRIES:
+            dimension = 7
+        else:
+            dimension = 6
+
         for process in processes:
             # Get baryon and meson
             baryon, meson_lepton = process.split("->")
             meson = meson_lepton[:-2]
-            matrix_elem = get_matrix_element(left_operator, baryon, meson)
+
+            if dimension == 6:
+                matrix_elem = get_matrix_element(left_operator, baryon, meson)
 
             lifetime_limit = most_stringent_limit(
                 measurements=measurements, process=process
@@ -251,12 +260,23 @@ def derive_general_limits(
             for smeft_op_expr in TREE_LEVEL_MATCHING[left_operator]:
                 smeft_op_expr = smeft_op_expr.subs({V: CKM})
 
-                gamma = dim_6_decay_rate(
-                    operator=smeft_op_expr,
-                    matrix_element=matrix_elem,
-                    baryon=baryon,
-                    meson=meson,
-                )
+                if dimension == 6:
+                    gamma = dim_6_decay_rate(
+                        operator=smeft_op_expr,
+                        matrix_element=matrix_elem,
+                        baryon=baryon,
+                        meson=meson,
+                    )
+                elif dimension == 7:
+                    gamma = dim_7_decay_rate(
+                        operator=smeft_op_expr,
+                        baryon=baryon,
+                        meson=meson,
+                    )
+                else:
+                    raise ValueError("Dimension of left operator incorrect: {dimension}.")
+
+
                 gamma = gamma.subs({VEV: VEV_VAL})
 
                 inv_gev_per_year = 7.625e30
@@ -280,6 +300,7 @@ def derive_general_limits(
                             "smeft_flavour": smeft_flavour,
                             "process": PROCESS_TO_LATEX[process],
                             "gamma": gamma,
+                            "left_dimension": dimension,
                             "gamma_coeff_1": gamma.subs({smeft_op: 1}),
                             "left_op": left_operator[0],
                             "left_flavour": "".join(str(i) for i in left_operator[1]),
