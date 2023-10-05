@@ -103,6 +103,7 @@ RemoveEquivalent[diags_] :=
   RemoveEquivalentBy[
     MatchingContributionsAreEquivalentUpToRelabelling][
    DeleteDuplicates[diags]];
+
 RelabelDummyFlavourIndices[expr_] :=
  Block[{indices =
     expr /. Times[z___, Op[x_][y__], w___] :>
