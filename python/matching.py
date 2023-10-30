@@ -17,6 +17,19 @@ for i in range(11, 25):
     LOOP_LEVEL_MATCHING[str(i) + ","] = defaultdict(tuple)
     X[str(i) + ","] = sym.tensor.Array(sym.symarray(f"C_{i},", (3, 3, 3, 3)))
 
+# Some dimension-9 operators have six flavour indices
+six_indices = [25, 27, 28, 29, 30, 31, 32, 33, 35, 39, 40, 41, 42, 49, 50]
+for i in six_indices:
+    LOOP_LEVEL_MATCHING[str(i) + ","] = defaultdict(tuple)
+    X[str(i) + ","] = sym.tensor.Array(sym.symarray(f"C_{i},", (3, 3, 3, 3, 3, 3)))
+
+for i in range(25, 51):
+    # The remainder of the dimension-9 operators have four indices
+    if i in six_indices:
+        continue
+    LOOP_LEVEL_MATCHING[str(i) + ","] = defaultdict(tuple)
+    X[str(i) + ","] = sym.tensor.Array(sym.symarray(f"C_{i},", (3, 3, 3, 3)))
+
 loop = 1 / (16 * pi**2)
 # RUNNING MASSES AT m_t taken from 2009.04851 (see also 0712.1419)
 yd = [2.56e-3 / VEV_VAL, 50.90e-3 / VEV_VAL, 2.702 / VEV_VAL]

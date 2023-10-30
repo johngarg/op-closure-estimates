@@ -147,8 +147,13 @@ def dim_7_decay_rate(operator, baryon: str, meson: str, masses=MASSES):
 
 
 def process_smeft_label(label: str):
-    _, lbl, p, q, r, s = label.split("_")
-    return (lbl, f"{int(p)+1}{int(q)+1}{int(r)+1}{int(s)+1}")
+    label_parts = label.split("_")
+    if len(label_parts) == 6:
+        _, lbl, p, q, r, s = label_parts
+        return (lbl, f"{int(p)+1}{int(q)+1}{int(r)+1}{int(s)+1}")
+    # Six indices here, unpack accordingly
+    _, lbl, p, q, r, s, t, u = label_parts
+    return (lbl, f"{int(p)+1}{int(q)+1}{int(r)+1}{int(s)+1}{int(t)+1}{int(u)+1}")
 
 
 def derive_best_general_limits(
@@ -307,6 +312,8 @@ def derive_general_limits(
                             "left_flavour": "".join(str(i) for i in left_operator[1]),
                             "lambda_limit": lambda_limit,
                             "lambda_limit_coeff_1": lambda_limit.subs({smeft_op: 1}),
+                            "lifetime_limit": lifetime_limit.value,
+                            "lifetime_limit_ref": lifetime_limit.name,
                         }
                     )
 
