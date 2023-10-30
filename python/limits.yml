@@ -20,7 +20,7 @@ SUPER-KAMIOKANDE 2005:
   url: https://doi.org/10.1103/PhysRevD.72.052007
   values:
     p->K+nu: "> 2.33e33 @ 90% CL"
-    n->K0nu: "> 1.3e33 @ 90% CL"
+    n->K0nu: "> 1.3e32 @ 90% CL"
     p->K0mu+: "> 1.3e33 @ 90% CL"
     p->K0e+: "> 1.0e33 @ 90% CL"
 
