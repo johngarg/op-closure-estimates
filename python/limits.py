@@ -128,7 +128,7 @@ def dim_6_decay_rate(
     operator, matrix_element: float, baryon: str, meson: str, masses=MASSES,
 ):
     prefactor = 1 / (32 * pi)
-    kinematics = masses[meson] * (1 - masses[meson] ** 2 / masses[baryon] ** 2) ** 2
+    kinematics = masses[baryon] * (1 - masses[meson] ** 2 / masses[baryon] ** 2) ** 2
     return (
         prefactor * kinematics * sym.Abs(matrix_element * operator / LAMBDA ** 2) ** 2
     )
@@ -137,10 +137,11 @@ def dim_6_decay_rate(
 def dim_7_decay_rate(operator, baryon: str, meson: str, masses=MASSES):
     pion_decay_constant = 0.1302
     lambda_qcd = 0.2
-    prefactor = 1 / (16 * pi * pion_decay_constant ** 2)
+    prefactor = 1 / (32 * pi * pion_decay_constant ** 2)
+    kinematics = masses[baryon] * (1 - masses[meson] ** 2 / masses[baryon] ** 2) ** 2
     return (
         prefactor
-        * masses[baryon]
+        * kinematics
         * sym.Abs(operator * lambda_qcd ** 4 / LAMBDA ** 3) ** 2
     )
 
