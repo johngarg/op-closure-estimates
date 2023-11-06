@@ -1,3 +1,12 @@
+SUPER-KAMIOKANDE 2016:
+  experiment: Super-Kamiokande
+  inspire: Mine:2016mxy
+  url: https://doi.org/10.1088/1742-6596/718/6/062044
+  values:
+    p->K+nu: "> 6.61e33 @ 90% CL"
+    p->pi0e+: "> 1.67e34 @ 90% CL"
+    p->pi0mu+: "> 7.78e33 @ 90% CL"
+
 SUPER-KAMIOKANDE 2014:
   experiment: Super-Kamiokande
   inspire: Super-Kamiokande:2014otb
