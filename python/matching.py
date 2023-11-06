@@ -11,28 +11,23 @@ from constants import CKM, VEV_VAL
 
 X = {}  # C_11, C_12, ...
 
-# This is a dictionary that maps fieldstring numerical labels to lists that are
-# initialised to contain -1 but are filled with tuples corresponding to the
-# matching contributions. After the dictionary is filled, the -1 contributions
-# should be removed.
 LOOP_LEVEL_MATCHING = {}
-
 # Fill all dimension-8 operators
 for i in range(11, 25):
-    LOOP_LEVEL_MATCHING[str(i) + ","] = defaultdict(lambda: [-1] * 30)
+    LOOP_LEVEL_MATCHING[str(i) + ","] = defaultdict(tuple)
     X[str(i) + ","] = sym.tensor.Array(sym.symarray(f"C_{i},", (3, 3, 3, 3)))
 
 # Some dimension-9 operators have six flavour indices
 six_indices = [25, 27, 28, 29, 30, 31, 32, 33, 35, 39, 40, 41, 42, 49, 50]
 for i in six_indices:
-    LOOP_LEVEL_MATCHING[str(i) + ","] = defaultdict(lambda: [-1] * 40)
+    LOOP_LEVEL_MATCHING[str(i) + ","] = defaultdict(tuple)
     X[str(i) + ","] = sym.tensor.Array(sym.symarray(f"C_{i},", (3, 3, 3, 3, 3, 3)))
 
 for i in range(25, 51):
     # The remainder of the dimension-9 operators have four indices
     if i in six_indices:
         continue
-    LOOP_LEVEL_MATCHING[str(i) + ","] = defaultdict(lambda: [-1] * 70)
+    LOOP_LEVEL_MATCHING[str(i) + ","] = defaultdict(tuple)
     X[str(i) + ","] = sym.tensor.Array(sym.symarray(f"C_{i},", (3, 3, 3, 3)))
 
 loop = 1 / (16 * pi**2)
@@ -42367,14 +42362,3 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
         loop * CKM[s, 1] * yd[1] * conj(X["50,"][p, r, 2, 2, 1, q]),
         loop * CKM[s, 2] * yd[2] * conj(X["50,"][p, r, 2, 2, 2, q]),
     )
-
-# Now we need to remove that trailing -1s from the lists
-new_loop_level_matching = {}
-for fieldstring_label, dict_ in LOOP_LEVEL_MATCHING.items():
-    new_dict = {}
-    for key, val in dict_.items():
-        new_dict[key] = [item for item in val if isinstance(item, tuple)]
-    new_loop_level_matching[fieldstring_label] = new_dict
-
-# After the loop is complete, replace the original data structure with the modified one
-LOOP_LEVEL_MATCHING = new_loop_level_matching
