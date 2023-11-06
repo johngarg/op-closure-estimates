@@ -155,92 +155,11 @@ def process_smeft_label(label: str):
     _, lbl, p, q, r, s, t, u = label_parts
     return (lbl, f"{int(p)+1}{int(q)+1}{int(r)+1}{int(s)+1}{int(t)+1}{int(u)+1}")
 
-
-def derive_best_general_limits(
-    operator_to_quantum_numbers=D6_LEFT_OPERATOR_SYMMETRIES,
-    quantum_numbers_to_processes=ALLOWED_PROCESSES,
-    decay_rates=None,  # Expecting list
-):
-    measurements = parse_limits("limits.yml")
-    best_limits = {}
-    for left_operator, quantum_numbers in operator_to_quantum_numbers.items():
-        processes = quantum_numbers_to_processes[quantum_numbers]
-        for process in processes:
-            # Get baryon and meson
-            baryon, meson_lepton = process.split("->")
-            meson = meson_lepton[:-2]
-            matrix_elem = get_matrix_element(left_operator, baryon, meson)
-
-            lifetime_limit = most_stringent_limit(
-                measurements=measurements, process=process
-            )
-            for smeft_op_expr in TREE_LEVEL_MATCHING[left_operator]:
-                smeft_op_expr = smeft_op_expr.subs({V: CKM})
-
-                gamma = dim_6_decay_rate(
-                    operator=smeft_op_expr,
-                    matrix_element=matrix_elem,
-                    baryon=baryon,
-                    meson=meson,
-                )
-                gamma = gamma.subs({VEV: VEV_VAL})
-
-                inv_gev_per_year = 7.625e30
-                value_in_inv_gev = lambda x: inv_gev_per_year * x
-                gamma_limit = 1.0 / value_in_inv_gev(lifetime_limit.value)
-                lambda_limits = sym.solve(gamma_limit - gamma, LAMBDA)
-
-                # TODO Do something better here than just assuming the last one is positive
-                lambda_limit = lambda_limits[-1]
-                assert len(lambda_limit.free_symbols) == 1
-                smeft_op = list(lambda_limit.free_symbols)[0]
-
-                # Update decay rates for later use through side effect
-                smeft_label, smeft_flavour = process_smeft_label(str(smeft_op))
-                if decay_rates is not None:
-                    # Read with pd.DataFrame.from_records(data)
-                    decay_rates.append(
-                        {
-                            "smeft_op": smeft_op,
-                            "smeft_label": smeft_label,
-                            "smeft_flavour": smeft_flavour,
-                            "process": PROCESS_TO_LATEX[process],
-                            "gamma": gamma,
-                            "gamma_coeff_1": gamma.subs({smeft_op: 1}),
-                            "left_op": left_operator[0],
-                            "left_flavour": "".join(str(i) for i in left_operator[1]),
-                            "lambda_limit": lambda_limit,
-                            "lambda_limit_coeff_1": lambda_limit.subs({smeft_op: 1}),
-                        }
-                    )
-
-                # Keep only the best limit on each operator
-                is_better = True
-                if smeft_op in best_limits:
-                    # Set coeffs to 1 and check which limit is best
-                    is_better = best_limits[smeft_op][0].subs(
-                        {smeft_op: 1}
-                    ) < lambda_limit.subs({smeft_op: 1})
-
-                if is_better:
-                    best_limits[smeft_op] = (
-                        lambda_limit,
-                        process,
-                        left_operator,
-                        gamma,
-                        smeft_label,
-                        smeft_flavour,
-                    )
-
-    return best_limits
-
-
 def derive_general_limits(
     operator_to_quantum_numbers={**D6_LEFT_OPERATOR_SYMMETRIES, **D7_LEFT_OPERATOR_SYMMETRIES},
     quantum_numbers_to_processes=ALLOWED_PROCESSES,
     decay_rates=None,  # Expecting list
 ):
-    """Copy of the previous function but return all limits, not just the best ones."""
     measurements = parse_limits("limits.yml")
     best_limits = {}
     for left_operator, quantum_numbers in operator_to_quantum_numbers.items():
@@ -430,6 +349,8 @@ def derive_loop_limits(matching_dict=LOOP_LEVEL_MATCHING, general_limits=None):
         general_limits = derive_general_limits()
 
     out = []
+
+    ## In the new approach, this loop will be different
     for fieldstring_label, matching_data in matching_dict.items():
         for smeft_coeff_expr, fieldstring_coeff_exprs in matching_data.items():
             if isinstance(smeft_coeff_expr, sym.core.add.Add):
