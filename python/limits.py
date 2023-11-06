@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 import sympy as sym
 from math import pi
+import numpy as np
 
 from itertools import product
 
@@ -22,7 +23,7 @@ from tables import (
     MATRIX_ELEMENTS,
     TREE_LEVEL_MATCHING,
 )
-from matching import LOOP_LEVEL_MATCHING
+from matching import LOOP_LEVEL_MATCHING, LATEX_EXPRS
 from constants import CKM, MASSES, VEV_VAL
 
 
@@ -155,13 +156,14 @@ def process_smeft_label(label: str):
     _, lbl, p, q, r, s, t, u = label_parts
     return (lbl, f"{int(p)+1}{int(q)+1}{int(r)+1}{int(s)+1}{int(t)+1}{int(u)+1}")
 
-def derive_general_limits(
+def get_tree_level_records_by_dict(
     operator_to_quantum_numbers={**D6_LEFT_OPERATOR_SYMMETRIES, **D7_LEFT_OPERATOR_SYMMETRIES},
     quantum_numbers_to_processes=ALLOWED_PROCESSES,
-    decay_rates=None,  # Expecting list
-):
+) -> Dict[str, list]:
+    """Returns records organised into a dictionary by the `smeft_op` key."""
+
+    results_dict = defaultdict(list)
     measurements = parse_limits("limits.yml")
-    best_limits = {}
     for left_operator, quantum_numbers in operator_to_quantum_numbers.items():
         processes = quantum_numbers_to_processes[quantum_numbers]
 
@@ -176,6 +178,7 @@ def derive_general_limits(
             baryon, meson_lepton = process.split("->")
             meson = meson_lepton[:-2]
 
+            matrix_elem = np.nan
             if dimension == 6:
                 matrix_elem = get_matrix_element(left_operator, baryon, meson)
 
@@ -209,48 +212,48 @@ def derive_general_limits(
                 gamma_limit = 1.0 / value_in_inv_gev(lifetime_limit.value)
                 lambda_limits = sym.solve(gamma_limit - gamma, LAMBDA)
 
-                # TODO Do something better here than just assuming the last one is positive
+                # Currently just assuming the last one is positive
                 lambda_limit = lambda_limits[-1]
                 assert len(lambda_limit.free_symbols) == 1
                 smeft_op = list(lambda_limit.free_symbols)[0]
 
-                # Update decay rates for later use through side effect
                 smeft_label, smeft_flavour = process_smeft_label(str(smeft_op))
-                if decay_rates is not None:
-                    # Read with pd.DataFrame.from_records(data)
-                    decay_rates.append(
-                        {
-                            "smeft_op": smeft_op,
-                            "smeft_label": smeft_label,
-                            "smeft_flavour": smeft_flavour,
-                            "process": PROCESS_TO_LATEX[process],
-                            "gamma": gamma,
-                            "left_dimension": dimension,
-                            "gamma_coeff_1": gamma.subs({smeft_op: 1}),
-                            "left_op": left_operator[0],
-                            "left_flavour": "".join(str(i) for i in left_operator[1]),
-                            "lambda_limit": lambda_limit,
-                            "lambda_limit_coeff_1": lambda_limit.subs({smeft_op: 1}),
-                            "lifetime_limit": lifetime_limit.value,
-                            "lifetime_limit_ref": lifetime_limit.name,
-                        }
-                    )
+                record = {
+                    "smeft_op": smeft_op,
+                    "smeft_label": smeft_label,
+                    "smeft_flavour": smeft_flavour,
+                    "process": PROCESS_TO_LATEX[process],
+                    "gamma": gamma,
+                    "left_dimension": dimension,
+                    "gamma_coeff_1": gamma.subs({smeft_op: 1}),
+                    "left_op": left_operator[0],
+                    "left_flavour": "".join(str(i) for i in left_operator[1]),
+                    "lambda_limit": lambda_limit,
+                    "lambda_limit_coeff_1": lambda_limit.subs({smeft_op: 1}),
+                    "lifetime_limit": lifetime_limit.value,
+                    "lifetime_limit_ref": lifetime_limit.ref,
+                    "dim": dimension,
+                    "matrix_elem": matrix_elem,
+                }
 
-                if smeft_op not in best_limits:
-                    best_limits[smeft_op] = []
+                results_dict[smeft_op].append(record)
 
-                best_limits[smeft_op].append(
-                    (
-                        lambda_limit,
-                        process,
-                        left_operator,
-                        gamma,
-                        smeft_label,
-                        smeft_flavour,
-                    )
-                )
+    return results_dict
 
-    return best_limits
+def get_tree_level_records(*args, **kwargs) -> List[dict]:
+    """A convenient wrapper around `get_tree_level_records_by_dict` to use to
+    construct a dataframe.
+
+    Read with `pd.DataFrame.from_records(data)`
+
+    """
+    def flatten(matrix: List[List[dict]]) -> List[dict]:
+        return [item for row in matrix for item in row]
+
+    results_dict = get_tree_level_records_by_dict(*args, **kwargs)
+
+    return flatten(list(results_dict.values()))
+
 
 
 def typeset_operator_label(label: str) -> str:
@@ -300,95 +303,101 @@ def print_general_limits(best_limits):
         )
 
 
-# GENERAL_LIMITS = derive_general_limits()
-
-
 def _derive_loop_limits_helper(
-    term, out, general_limits, fieldstring_label, fieldstring_coeff_exprs
+        term, out, tree_level_records_dict, fieldstring_label, fieldstring_coeff_exprs, latex
 ):
     # term here is a coeff, it could be negative, so fix that too
     if isinstance(term, sym.core.mul.Mul):
         term *= -1
 
-    if term in general_limits:
-        for combo in general_limits[term]:
-            limit, process, left_coeff, gamma, smeft_label, smeft_flavour = combo
+    if term in tree_level_records_dict:
+        for record in tree_level_records_dict[term]:
+            tree_level_info = record
+            gamma = record["gamma"]
+            limit = record["lambda_limit"]
             for fieldstring_coeff_expr in fieldstring_coeff_exprs:
                 lambda_limit = limit.subs({term: fieldstring_coeff_expr})
                 fieldstring_coeff = list(fieldstring_coeff_expr.free_symbols)[0]
                 fieldstring_label, fieldstring_flavour = process_smeft_label(
                     str(fieldstring_coeff)
                 )
-                out.append(
-                    {
-                        "fieldstring_label": fieldstring_label[:-1],
-                        "fieldstring_flavour": fieldstring_flavour,
-                        "smeft_op": term,
-                        "smeft_label": smeft_label,
-                        "smeft_flavour": smeft_flavour,
-                        "lambda_limit": lambda_limit,
-                        "process": PROCESS_TO_LATEX[process],
-                        "lambda_limit_coeff_1": lambda_limit.subs(
-                            {fieldstring_coeff: 1}
-                        ),
-                        "left_op": left_coeff[0],
-                        "left_flavour": "".join(str(i) for i in left_coeff[1]),
-                        "gamma": gamma,
-                        "gamma_fieldstring_coeff": gamma.subs(
-                            {term: fieldstring_coeff_expr}
-                        ),
-                        "gamma_fieldstring_coeff_1": gamma.subs(
-                            {term: fieldstring_coeff_expr}
-                        ).subs({fieldstring_coeff: 1}),
-                    }
-                )
+
+                loop_level_info = {
+                    "fieldstring_label": fieldstring_label[:-1],
+                    "fieldstring_flavour": fieldstring_flavour,
+                    "smeft_op": term,
+                    "latex": latex,
+                    "lambda_limit": lambda_limit,
+                    "lambda_limit_coeff_1": lambda_limit.subs(
+                        {fieldstring_coeff: 1}
+                    ),
+                    "gamma_fieldstring_coeff": gamma.subs(
+                        {term: fieldstring_coeff_expr}
+                    ),
+                    "gamma_fieldstring_coeff_1": gamma.subs(
+                        {term: fieldstring_coeff_expr}
+                    ).subs({fieldstring_coeff: 1}),
+                }
+
+                out.append({**tree_level_info, **loop_level_info})
 
 
-def derive_loop_limits(matching_dict=LOOP_LEVEL_MATCHING, general_limits=None):
-    if general_limits is None:
-        general_limits = derive_general_limits()
+def get_loop_level_records(matching_dict=LOOP_LEVEL_MATCHING, tree_level_records_dict=None):
+    if tree_level_records_dict is None:
+        tree_level_records_dict = get_tree_level_records_by_dict()
 
-    out = []
-
-    ## In the new approach, this loop will be different
+    out = [] # The loop-level records
     for fieldstring_label, matching_data in matching_dict.items():
-        for smeft_coeff_expr, fieldstring_coeff_exprs in matching_data.items():
-            if isinstance(smeft_coeff_expr, sym.core.add.Add):
-                terms = smeft_coeff_expr.args
-                for term in terms:
+        # matching_data is a dictionary mapping symbolic SMEFT coefficients to
+        # tuples of tuples of sympy expressions involving symbolic coefficients
+        # of field strings
+        for smeft_coeff_expr, fieldstring_coeff_exprs_tuple in matching_data.items():
+            # fieldstring_coeff_exprs_tuple is a tuple of tuples. The inner layer of
+            # tuple represents the sum over indices, the second represents
+            # distinct contributions that don't just come about from summation.
+            # These will have different latex representations
+            latex_exprs = LATEX_EXPRS[fieldstring_label][smeft_coeff_expr]
+            assert len(latex_exprs) == len(fieldstring_coeff_exprs_tuple)
+
+            for latex_str, fieldstring_coeff_exprs in zip(latex_exprs, fieldstring_coeff_exprs_tuple):
+                if isinstance(smeft_coeff_expr, sym.core.add.Add):
+                    terms = smeft_coeff_expr.args
+                    for term in terms:
+                        _derive_loop_limits_helper(
+                            term=term,
+                            out=out,
+                            tree_level_records_dict=tree_level_records_dict,
+                            fieldstring_label=fieldstring_label,
+                            fieldstring_coeff_exprs=fieldstring_coeff_exprs,
+                            latex=latex_str,
+                        )
+
+                elif isinstance(smeft_coeff_expr, sym.core.symbol.Symbol):
                     _derive_loop_limits_helper(
-                        term=term,
+                        term=smeft_coeff_expr,
                         out=out,
-                        general_limits=general_limits,
+                        tree_level_records_dict=tree_level_records_dict,
                         fieldstring_label=fieldstring_label,
                         fieldstring_coeff_exprs=fieldstring_coeff_exprs,
+                        latex=latex_str,
                     )
 
-            elif isinstance(smeft_coeff_expr, sym.core.symbol.Symbol):
-                _derive_loop_limits_helper(
-                    term=smeft_coeff_expr,
-                    out=out,
-                    general_limits=general_limits,
-                    fieldstring_label=fieldstring_label,
-                    fieldstring_coeff_exprs=fieldstring_coeff_exprs,
-                )
+                elif isinstance(smeft_coeff_expr, sym.core.mul.Mul):
+                    assert isinstance(-1 * smeft_coeff_expr, sym.core.symbol.Symbol)
+                    _derive_loop_limits_helper(
+                        term=-1 * smeft_coeff_expr,
+                        out=out,
+                        tree_level_records_dict=tree_level_records_dict,
+                        fieldstring_label=fieldstring_label,
+                        fieldstring_coeff_exprs=fieldstring_coeff_exprs,
+                        latex=latex_str,
+                    )
 
-            elif isinstance(smeft_coeff_expr, sym.core.mul.Mul):
-                assert isinstance(-1 * smeft_coeff_expr, sym.core.symbol.Symbol)
-                _derive_loop_limits_helper(
-                    term=-1 * smeft_coeff_expr,
-                    out=out,
-                    general_limits=general_limits,
-                    fieldstring_label=fieldstring_label,
-                    fieldstring_coeff_exprs=fieldstring_coeff_exprs,
-                )
+                elif smeft_coeff_expr == 0:
+                    continue
 
-            elif smeft_coeff_expr == 0:
-                continue
-
-            else:
-                raise ValueError(
-                    f"Unrecognised type {type(smeft_coeff_expr)} for {smeft_coeff_expr} in coefficient dispatch."
-                )
-
+                else:
+                    raise ValueError(
+                        f"Unrecognised type {type(smeft_coeff_expr)} for {smeft_coeff_expr} in coefficient dispatch."
+                    )
     return out
