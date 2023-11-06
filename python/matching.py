@@ -805,7 +805,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["18,"][G["qqql"][p, q, r, s]] += (
-        r"\sum_{x2834^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x2834^\prime}^* V_{s^\prime x2834^\prime}^* {(y_d)^{x2834^\prime}}^{2} \mathcal{C}_{18}^{s s^\prime p q}\mathcal{O}^{qqql}_{pqrs}",
+        r"\sum_{x3214^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3214^\prime}^* V_{s^\prime x3214^\prime}^* {(y_d)^{x3214^\prime}}^{2} \mathcal{C}_{18}^{s s^\prime p q}\mathcal{O}^{qqql}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["18,"][G["duql"][p, q, r, s]] += (
@@ -883,7 +883,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["18,"][G["qqql"][p, q, r, s]] += (
-        r"\sum_{x2835^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x2835^\prime}^* V_{t^\prime x2835^\prime}^* {(y_d)^{x2835^\prime}}^{2} \mathcal{C}_{18}^{s p t^\prime q}\mathcal{O}^{qqql}_{pqrs}",
+        r"\sum_{x3215^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3215^\prime}^* V_{t^\prime x3215^\prime}^* {(y_d)^{x3215^\prime}}^{2} \mathcal{C}_{18}^{s p t^\prime q}\mathcal{O}^{qqql}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["18,"][G["duql"][p, q, r, s]] += (
@@ -961,7 +961,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["18,"][G["qqql"][p, q, r, s]] += (
-        r"\sum_{x2836^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{r x2836^\prime}^* V_{u^\prime x2836^\prime}^* {(y_d)^{x2836^\prime}}^{2} \mathcal{C}_{18}^{s p q u^\prime}\mathcal{O}^{qqql}_{pqrs}",
+        r"\sum_{x3216^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{r x3216^\prime}^* V_{u^\prime x3216^\prime}^* {(y_d)^{x3216^\prime}}^{2} \mathcal{C}_{18}^{s p q u^\prime}\mathcal{O}^{qqql}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["18,"][G["qque"][p, q, r, s]] += (
@@ -1001,7 +1001,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["18,"][G["qqql"][p, q, r, s]] += (
-        r"hloop \mathcal{C}_{18}^{s p q r}\mathcal{O}^{qqql}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \mathcal{C}_{18}^{s p q r}\mathcal{O}^{qqql}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["19,"][G["qqql"][p, q, r, s]] += (
@@ -1255,7 +1255,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["22,"][G["qque"][p, q, r, s]] += (
-        r"\sum_{x2877^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x2877^\prime}^* V_{s^\prime x2877^\prime}^* {(y_d)^{x2877^\prime}}^{2} \mathcal{C}_{22}^{q s^\prime r p}\mathcal{O}^{qque}_{pqrs}",
+        r"\sum_{x3257^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x3257^\prime}^* V_{s^\prime x3257^\prime}^* {(y_d)^{x3257^\prime}}^{2} \mathcal{C}_{22}^{q s^\prime r p}\mathcal{O}^{qque}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["22,"][G["duql"][p, q, r, s]] += (
@@ -1333,7 +1333,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["22,"][G["qque"][p, q, r, s]] += (
-        r"\sum_{x2878^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s x2878^\prime}^* V_{t^\prime x2878^\prime}^* {(y_d)^{x2878^\prime}}^{2} \mathcal{C}_{22}^{q r t^\prime p}\mathcal{O}^{qque}_{pqrs}",
+        r"\sum_{x3258^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s x3258^\prime}^* V_{t^\prime x3258^\prime}^* {(y_d)^{x3258^\prime}}^{2} \mathcal{C}_{22}^{q r t^\prime p}\mathcal{O}^{qque}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["22,"][G["duql"][p, q, r, s]] += (
@@ -1385,7 +1385,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["22,"][G["qque"][p, q, r, s]] += (
-        r"hloop \mathcal{C}_{22}^{q r s p}\mathcal{O}^{qque}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \mathcal{C}_{22}^{q r s p}\mathcal{O}^{qque}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["23,"][G["duue"][p, q, r, s]] += (
@@ -1528,7 +1528,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["23,"][G["duue"][p, q, r, s]] += (
-        r"\sum_{x2902^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x2902^\prime p}^* V_{x2902^\prime u^\prime}^* (y_d)^{p} (y_d)^{u^\prime} \mathcal{C}_{23}^{s q r u^\prime}\mathcal{O}^{duue}_{pqrs}",
+        r"\sum_{x3282^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3282^\prime p}^* V_{x3282^\prime u^\prime}^* (y_d)^{p} (y_d)^{u^\prime} \mathcal{C}_{23}^{s q r u^\prime}\mathcal{O}^{duue}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["23,"][G["duue"][p, q, r, s]] += (
@@ -1544,7 +1544,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["23,"][G["duue"][p, q, r, s]] += (
-        r"hloop \mathcal{C}_{23}^{s q r p}\mathcal{O}^{duue}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \mathcal{C}_{23}^{s q r p}\mathcal{O}^{duue}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["24,"][G["duql"][p, q, r, s]] += (
@@ -1734,7 +1734,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["24,"][G["duql"][p, q, r, s]] += (
-        r"\sum_{x2918^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x2918^\prime p}^* V_{x2918^\prime u^\prime}^* (y_d)^{p} (y_d)^{u^\prime} \mathcal{C}_{24}^{s r q u^\prime}\mathcal{O}^{duql}_{pqrs}",
+        r"\sum_{x3298^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3298^\prime p}^* V_{x3298^\prime u^\prime}^* (y_d)^{p} (y_d)^{u^\prime} \mathcal{C}_{24}^{s r q u^\prime}\mathcal{O}^{duql}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["24,"][G["qque"][p, q, r, s]] += (
@@ -1863,7 +1863,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["24,"][G["duql"][p, q, r, s]] += (
-        r"\sum_{x2919^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x2919^\prime}^* V_{s^\prime x2919^\prime}^* {(y_d)^{x2919^\prime}}^{2} \mathcal{C}_{24}^{s s^\prime q p}\mathcal{O}^{duql}_{pqrs}",
+        r"\sum_{x3299^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3299^\prime}^* V_{s^\prime x3299^\prime}^* {(y_d)^{x3299^\prime}}^{2} \mathcal{C}_{24}^{s s^\prime q p}\mathcal{O}^{duql}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["24,"][G["duue"][p, q, r, s]] += (
@@ -1899,7 +1899,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["24,"][G["duql"][p, q, r, s]] += (
-        r"hloop \mathcal{C}_{24}^{s r q p}\mathcal{O}^{duql}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \mathcal{C}_{24}^{s r q p}\mathcal{O}^{duql}_{pqrs}",
     )
 
     ## Dimension 9
@@ -7536,7 +7536,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["32,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2962^\prime} \sum_{w^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x2962^\prime} V_{s^\prime w^\prime} V_{x2962^\prime t^\prime} (y_d)^{t^\prime} (y_d)^{w^\prime} (y_d)^{x2962^\prime} \bar{\mathcal{C}}_{32}^{p s^\prime t^\prime q s w^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3342^\prime} \sum_{w^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3342^\prime} V_{s^\prime w^\prime} V_{x3342^\prime t^\prime} (y_d)^{t^\prime} (y_d)^{w^\prime} (y_d)^{x3342^\prime} \bar{\mathcal{C}}_{32}^{p s^\prime t^\prime q s w^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["32,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -9237,7 +9237,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["32,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2963^\prime} \sum_{w^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x2963^\prime} V_{s^\prime w^\prime} V_{x2963^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{w^\prime} (y_d)^{x2963^\prime} \bar{\mathcal{C}}_{32}^{p s^\prime q u^\prime s w^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3343^\prime} \sum_{w^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3343^\prime} V_{s^\prime w^\prime} V_{x3343^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{w^\prime} (y_d)^{x3343^\prime} \bar{\mathcal{C}}_{32}^{p s^\prime q u^\prime s w^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["32,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -10938,7 +10938,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["32,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2964^\prime} \sum_{w^\prime} \sum_{v^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x2964^\prime} V_{s^\prime w^\prime} V_{x2964^\prime v^\prime} (y_d)^{v^\prime} (y_d)^{w^\prime} (y_d)^{x2964^\prime} \bar{\mathcal{C}}_{32}^{p s^\prime q s v^\prime w^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3344^\prime} \sum_{w^\prime} \sum_{v^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3344^\prime} V_{s^\prime w^\prime} V_{x3344^\prime v^\prime} (y_d)^{v^\prime} (y_d)^{w^\prime} (y_d)^{x3344^\prime} \bar{\mathcal{C}}_{32}^{p s^\prime q s v^\prime w^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["32,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -14048,7 +14048,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["35,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2975^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x2975^\prime} V_{x2975^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x2975^\prime} (y_e)^{t^\prime} \bar{\mathcal{C}}_{35}^{p t^\prime t^\prime u^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3355^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3355^\prime} V_{x3355^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x3355^\prime} (y_e)^{t^\prime} \bar{\mathcal{C}}_{35}^{p t^\prime t^\prime u^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["35,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -14606,7 +14606,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["35,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2976^\prime} \sum_{v^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x2976^\prime} V_{x2976^\prime v^\prime} (y_d)^{v^\prime} (y_d)^{x2976^\prime} (y_e)^{t^\prime} \bar{\mathcal{C}}_{35}^{p t^\prime t^\prime q v^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3356^\prime} \sum_{v^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3356^\prime} V_{x3356^\prime v^\prime} (y_d)^{v^\prime} (y_d)^{x3356^\prime} (y_e)^{t^\prime} \bar{\mathcal{C}}_{35}^{p t^\prime t^\prime q v^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["35,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -15164,7 +15164,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["35,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2977^\prime} \sum_{w^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x2977^\prime} V_{x2977^\prime w^\prime} (y_d)^{w^\prime} (y_d)^{x2977^\prime} (y_e)^{t^\prime} \bar{\mathcal{C}}_{35}^{p t^\prime t^\prime q s w^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3357^\prime} \sum_{w^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3357^\prime} V_{x3357^\prime w^\prime} (y_d)^{w^\prime} (y_d)^{x3357^\prime} (y_e)^{t^\prime} \bar{\mathcal{C}}_{35}^{p t^\prime t^\prime q s w^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["35,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -15490,7 +15490,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"hloop \bar{\mathcal{C}}_{36}^{p q r s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \bar{\mathcal{C}}_{36}^{p q r s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dudH~"][p, q, r, s]] += (
@@ -15685,7 +15685,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2979^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{x2979^\prime s} V_{x2979^\prime s^\prime} (y_d)^{s} (y_d)^{s^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime q r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3359^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{x3359^\prime s} V_{x3359^\prime s^\prime} (y_d)^{s} (y_d)^{s^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime q r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -15709,7 +15709,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{q s^\prime} (y_d)^{s^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q s^\prime} (y_d)^{s^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -15721,7 +15721,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{q s^\prime} (y_d)^{s^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q s^\prime} (y_d)^{s^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dudH~"][p, q, r, s]] += (
@@ -15733,7 +15733,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r s^\prime} (y_d)^{s^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p s^\prime q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r s^\prime} (y_d)^{s^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p s^\prime q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dddH"][p, q, r, s]] += (
@@ -15802,7 +15802,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2979^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r x2979^\prime} V_{x2979^\prime s^\prime} (y_d)^{s^\prime} (y_d)^{x2979^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3359^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r x3359^\prime} V_{x3359^\prime s^\prime} (y_d)^{s^\prime} (y_d)^{x3359^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -15871,7 +15871,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r s^\prime} V_{s t^\prime} (y_d)^{s^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r s^\prime} V_{s t^\prime} (y_d)^{s^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dudH~"][p, q, r, s]] += (
@@ -16066,7 +16066,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2980^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x2980^\prime s} V_{x2980^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p q t^\prime r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3360^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3360^\prime s} V_{x3360^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p q t^\prime r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -16090,7 +16090,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{q t^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p r t^\prime s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q t^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p r t^\prime s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -16102,7 +16102,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{q t^\prime} (y_d)^{t^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p r t^\prime s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q t^\prime} (y_d)^{t^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p r t^\prime s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dudH~"][p, q, r, s]] += (
@@ -16114,7 +16114,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{r t^\prime} (y_d)^{t^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p q t^\prime s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r t^\prime} (y_d)^{t^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p q t^\prime s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dddH"][p, q, r, s]] += (
@@ -16183,7 +16183,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2980^\prime} \sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{r x2980^\prime} V_{x2980^\prime t^\prime} (y_d)^{t^\prime} (y_d)^{x2980^\prime} \bar{\mathcal{C}}_{36}^{p q t^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3360^\prime} \sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r x3360^\prime} V_{x3360^\prime t^\prime} (y_d)^{t^\prime} (y_d)^{x3360^\prime} \bar{\mathcal{C}}_{36}^{p q t^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -16252,7 +16252,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r t^\prime} V_{s s^\prime} (y_d)^{s^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r t^\prime} V_{s s^\prime} (y_d)^{s^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dudH~"][p, q, r, s]] += (
@@ -16447,7 +16447,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2981^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x2981^\prime s} V_{x2981^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{36}^{p q r u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3361^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3361^\prime s} V_{x3361^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{36}^{p q r u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -16471,7 +16471,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{u^\prime} hloop \frac{1}{16\pi^2} V_{q u^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{36}^{p r s u^\prime}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{u^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q u^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{36}^{p r s u^\prime}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -16483,7 +16483,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{u^\prime} hloop \frac{1}{16\pi^2} V_{q u^\prime} (y_d)^{u^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p r s u^\prime}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{u^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q u^\prime} (y_d)^{u^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p r s u^\prime}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dudH~"][p, q, r, s]] += (
@@ -16495,7 +16495,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{u^\prime} hloop \frac{1}{16\pi^2} V_{r u^\prime} (y_d)^{u^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p q s u^\prime}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{u^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r u^\prime} (y_d)^{u^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p q s u^\prime}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dddH"][p, q, r, s]] += (
@@ -16564,7 +16564,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x2981^\prime} \sum_{u^\prime} hloop \frac{1}{16\pi^2} V_{r x2981^\prime} V_{x2981^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x2981^\prime} \bar{\mathcal{C}}_{36}^{p q s u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3361^\prime} \sum_{u^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r x3361^\prime} V_{x3361^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x3361^\prime} \bar{\mathcal{C}}_{36}^{p q s u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -16633,7 +16633,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{u^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r u^\prime} V_{s s^\prime} (y_d)^{s^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime q u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{u^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r u^\prime} V_{s s^\prime} (y_d)^{s^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime q u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -16685,7 +16685,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["e~dddD"][p, q, r, s]] += (
-        r"hloop \frac{1}{16\pi^2} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p q r s}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p q r s}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dddH"][p, q, r, s]] += (
@@ -16693,7 +16693,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"hloop \frac{1}{16\pi^2} {(y_e)^{p}}^{2} \bar{\mathcal{C}}_{36}^{p q r s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} {(y_e)^{p}}^{2} \bar{\mathcal{C}}_{36}^{p q r s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -16705,7 +16705,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime q} (y_d)^{q} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime q} (y_d)^{q} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~qdDd"][p, q, r, s]] += (
@@ -16717,7 +16717,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{q s^\prime} (y_d)^{s^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q s^\prime} (y_d)^{s^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -16729,7 +16729,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{q s^\prime} (y_d)^{s^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q s^\prime} (y_d)^{s^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dudH~"][p, q, r, s]] += (
@@ -16741,7 +16741,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r s^\prime} (y_d)^{s^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p s^\prime q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r s^\prime} (y_d)^{s^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p s^\prime q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dddH"][p, q, r, s]] += (
@@ -16810,7 +16810,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3002^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r x3002^\prime} V_{x3002^\prime s^\prime} (y_d)^{s^\prime} (y_d)^{x3002^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3382^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r x3382^\prime} V_{x3382^\prime s^\prime} (y_d)^{s^\prime} (y_d)^{x3382^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -16879,7 +16879,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r s^\prime} V_{s t^\prime} (y_d)^{s^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r s^\prime} V_{s t^\prime} (y_d)^{s^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~qdDd"][p, q, r, s]] += (
@@ -16891,7 +16891,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{q t^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p r t^\prime s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q t^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p r t^\prime s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -16903,7 +16903,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{q t^\prime} (y_d)^{t^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p r t^\prime s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q t^\prime} (y_d)^{t^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p r t^\prime s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dudH~"][p, q, r, s]] += (
@@ -16915,7 +16915,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{r t^\prime} (y_d)^{t^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p q t^\prime s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r t^\prime} (y_d)^{t^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p q t^\prime s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dddH"][p, q, r, s]] += (
@@ -16984,7 +16984,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3003^\prime} \sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{r x3003^\prime} V_{x3003^\prime t^\prime} (y_d)^{t^\prime} (y_d)^{x3003^\prime} \bar{\mathcal{C}}_{36}^{p q t^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3383^\prime} \sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r x3383^\prime} V_{x3383^\prime t^\prime} (y_d)^{t^\prime} (y_d)^{x3383^\prime} \bar{\mathcal{C}}_{36}^{p q t^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -17053,7 +17053,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r t^\prime} V_{s s^\prime} (y_d)^{s^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r t^\prime} V_{s s^\prime} (y_d)^{s^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~qdDd"][p, q, r, s]] += (
@@ -17065,7 +17065,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{u^\prime} hloop \frac{1}{16\pi^2} V_{q u^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{36}^{p r s u^\prime}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{u^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q u^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{36}^{p r s u^\prime}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -17077,7 +17077,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{u^\prime} hloop \frac{1}{16\pi^2} V_{q u^\prime} (y_d)^{u^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p r s u^\prime}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{u^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{q u^\prime} (y_d)^{u^\prime} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p r s u^\prime}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dudH~"][p, q, r, s]] += (
@@ -17089,7 +17089,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{u^\prime} hloop \frac{1}{16\pi^2} V_{r u^\prime} (y_d)^{u^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p q s u^\prime}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{u^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r u^\prime} (y_d)^{u^\prime} (y_u)^{r} \bar{\mathcal{C}}_{36}^{p q s u^\prime}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dddH"][p, q, r, s]] += (
@@ -17158,7 +17158,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3004^\prime} \sum_{u^\prime} hloop \frac{1}{16\pi^2} V_{r x3004^\prime} V_{x3004^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x3004^\prime} \bar{\mathcal{C}}_{36}^{p q s u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3384^\prime} \sum_{u^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r x3384^\prime} V_{x3384^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x3384^\prime} \bar{\mathcal{C}}_{36}^{p q s u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -17227,7 +17227,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{u^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r u^\prime} V_{s s^\prime} (y_d)^{s^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime q u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{u^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r u^\prime} V_{s s^\prime} (y_d)^{s^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{36}^{p s^\prime q u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~dddD"][p, q, r, s]] += (
@@ -17235,7 +17235,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["e~dddD"][p, q, r, s]] += (
-        r"hloop \frac{1}{16\pi^2} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p q r s}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p q r s}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["l~dddH"][p, q, r, s]] += (
@@ -17243,7 +17243,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["l~dddH"][p, q, r, s]] += (
-        r"hloop \frac{1}{16\pi^2} {(y_e)^{p}}^{2} \bar{\mathcal{C}}_{36}^{p q r s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} {(y_e)^{p}}^{2} \bar{\mathcal{C}}_{36}^{p q r s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["36,"][G["e~qddH~"][p, q, r, s]] += (
@@ -17255,7 +17255,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["36,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime q} (y_d)^{q} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime q} (y_d)^{q} (y_e)^{p} \bar{\mathcal{C}}_{36}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["37,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -18107,7 +18107,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["38,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3016^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x3016^\prime} V_{s^\prime x3016^\prime} V_{t^\prime q} (y_d)^{q} {(y_d)^{x3016^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3396^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x3396^\prime} V_{s^\prime x3396^\prime} V_{t^\prime q} (y_d)^{q} {(y_d)^{x3396^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["38,"][G["l~qdDd"][p, q, r, s]] += (
@@ -18737,7 +18737,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["38,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3016^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x3016^\prime} V_{s^\prime x3016^\prime} V_{u^\prime q} (y_d)^{q} {(y_d)^{x3016^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p s^\prime r u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3396^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x3396^\prime} V_{s^\prime x3396^\prime} V_{u^\prime q} (y_d)^{q} {(y_d)^{x3396^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p s^\prime r u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["38,"][G["l~qdDd"][p, q, r, s]] += (
@@ -19367,7 +19367,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["38,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3017^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x3017^\prime} V_{s^\prime q} V_{t^\prime x3017^\prime} (y_d)^{q} {(y_d)^{x3017^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3397^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x3397^\prime} V_{s^\prime q} V_{t^\prime x3397^\prime} (y_d)^{q} {(y_d)^{x3397^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["38,"][G["l~qdDd"][p, q, r, s]] += (
@@ -19997,7 +19997,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["38,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3017^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s x3017^\prime} V_{t^\prime x3017^\prime} V_{u^\prime q} (y_d)^{q} {(y_d)^{x3017^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3397^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s x3397^\prime} V_{t^\prime x3397^\prime} V_{u^\prime q} (y_d)^{q} {(y_d)^{x3397^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["38,"][G["l~qdDd"][p, q, r, s]] += (
@@ -20627,7 +20627,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["38,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3018^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x3018^\prime} V_{s^\prime q} V_{u^\prime x3018^\prime} (y_d)^{q} {(y_d)^{x3018^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p s^\prime r u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3398^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x3398^\prime} V_{s^\prime q} V_{u^\prime x3398^\prime} (y_d)^{q} {(y_d)^{x3398^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p s^\prime r u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["38,"][G["l~qdDd"][p, q, r, s]] += (
@@ -21257,7 +21257,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["38,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3018^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s x3018^\prime} V_{t^\prime q} V_{u^\prime x3018^\prime} (y_d)^{q} {(y_d)^{x3018^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3398^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s x3398^\prime} V_{t^\prime q} V_{u^\prime x3398^\prime} (y_d)^{q} {(y_d)^{x3398^\prime}}^{2} \bar{\mathcal{C}}_{38}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["39,"][G["e~qddH~"][p, q, r, s]] += (
@@ -30005,7 +30005,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["41,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3037^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3037^\prime} V_{x3037^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x3037^\prime} (y_u)^{t^\prime} \bar{\mathcal{C}}_{41}^{p t^\prime t^\prime u^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3417^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3417^\prime} V_{x3417^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x3417^\prime} (y_u)^{t^\prime} \bar{\mathcal{C}}_{41}^{p t^\prime t^\prime u^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["41,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -30563,7 +30563,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["41,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3038^\prime} \sum_{v^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3038^\prime} V_{x3038^\prime v^\prime} (y_d)^{v^\prime} (y_d)^{x3038^\prime} (y_u)^{t^\prime} \bar{\mathcal{C}}_{41}^{p t^\prime t^\prime q v^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3418^\prime} \sum_{v^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3418^\prime} V_{x3418^\prime v^\prime} (y_d)^{v^\prime} (y_d)^{x3418^\prime} (y_u)^{t^\prime} \bar{\mathcal{C}}_{41}^{p t^\prime t^\prime q v^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["41,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -31121,7 +31121,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["41,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3039^\prime} \sum_{w^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3039^\prime} V_{x3039^\prime w^\prime} (y_d)^{w^\prime} (y_d)^{x3039^\prime} (y_u)^{t^\prime} \bar{\mathcal{C}}_{41}^{p t^\prime t^\prime q s w^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3419^\prime} \sum_{w^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3419^\prime} V_{x3419^\prime w^\prime} (y_d)^{w^\prime} (y_d)^{x3419^\prime} (y_u)^{t^\prime} \bar{\mathcal{C}}_{41}^{p t^\prime t^\prime q s w^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["41,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -40592,7 +40592,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~qdDd"][p, q, r, s]] += (
-        r"hloop \bar{\mathcal{C}}_{43}^{p q r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \bar{\mathcal{C}}_{43}^{p q r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["e~qddH~"][p, q, r, s]] += (
@@ -40600,7 +40600,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["e~qddH~"][p, q, r, s]] += (
-        r"hloop (y_e)^{p} \bar{\mathcal{C}}_{43}^{p q r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) (y_e)^{p} \bar{\mathcal{C}}_{43}^{p q r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dudH~"][p, q, r, s]] += (
@@ -40608,7 +40608,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dudH~"][p, q, r, s]] += (
-        r"hloop (y_u)^{r} \bar{\mathcal{C}}_{43}^{p r q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) (y_u)^{r} \bar{\mathcal{C}}_{43}^{p r q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dddH"][p, q, r, s]] += (
@@ -40620,7 +40620,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop V_{r s^\prime} (y_d)^{s^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) V_{r s^\prime} (y_d)^{s^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -40632,7 +40632,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop V_{s t^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{43}^{p r t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) V_{s t^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{43}^{p r t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~qdDd"][p, q, r, s]] += (
@@ -40680,7 +40680,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3048^\prime} (\frac{1}{16\pi^2})^2 V_{r x3048^\prime} (y_d)^{x3048^\prime} {(y_u)^{x3048^\prime}}^{2} \bar{\mathcal{C}}_{43}^{p x3048^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3428^\prime} (\frac{1}{16\pi^2})^2 V_{r x3428^\prime} (y_d)^{x3428^\prime} {(y_u)^{x3428^\prime}}^{2} \bar{\mathcal{C}}_{43}^{p x3428^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -41127,7 +41127,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3049^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3049^\prime} V_{s^\prime s} V_{x3049^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} (y_d)^{x3049^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3429^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3429^\prime} V_{s^\prime s} V_{x3429^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} (y_d)^{x3429^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -41406,7 +41406,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{x3049^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3049^\prime s} V_{x3049^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{43}^{p q t^\prime r}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{x3429^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3429^\prime s} V_{x3429^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{43}^{p q t^\prime r}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["e~qddH~"][p, q, r, s]] += (
@@ -41478,7 +41478,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{x3049^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3049^\prime s} V_{x3049^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} (y_e)^{p} \bar{\mathcal{C}}_{43}^{p q t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{x3429^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3429^\prime s} V_{x3429^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} (y_e)^{p} \bar{\mathcal{C}}_{43}^{p q t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dudH~"][p, q, r, s]] += (
@@ -41550,7 +41550,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{x3049^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3049^\prime s} V_{x3049^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} (y_u)^{r} \bar{\mathcal{C}}_{43}^{p r t^\prime q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{x3429^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3429^\prime s} V_{x3429^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} (y_u)^{r} \bar{\mathcal{C}}_{43}^{p r t^\prime q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dddH"][p, q, r, s]] += (
@@ -41766,7 +41766,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3049^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r s^\prime} V_{x3049^\prime s} V_{x3049^\prime t^\prime} (y_d)^{s} (y_d)^{s^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3429^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r s^\prime} V_{x3429^\prime s} V_{x3429^\prime t^\prime} (y_d)^{s} (y_d)^{s^\prime} (y_d)^{t^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -41982,7 +41982,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3049^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s u^\prime} V_{x3049^\prime q} V_{x3049^\prime t^\prime} (y_d)^{q} (y_d)^{t^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{43}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3429^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s u^\prime} V_{x3429^\prime q} V_{x3429^\prime t^\prime} (y_d)^{q} (y_d)^{t^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{43}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~qdDd"][p, q, r, s]] += (
@@ -42405,7 +42405,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3050^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3050^\prime} V_{s^\prime s} V_{x3050^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} (y_d)^{x3050^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime q u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3430^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3430^\prime} V_{s^\prime s} V_{x3430^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} (y_d)^{x3430^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime q u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -42684,7 +42684,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{x3050^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3050^\prime s} V_{x3050^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{43}^{p q r u^\prime}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{x3430^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3430^\prime s} V_{x3430^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{43}^{p q r u^\prime}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["e~qddH~"][p, q, r, s]] += (
@@ -42756,7 +42756,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{x3050^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3050^\prime s} V_{x3050^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} (y_e)^{p} \bar{\mathcal{C}}_{43}^{p q r u^\prime}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{x3430^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3430^\prime s} V_{x3430^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} (y_e)^{p} \bar{\mathcal{C}}_{43}^{p q r u^\prime}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dudH~"][p, q, r, s]] += (
@@ -42828,7 +42828,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{x3050^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3050^\prime s} V_{x3050^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} (y_u)^{r} \bar{\mathcal{C}}_{43}^{p r q u^\prime}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{x3430^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3430^\prime s} V_{x3430^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} (y_u)^{r} \bar{\mathcal{C}}_{43}^{p r q u^\prime}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dddH"][p, q, r, s]] += (
@@ -43044,7 +43044,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3050^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r s^\prime} V_{x3050^\prime s} V_{x3050^\prime u^\prime} (y_d)^{s} (y_d)^{s^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime q u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3430^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r s^\prime} V_{x3430^\prime s} V_{x3430^\prime u^\prime} (y_d)^{s} (y_d)^{s^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime q u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -43260,7 +43260,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3050^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s t^\prime} V_{x3050^\prime q} V_{x3050^\prime u^\prime} (y_d)^{q} (y_d)^{t^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{43}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3430^\prime} \sum_{u^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s t^\prime} V_{x3430^\prime q} V_{x3430^\prime u^\prime} (y_d)^{q} (y_d)^{t^\prime} (y_d)^{u^\prime} \bar{\mathcal{C}}_{43}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~qdDd"][p, q, r, s]] += (
@@ -43683,7 +43683,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3058^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3058^\prime} V_{s^\prime s} V_{x3058^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} (y_d)^{x3058^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3438^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3438^\prime} V_{s^\prime s} V_{x3438^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} (y_d)^{x3438^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -44322,7 +44322,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3059^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3059^\prime} V_{s^\prime s} V_{x3059^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} (y_d)^{x3059^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime q u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3439^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3439^\prime} V_{s^\prime s} V_{x3439^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} (y_d)^{x3439^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime q u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -44592,7 +44592,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{x3051^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{q x3051^\prime} V_{s^\prime x3051^\prime} {(y_d)^{x3051^\prime}}^{2} \bar{\mathcal{C}}_{43}^{p s^\prime r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{x3431^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{q x3431^\prime} V_{s^\prime x3431^\prime} {(y_d)^{x3431^\prime}}^{2} \bar{\mathcal{C}}_{43}^{p s^\prime r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["e~qddH~"][p, q, r, s]] += (
@@ -44655,7 +44655,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{x3051^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{q x3051^\prime} V_{s^\prime x3051^\prime} {(y_d)^{x3051^\prime}}^{2} (y_e)^{p} \bar{\mathcal{C}}_{43}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{x3431^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{q x3431^\prime} V_{s^\prime x3431^\prime} {(y_d)^{x3431^\prime}}^{2} (y_e)^{p} \bar{\mathcal{C}}_{43}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dudH~"][p, q, r, s]] += (
@@ -44718,7 +44718,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{x3051^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3051^\prime} V_{s^\prime x3051^\prime} {(y_d)^{x3051^\prime}}^{2} (y_u)^{r} \bar{\mathcal{C}}_{43}^{p s^\prime q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{x3431^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3431^\prime} V_{s^\prime x3431^\prime} {(y_d)^{x3431^\prime}}^{2} (y_u)^{r} \bar{\mathcal{C}}_{43}^{p s^\prime q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dddH"][p, q, r, s]] += (
@@ -44898,7 +44898,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3060^\prime} \sum_{x3051^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3060^\prime} V_{s^\prime x3051^\prime} V_{x3060^\prime x3051^\prime} {(y_d)^{x3051^\prime}}^{2} (y_d)^{x3060^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3440^\prime} \sum_{x3431^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3440^\prime} V_{s^\prime x3431^\prime} V_{x3440^\prime x3431^\prime} {(y_d)^{x3431^\prime}}^{2} (y_d)^{x3440^\prime} \bar{\mathcal{C}}_{43}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -45087,7 +45087,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["43,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3051^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3051^\prime} V_{s t^\prime} V_{s^\prime x3051^\prime} (y_d)^{t^\prime} {(y_d)^{x3051^\prime}}^{2} \bar{\mathcal{C}}_{43}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3431^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3431^\prime} V_{s t^\prime} V_{s^\prime x3431^\prime} (y_d)^{t^\prime} {(y_d)^{x3431^\prime}}^{2} \bar{\mathcal{C}}_{43}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["43,"][G["e~dddD"][p, q, r, s]] += (
@@ -46027,7 +46027,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"hloop \bar{\mathcal{C}}_{45}^{p r s q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \bar{\mathcal{C}}_{45}^{p r s q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -46256,7 +46256,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3071^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3071^\prime q} V_{x3071^\prime u^\prime} (y_d)^{q} (y_d)^{u^\prime} \bar{\mathcal{C}}_{45}^{p r s u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3451^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3451^\prime q} V_{x3451^\prime u^\prime} (y_d)^{q} (y_d)^{u^\prime} \bar{\mathcal{C}}_{45}^{p r s u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dudH~"][p, q, r, s]] += (
@@ -46385,7 +46385,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3072^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x3072^\prime} V_{s^\prime x3072^\prime} {(y_d)^{x3072^\prime}}^{2} \bar{\mathcal{C}}_{45}^{p s^\prime r q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3452^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s x3452^\prime} V_{s^\prime x3452^\prime} {(y_d)^{x3452^\prime}}^{2} \bar{\mathcal{C}}_{45}^{p s^\prime r q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dddH"][p, q, r, s]] += (
@@ -46472,7 +46472,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{45}^{p s^\prime q r}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{45}^{p s^\prime q r}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["e~qddH~"][p, q, r, s]] += (
@@ -46484,7 +46484,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{45}^{p s^\prime q r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{45}^{p s^\prime q r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dudH~"][p, q, r, s]] += (
@@ -46496,7 +46496,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_u)^{r} \bar{\mathcal{C}}_{45}^{p s^\prime r q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_u)^{r} \bar{\mathcal{C}}_{45}^{p s^\prime r q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dddH"][p, q, r, s]] += (
@@ -46568,7 +46568,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{t^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r t^\prime} V_{s^\prime s} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{t^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r t^\prime} V_{s^\prime s} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -46640,7 +46640,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{u^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s u^\prime} V_{s^\prime q} (y_d)^{q} (y_d)^{u^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime r u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{u^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s u^\prime} V_{s^\prime q} (y_d)^{q} (y_d)^{u^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime r u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dudH~"][p, q, r, s]] += (
@@ -46769,7 +46769,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{x3073^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s x3073^\prime} V_{t^\prime x3073^\prime} {(y_d)^{x3073^\prime}}^{2} \bar{\mathcal{C}}_{45}^{p r t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{x3453^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{s x3453^\prime} V_{t^\prime x3453^\prime} {(y_d)^{x3453^\prime}}^{2} \bar{\mathcal{C}}_{45}^{p r t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dddH"][p, q, r, s]] += (
@@ -46856,7 +46856,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{45}^{p q t^\prime r}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{45}^{p q t^\prime r}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["e~qddH~"][p, q, r, s]] += (
@@ -46868,7 +46868,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{45}^{p q t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{45}^{p q t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dudH~"][p, q, r, s]] += (
@@ -46880,7 +46880,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} (y_u)^{r} \bar{\mathcal{C}}_{45}^{p r t^\prime q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} (y_u)^{r} \bar{\mathcal{C}}_{45}^{p r t^\prime q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dddH"][p, q, r, s]] += (
@@ -46952,7 +46952,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{t^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r s^\prime} V_{t^\prime s} (y_d)^{s} (y_d)^{s^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{t^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r s^\prime} V_{t^\prime s} (y_d)^{s} (y_d)^{s^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -47024,7 +47024,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{u^\prime} \sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{s u^\prime} V_{t^\prime q} (y_d)^{q} (y_d)^{u^\prime} \bar{\mathcal{C}}_{45}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{u^\prime} \sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s u^\prime} V_{t^\prime q} (y_d)^{q} (y_d)^{u^\prime} \bar{\mathcal{C}}_{45}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["e~qddH~"][p, q, r, s]] += (
@@ -47068,7 +47068,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{45}^{p s^\prime q r}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{45}^{p s^\prime q r}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["e~qddH~"][p, q, r, s]] += (
@@ -47080,7 +47080,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{45}^{p s^\prime q r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{45}^{p s^\prime q r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dudH~"][p, q, r, s]] += (
@@ -47092,7 +47092,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_u)^{r} \bar{\mathcal{C}}_{45}^{p s^\prime r q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_u)^{r} \bar{\mathcal{C}}_{45}^{p s^\prime r q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dddH"][p, q, r, s]] += (
@@ -47164,7 +47164,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{t^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r t^\prime} V_{s^\prime s} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{t^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r t^\prime} V_{s^\prime s} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -47236,7 +47236,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{u^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s u^\prime} V_{s^\prime q} (y_d)^{q} (y_d)^{u^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime r u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{u^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s u^\prime} V_{s^\prime q} (y_d)^{q} (y_d)^{u^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime r u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~qdDd"][p, q, r, s]] += (
@@ -47248,7 +47248,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~qdDd"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{45}^{p q t^\prime r}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{45}^{p q t^\prime r}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["e~qddH~"][p, q, r, s]] += (
@@ -47260,7 +47260,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{45}^{p q t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{45}^{p q t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dudH~"][p, q, r, s]] += (
@@ -47272,7 +47272,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} (y_u)^{r} \bar{\mathcal{C}}_{45}^{p r t^\prime q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{t^\prime s} (y_d)^{s} (y_u)^{r} \bar{\mathcal{C}}_{45}^{p r t^\prime q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dddH"][p, q, r, s]] += (
@@ -47344,7 +47344,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{t^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r s^\prime} V_{t^\prime s} (y_d)^{s} (y_d)^{s^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{t^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r s^\prime} V_{t^\prime s} (y_d)^{s} (y_d)^{s^\prime} \bar{\mathcal{C}}_{45}^{p s^\prime t^\prime q}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["45,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -47416,7 +47416,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["45,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{u^\prime} \sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{s u^\prime} V_{t^\prime q} (y_d)^{q} (y_d)^{u^\prime} \bar{\mathcal{C}}_{45}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{u^\prime} \sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s u^\prime} V_{t^\prime q} (y_d)^{q} (y_d)^{u^\prime} \bar{\mathcal{C}}_{45}^{p r t^\prime u^\prime}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["46,"][G["l~dudH~"][p, q, r, s]] += (
@@ -47424,7 +47424,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["46,"][G["l~dudH~"][p, q, r, s]] += (
-        r"hloop \bar{\mathcal{C}}_{46}^{p r q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \bar{\mathcal{C}}_{46}^{p r q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["46,"][G["l~dudH~"][p, q, r, s]] += (
@@ -47484,7 +47484,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["46,"][G["l~qdDd"][p, q, r, s]] += (
-        r"hloop \frac{1}{16\pi^2} (y_u)^{q} \bar{\mathcal{C}}_{46}^{p q r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} (y_u)^{q} \bar{\mathcal{C}}_{46}^{p q r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["46,"][G["e~qddH~"][p, q, r, s]] += (
@@ -47492,7 +47492,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["46,"][G["e~qddH~"][p, q, r, s]] += (
-        r"hloop \frac{1}{16\pi^2} (y_e)^{p} (y_u)^{q} \bar{\mathcal{C}}_{46}^{p q r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} (y_e)^{p} (y_u)^{q} \bar{\mathcal{C}}_{46}^{p q r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["46,"][G["l~dudH~"][p, q, r, s]] += (
@@ -47500,7 +47500,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["46,"][G["l~dudH~"][p, q, r, s]] += (
-        r"hloop \frac{1}{16\pi^2} {(y_u)^{r}}^{2} \bar{\mathcal{C}}_{46}^{p r q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} {(y_u)^{r}}^{2} \bar{\mathcal{C}}_{46}^{p r q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["46,"][G["l~dddH"][p, q, r, s]] += (
@@ -47512,7 +47512,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["46,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r s^\prime} (y_d)^{s^\prime} (y_u)^{s^\prime} \bar{\mathcal{C}}_{46}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r s^\prime} (y_d)^{s^\prime} (y_u)^{s^\prime} \bar{\mathcal{C}}_{46}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["46,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -47524,7 +47524,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["46,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{s t^\prime} (y_d)^{t^\prime} (y_u)^{r} \bar{\mathcal{C}}_{46}^{p r t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s t^\prime} (y_d)^{t^\prime} (y_u)^{r} \bar{\mathcal{C}}_{46}^{p r t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["46,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -47599,7 +47599,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["46,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{x3098^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3098^\prime s} V_{x3098^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{46}^{p r t^\prime q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{x3478^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3478^\prime s} V_{x3478^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{46}^{p r t^\prime q}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["46,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -47674,7 +47674,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["46,"][G["l~dudH~"][p, q, r, s]] += (
-        r"\sum_{x3099^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3099^\prime s} V_{x3099^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{46}^{p r q u^\prime}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\sum_{x3479^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3479^\prime s} V_{x3479^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{46}^{p r q u^\prime}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["46,"][G["e~qddH~"][p, q, r, s]] += (
@@ -47698,7 +47698,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["e~qddH~"][p, q, r, s]] += (
-        r"hloop \bar{\mathcal{C}}_{47}^{p q r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \bar{\mathcal{C}}_{47}^{p q r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["e~qddH~"][p, q, r, s]] += (
@@ -47840,7 +47840,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{x3114^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3114^\prime s} V_{x3114^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{47}^{p q t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{x3494^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3494^\prime s} V_{x3494^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{47}^{p q t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -47978,7 +47978,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{x3115^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3115^\prime s} V_{x3115^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{47}^{p q r u^\prime}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{x3495^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3495^\prime s} V_{x3495^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{47}^{p q r u^\prime}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -48170,7 +48170,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{x3116^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{q x3116^\prime} V_{s^\prime x3116^\prime} {(y_d)^{x3116^\prime}}^{2} \bar{\mathcal{C}}_{47}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{x3496^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{q x3496^\prime} V_{s^\prime x3496^\prime} {(y_d)^{x3496^\prime}}^{2} \bar{\mathcal{C}}_{47}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["l~dddH"][p, q, r, s]] += (
@@ -48194,7 +48194,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["e~dddD"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{47}^{p s^\prime q r}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{47}^{p s^\prime q r}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["l~dddH"][p, q, r, s]] += (
@@ -48206,7 +48206,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{47}^{p s^\prime q r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{47}^{p s^\prime q r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["e~qddH~"][p, q, r, s]] += (
@@ -48278,7 +48278,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} V_{t^\prime q} (y_d)^{q} (y_d)^{s} \bar{\mathcal{C}}_{47}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} V_{t^\prime q} (y_d)^{q} (y_d)^{s} \bar{\mathcal{C}}_{47}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["l~dudH~"][p, q, r, s]] += (
@@ -48338,7 +48338,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["l~qdDd"][p, q, r, s]] += (
-        r"hloop \frac{1}{16\pi^2} (y_e)^{p} \bar{\mathcal{C}}_{47}^{p q r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} (y_e)^{p} \bar{\mathcal{C}}_{47}^{p q r s}\mathcal{O}^{\bar{l}qdDd}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["e~qddH~"][p, q, r, s]] += (
@@ -48346,7 +48346,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["e~qddH~"][p, q, r, s]] += (
-        r"hloop \frac{1}{16\pi^2} {(y_e)^{p}}^{2} \bar{\mathcal{C}}_{47}^{p q r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} {(y_e)^{p}}^{2} \bar{\mathcal{C}}_{47}^{p q r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["l~dudH~"][p, q, r, s]] += (
@@ -48354,7 +48354,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["l~dudH~"][p, q, r, s]] += (
-        r"hloop \frac{1}{16\pi^2} (y_e)^{p} (y_u)^{r} \bar{\mathcal{C}}_{47}^{p r q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} (y_e)^{p} (y_u)^{r} \bar{\mathcal{C}}_{47}^{p r q s}\mathcal{O}^{\bar{l}dud\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["l~dddH"][p, q, r, s]] += (
@@ -48366,7 +48366,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{r s^\prime} (y_d)^{s^\prime} (y_e)^{p} \bar{\mathcal{C}}_{47}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{r s^\prime} (y_d)^{s^\prime} (y_e)^{p} \bar{\mathcal{C}}_{47}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -48378,7 +48378,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["l~dqqH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} hloop \frac{1}{16\pi^2} V_{s t^\prime} (y_d)^{t^\prime} (y_e)^{p} \bar{\mathcal{C}}_{47}^{p r t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s t^\prime} (y_d)^{t^\prime} (y_e)^{p} \bar{\mathcal{C}}_{47}^{p r t^\prime q}\mathcal{O}^{\bar{l}dqq\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["e~dddD"][p, q, r, s]] += (
@@ -48390,7 +48390,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["e~dddD"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{47}^{p s^\prime q r}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} \bar{\mathcal{C}}_{47}^{p s^\prime q r}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["l~dddH"][p, q, r, s]] += (
@@ -48402,7 +48402,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{47}^{p s^\prime q r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} (y_d)^{s} (y_e)^{p} \bar{\mathcal{C}}_{47}^{p s^\prime q r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["47,"][G["e~qddH~"][p, q, r, s]] += (
@@ -48474,7 +48474,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["47,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{t^\prime} \sum_{s^\prime} hloop \frac{1}{16\pi^2} V_{s^\prime s} V_{t^\prime q} (y_d)^{q} (y_d)^{s} \bar{\mathcal{C}}_{47}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{t^\prime} \sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \frac{1}{16\pi^2} V_{s^\prime s} V_{t^\prime q} (y_d)^{q} (y_d)^{s} \bar{\mathcal{C}}_{47}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["e~qddH~"][p, q, r, s]] += (
@@ -48526,7 +48526,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["e~dddD"][p, q, r, s]] += (
-        r"hloop \bar{\mathcal{C}}_{48}^{p q r s}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) \bar{\mathcal{C}}_{48}^{p q r s}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~dddH"][p, q, r, s]] += (
@@ -48534,7 +48534,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["l~dddH"][p, q, r, s]] += (
-        r"hloop (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q r s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q r s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["e~qddH~"][p, q, r, s]] += (
@@ -48546,7 +48546,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{s^\prime} hloop V_{s^\prime q} (y_d)^{q} \bar{\mathcal{C}}_{48}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{s^\prime} \left( \frac{1}{16\pi^2} + \frac{v^2}{\Lambda^2} \right) V_{s^\prime q} (y_d)^{q} \bar{\mathcal{C}}_{48}^{p s^\prime r s}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["e~dddD"][p, q, r, s]] += (
@@ -48609,7 +48609,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["e~dddD"][p, q, r, s]] += (
-        r"\sum_{x3137^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{x3137^\prime s} V_{x3137^\prime s^\prime} (y_d)^{s} (y_d)^{s^\prime} \bar{\mathcal{C}}_{48}^{p s^\prime q r}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
+        r"\sum_{x3517^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{x3517^\prime s} V_{x3517^\prime s^\prime} (y_d)^{s} (y_d)^{s^\prime} \bar{\mathcal{C}}_{48}^{p s^\prime q r}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~dddH"][p, q, r, s]] += (
@@ -48681,7 +48681,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3137^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{x3137^\prime s} V_{x3137^\prime s^\prime} (y_d)^{s} (y_d)^{s^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p s^\prime q r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3517^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{x3517^\prime s} V_{x3517^\prime s^\prime} (y_d)^{s} (y_d)^{s^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p s^\prime q r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["e~qddH~"][p, q, r, s]] += (
@@ -48906,7 +48906,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{x3137^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{t^\prime q} V_{x3137^\prime s} V_{x3137^\prime s^\prime} (y_d)^{q} (y_d)^{s} (y_d)^{s^\prime} \bar{\mathcal{C}}_{48}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{x3517^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{t^\prime q} V_{x3517^\prime s} V_{x3517^\prime s^\prime} (y_d)^{q} (y_d)^{s} (y_d)^{s^\prime} \bar{\mathcal{C}}_{48}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~qdDd"][p, q, r, s]] += (
@@ -49038,7 +49038,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3137^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3137^\prime} V_{x3137^\prime s^\prime} (y_d)^{s^\prime} (y_d)^{x3137^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3517^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3517^\prime} V_{x3517^\prime s^\prime} (y_d)^{s^\prime} (y_d)^{x3517^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -49170,7 +49170,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["e~dddD"][p, q, r, s]] += (
-        r"\sum_{x3138^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3138^\prime s} V_{x3138^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{48}^{p q t^\prime r}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
+        r"\sum_{x3518^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3518^\prime s} V_{x3518^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{48}^{p q t^\prime r}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~dddH"][p, q, r, s]] += (
@@ -49242,7 +49242,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3138^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3138^\prime s} V_{x3138^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q t^\prime r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3518^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{x3518^\prime s} V_{x3518^\prime t^\prime} (y_d)^{s} (y_d)^{t^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q t^\prime r}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["e~qddH~"][p, q, r, s]] += (
@@ -49467,7 +49467,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{x3138^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s^\prime q} V_{x3138^\prime s} V_{x3138^\prime t^\prime} (y_d)^{q} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{48}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{x3518^\prime} \sum_{t^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s^\prime q} V_{x3518^\prime s} V_{x3518^\prime t^\prime} (y_d)^{q} (y_d)^{s} (y_d)^{t^\prime} \bar{\mathcal{C}}_{48}^{p s^\prime t^\prime r}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~qdDd"][p, q, r, s]] += (
@@ -49599,7 +49599,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3138^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3138^\prime} V_{x3138^\prime t^\prime} (y_d)^{t^\prime} (y_d)^{x3138^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q t^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3518^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3518^\prime} V_{x3518^\prime t^\prime} (y_d)^{t^\prime} (y_d)^{x3518^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q t^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -49731,7 +49731,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["e~dddD"][p, q, r, s]] += (
-        r"\sum_{x3139^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3139^\prime s} V_{x3139^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{48}^{p q r u^\prime}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
+        r"\sum_{x3519^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3519^\prime s} V_{x3519^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{48}^{p q r u^\prime}\mathcal{O}^{\bar{e}dddD}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~dddH"][p, q, r, s]] += (
@@ -49803,7 +49803,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3139^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3139^\prime s} V_{x3139^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q r u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3519^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{x3519^\prime s} V_{x3519^\prime u^\prime} (y_d)^{s} (y_d)^{u^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q r u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["e~qddH~"][p, q, r, s]] += (
@@ -50028,7 +50028,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["e~qddH~"][p, q, r, s]] += (
-        r"\sum_{x3139^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s^\prime q} V_{x3139^\prime s} V_{x3139^\prime u^\prime} (y_d)^{q} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{48}^{p s^\prime r u^\prime}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
+        r"\sum_{x3519^\prime} \sum_{u^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{s^\prime q} V_{x3519^\prime s} V_{x3519^\prime u^\prime} (y_d)^{q} (y_d)^{s} (y_d)^{u^\prime} \bar{\mathcal{C}}_{48}^{p s^\prime r u^\prime}\mathcal{O}^{\bar{e}qdd\tilde{H}}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~qdDd"][p, q, r, s]] += (
@@ -50160,7 +50160,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3139^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{r x3139^\prime} V_{x3139^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x3139^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q s u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3519^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{r x3519^\prime} V_{x3519^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x3519^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q s u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -50361,7 +50361,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3147^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3147^\prime} V_{x3147^\prime s^\prime} (y_d)^{s^\prime} (y_d)^{x3147^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3527^\prime} \sum_{s^\prime} (\frac{1}{16\pi^2})^2 V_{r x3527^\prime} V_{x3527^\prime s^\prime} (y_d)^{s^\prime} (y_d)^{x3527^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p s^\prime q s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -50562,7 +50562,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3148^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3148^\prime} V_{x3148^\prime t^\prime} (y_d)^{t^\prime} (y_d)^{x3148^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q t^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3528^\prime} \sum_{t^\prime} (\frac{1}{16\pi^2})^2 V_{r x3528^\prime} V_{x3528^\prime t^\prime} (y_d)^{t^\prime} (y_d)^{x3528^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q t^\prime s}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~dqqH~"][p, q, r, s]] += (
@@ -50763,7 +50763,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1, 2]] * 4)):
     )
 
     LATEX_EXPRS["48,"][G["l~dddH"][p, q, r, s]] += (
-        r"\sum_{x3149^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{r x3149^\prime} V_{x3149^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x3149^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q s u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
+        r"\sum_{x3529^\prime} \sum_{u^\prime} (\frac{1}{16\pi^2})^2 V_{r x3529^\prime} V_{x3529^\prime u^\prime} (y_d)^{u^\prime} (y_d)^{x3529^\prime} (y_e)^{p} \bar{\mathcal{C}}_{48}^{p q s u^\prime}\mathcal{O}^{\bar{l}dddH}_{pqrs}",
     )
 
     LOOP_LEVEL_MATCHING["48,"][G["l~dqqH~"][p, q, r, s]] += (
