@@ -25,7 +25,8 @@
 (**)
 (*PythonForm[x_String]:="'"<>x<>"'";*)
 (*PythonForm[x_Integer]:=ToString[x];*)
-(*PythonForm[x_Association]:="{"<>Table[PythonForm[ToString[i[[1]]]]<>":"<>PythonForm[i[[2]]]<>",",{i,Normal[x]}]<>"}";*)
+(*PythonForm[x_List]:="("<>StringRiffle[Table[PythonForm[i],{i,Normal[x]}],","]<>")";*)
+(*PythonForm[x_Association]:="{"<>Table[PythonForm[i[[1]]]<>":"<>PythonForm[i[[2]]]<>",",{i,Normal[x]}]<>"}";*)
 (*PythonForm[Rational[a_,b_]]:=PythonForm[a]<>"/"<>PythonForm[b];*)
 (*PythonForm[Times[a_,b_]]:=PythonForm[a]<>" * "<>PythonForm[b];*)
 (*PythonForm[Plus[a_,b__]]:=$L<>StringRiffle[Map[PythonForm,List[a,b]]," + "]<>$R;*)
@@ -50,6 +51,34 @@
 (*PythonForm[ye[x_]]:="ye["<>PythonForm[x]<>"]";*)
 (*PythonForm[G[label_][p__]]/;StringStartsQ[label,"*"]:="conj("<>ToString[X["'"<>StringDrop[label,1]<>",'"][p]]<>")";*)
 (*PythonForm[G[label_][p__]]:=ToString[X["'"<>label<>",'"][p]];*)
+
+
+(* ::Input:: *)
+(*LaTeXForm[x_Times]:=StringRiffle[Table[LaTeXForm[i],{i,List@@x}]," "];*)
+(*LaTeXForm[G[lbl_][idx__]->expr_]:=LaTeXForm[expr]<>LaTeXForm[Oper[lbl][idx]];*)
+(*LaTeXForm[G[lbl_][idx__]]:=If[StringStartsQ[lbl,"*"],LaTeXForm[OperCoeff[StringDrop[lbl,1]][idx][conj]],LaTeXForm[OperCoeff[lbl][idx]]];*)
+(*LaTeXForm[Oper[lbl_][idx__]]:="\\mathcal{O}_{"<>lbl<>"}^{"<>StringRiffle[(LaTeXForm/@List[idx])," "]<>"}";*)
+(*LaTeXForm[OperCoeff[lbl_][idx__]]:="\\mathcal{C}_{"<>ToString[lbl]<>"}^{"<>StringRiffle[(LaTeXForm/@List[idx])," "]<>"}";*)
+(*LaTeXForm[OperCoeff[lbl_][idx__][conj]]:="\\bar{\\mathcal{C}}_{"<>ToString[lbl]<>"}^{"<>StringRiffle[(LaTeXForm/@List[idx])," "]<>"}";*)
+(*LaTeXForm[loop]:="\\frac{1}{16\\pi^2}";*)
+(*LaTeXForm[loop^n_Integer]:="(\\frac{1}{16\\pi^2})^"<>ToString[n];*)
+(*LaTeXForm[yu[q_]]:="(y_u)^{"<>LaTeXForm[q]<>"}";*)
+(*LaTeXForm[yd[q_]]:="(y_d)^{"<>LaTeXForm[q]<>"}";*)
+(*LaTeXForm[ye[q_]]:="(y_e)^{"<>LaTeXForm[q]<>"}";*)
+(*LaTeXForm[$Sum[expr_,{var_,min_,max_}]]:="\\sum_{"<>LaTeXForm[var]<>"} "<>LaTeXForm[expr];*)
+(*LaTeXForm[$Sum[expr_,vars__List]]:=LaTeXForm[Fold[$Sum,expr,{vars}]];*)
+(*LaTeXForm[CKM[x_,y_]]:="V_{"<>LaTeXForm[x]<>" "<>LaTeXForm[y]<>"}";*)
+(*LaTeXForm[Conjugate[CKM[x_,y_]]]:=LaTeXForm[CKM[x,y]]<>"^*";*)
+(*LaTeXForm[Power[expr_,n_]]:="{"<>LaTeXForm[expr]<>"}^{"<>ToString[n]<>"}";*)
+(*LaTeXForm[Primed[x_]]:=ToString[x]<>"^\\prime";*)
+(*LaTeXForm["l~dddH"]:="\\bar{l}dddH";*)
+(*LaTeXForm["l~dqqH~"]:="\\bar{l}dqq\\tilde{H}";*)
+(*LaTeXForm["e~qddH~"]:="\\bar{e}qdd\\tilde{H}";*)
+(*LaTeXForm["l~dudH~"]:="\\bar{l}dud\\tilde{H}";*)
+(*LaTeXForm["l~qdDd"]:="\\bar{l}qdDd";*)
+(*LaTeXForm["e~dddD"]:="\\bar{e}dddD";*)
+(*LaTeXForm[x_]:=ToString[x];*)
+(*LaTeXForm[x_Symbol]:=ToString[x];*)
 
 
 (* ::Input:: *)
@@ -113,40 +142,106 @@
 
 
 (* ::Input:: *)
-(*exportPython[G[lbllow_][pp__]->expr_ Conj[G[lblhi_][x__]]]:=exportPython[G[lbllow][pp]->expr G["*"<>lblhi][x]];*)
+(*exportPython[{counter_,G[lbllow_][pp__]->expr_ Conj[G[lblhi_][x__]]}]:=exportPython[{counter,G[lbllow][pp]->expr G["*"<>lblhi][x]}];*)
 
 
 (* ::Input:: *)
-(*exportPython[G[lbllow_][pp__]->expr_ G[lblhi_][x__]]:=Block[{summed,otherIndices,sumRanges,rhs,repl,lhsIndices,rule,ruleapp,maybeDropStar},*)
+(*exportPython[{counter_,G[lbllow_][pp__]->expr_ G[lblhi_][x__]}]:=Block[{summed,otherIndices,sumRanges,rhs,repl,lhsIndices,rule,ruleapp,maybeDropStar,rhsWithoutSum,replLatex,ruleLatex,ruleappLatex,summedLaTeXReplacement},*)
 (**)
 (*otherIndices=expr/.{CKM[i_,j_]:>{Sow[i],Sow[j]},yd[i_]:>Sow[i],ye[i_]:>Sow[i],yu[i_]:>Sow[i]}//Reap//Last//Flatten;*)
 (**)
 (*summed=Complement[List[x]~Join~otherIndices,List[pp]];*)
+(*summedLaTeXReplacement=Table[i->Primed[i],{i,summed}];*)
 (*If[summed!={},*)
 (*sumRanges={#,0,2}&/@summed;*)
 (*rhs=List[expr G[lblhi][x]]~Join~sumRanges;*)
-(*rhs=Sum@@rhs;,*)
+(*(* Keep a version without evaluating the sums for the latexList *)*)
+(*rhsWithoutSum=$Sum@@rhs/.summedLaTeXReplacement;*)
+(*rhs=Sum@@rhs;*)
+(*,*)
 (*rhs=expr G[lblhi][x];*)
+(*rhsWithoutSum=rhs;*)
 (*];*)
 (**)
 (*lhsIndices=pattern[#,Blank[]]&/@List[pp];*)
+(**)
 (*repl={G[lbllow]@@lhsIndices,rhs};*)
 (*rule=RuleDelayed@@repl/.pattern->Pattern;*)
-(**)
 (*ruleapp=G[lbllow][p,q,r,s]/.rule;*)
+(**)
+(*(* Again for the latexList *)*)
+(*replLatex={G[lbllow]@@lhsIndices,rhsWithoutSum};*)
+(*ruleLatex=RuleDelayed@@replLatex/.pattern->Pattern;*)
+(*ruleappLatex=G[lbllow][p,q,r,s]/.ruleLatex;*)
 (**)
 (*(* Some SMEFT operators match onto the conjugates of the field string operators as you've defined them. In these cases remove the star (representing the conjugate) from the label. The operator coefficients are still conjugated in the expressions. *)*)
 (*maybeDropStar=If[StringStartsQ[lblhi,"*"],StringDrop[lblhi,1],lblhi];*)
 (**)
-(*Print["LOOP_LEVEL_MATCHING['"<>maybeDropStar<>",']["<>ToString[G["'"<>ToString[lbllow]<>"'"][p,q,r,s]]<>"]+=("];*)
+(*Print["LOOP_LEVEL_MATCHING['"<>maybeDropStar<>",']["<>ToString[G["'"<>ToString[lbllow]<>"'"][p,q,r,s]]<>"]+=(("];*)
 (**)
 (*If[summed!={},*)
 (*Print[#<>","]&@*PythonForm/@ruleapp;,*)
 (*Print[PythonForm[ruleapp]<>","]*)
 (*];*)
 (**)
-(*Print[")"];*)
+(*Print["),)"];*)
+(*AppendTo[counterList,counter];*)
+(**)
+(*Print["LATEX_EXPRS['"<>maybeDropStar<>",']["<>ToString[G["'"<>ToString[lbllow]<>"'"][p,q,r,s]]<>"]+=(r'"<>LaTeXForm[ruleappLatex]<>"\\mathcal{O}^{"<>LaTeXForm[lbllow]<>"}_{pqrs}"<>"',)"];*)
+(*Print[];*)
 (*]*)
+
+
+(* ::Input:: *)
+(*counterList={};*)
+(*Table[*)
+(*Block[{matchingList,numberedMatchingList},*)
+(*matchingList=RewriteMatchingExpression/@RelabelDummyFlavourIndices/@Apply[Join,DeleteDuplicates[(ExtractMatchingData@GuidedMatchingDim8[ToString[i]])//.ToMassBasis/.Dim6and7Symmetries/.Dim8and9Symmetries]/.TreeLevelSubsReplacementList/.OpConjReplacement];*)
+(*numberedMatchingList=Transpose[{Range[Length[matchingList]]-1,matchingList}];*)
+(*exportPython/@numberedMatchingList*)
+(*],{i,Range[11,24]}];*)
+
+
+(* ::Input:: *)
+(*counterList={};*)
+(*Table[*)
+(*Block[{matchingList,numberedMatchingList},*)
+(*matchingList=RewriteMatchingExpression/@RelabelDummyFlavourIndices/@Apply[Join,DeleteDuplicates[(ExtractMatchingData@GuidedMatchingDim9[ToString[i]])//.ToMassBasis/.Dim6and7Symmetries/.Dim8and9Symmetries]/.TreeLevelSubsReplacementList/.OpConjReplacement];*)
+(*numberedMatchingList=Transpose[{Range[Length[matchingList]]-1,matchingList}];*)
+(*exportPython/@numberedMatchingList*)
+(*],{i,Range[25,50]}];*)
+
+
+(* ::Subtitle:: *)
+(*Writing the L AT EX Form *)
+
+
+(* ::Input:: *)
+(*RewriteMatchingExpression/@RelabelDummyFlavourIndices/@Apply[Join,DeleteDuplicates[(ExtractMatchingData@GuidedMatchingDim8[ToString[18]])//.ToMassBasis/.Dim6and7Symmetries/.Dim8and9Symmetries]/.TreeLevelSubsReplacementList/.OpConjReplacement]*)
+
+
+(* ::Input:: *)
+(*ClearAll[LaTeXForm]*)
+
+
+(* ::Input:: *)
+(*(* LaTeX Form *)*)
+(*LaTexForm[x_]:=x;*)
+
+
+(* ::Input:: *)
+(*LaTeXForm[x_Times]:=StringRiffle[Table[LaTeXForm[i],{i,List@@x}]," "];*)
+(*LaTeXForm[G[lbl_][idx__]->expr_]:=LaTeXForm[expr]<>LaTeXForm[Oper[lbl][idx]];*)
+(*LaTeXForm[Oper[lbl_][idx__]]:="\\\\mathcal{O}_{"<>lbl<>"}^{"<>StringRiffle[(ToString/@List[idx]),""]<>"}";*)
+(*LaTeXForm[x_]:=ToString[x];*)
+
+
+(* ::Input:: *)
+(*LaTeXForm[12a Oper["qqql"][p,w,e]]*)
+
+
+(* ::Subtitle::Closed:: *)
+(*Old functions*)
 
 
 (* ::Input:: *)
@@ -159,6 +254,3 @@
 (*Table[*)
 (*exportPython/@RewriteMatchingExpression/@RelabelDummyFlavourIndices/@Apply[Join,DeleteDuplicates[(ExtractMatchingData@GuidedMatchingDim9[ToString[i]])//.ToMassBasis/.Dim6and7Symmetries/.Dim8and9Symmetries]/.TreeLevelSubsReplacementList/.OpConjReplacement]*)
 (*,{i,Range[25,50]}];*)
-
-
-
