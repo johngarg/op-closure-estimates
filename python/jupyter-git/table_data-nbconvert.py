@@ -61,7 +61,7 @@ fieldstring_table_info = df[["fieldstring_label",  "fieldstring_flavour",  "late
 print(fieldstring_df.merge(fieldstring_table_info, how="left", on="fieldstring_label").to_latex(
     index=False,
     columns=["fieldstring_label", "operator", "dimension", "DeltaB", "DeltaL", "latex", "smeft_flavour", "lambda_limit_coeff_1", "process"],
-    header=["\#", "Operator", "$D$", r"$\Delta B$", r"$\Delta L$", "Matching", "$pqrs$", "$\Lambda > \#$", "Process"],
+    header=["\#", "Operator", "$D$", r"$\Delta B$", r"$\Delta L$", "Matching", "$pqrs$", "$\Lambda~[\mathrm{GeV}]$", "Process"],
     na_rep="---",
     longtable=True,
     column_format="llcccllll",
