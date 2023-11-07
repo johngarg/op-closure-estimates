@@ -26,10 +26,10 @@ df["fieldstring_label"] = df["fieldstring_label"].astype(int)
 df.head()
 
 
-# In[4]:
+# In[8]:
 
 
-fieldstring_df = pd.read_csv("fieldstring_table.csv")
+fieldstring_df = pd.read_csv("fieldstring_table_noflavour.csv")
 
 # Go from B, L to \Delta B and \Delta L
 fieldstring_df["fieldstring_label"] = fieldstring_df["fieldstring_label"].astype(int)
@@ -39,7 +39,7 @@ fieldstring_df["DeltaL"] = -fieldstring_df["L"]
 fieldstring_df[["fieldstring_label", "operator", "DeltaB", "DeltaL"]].head()
 
 
-# In[5]:
+# In[9]:
 
 
 raw_size = df.size
@@ -51,21 +51,22 @@ without_duplicates = df.size
 raw_size - without_duplicates
 
 
-# In[7]:
+# In[14]:
 
 
 wrap_math = lambda x: "$" + str(x) + "$"
-fieldstring_table_info = df[["fieldstring_label",  "fieldstring_flavour", "lambda_limit_coeff_1", "latex", "smeft_label", "smeft_flavour", "process"]].sort_values(by=["fieldstring_label", "lambda_limit_coeff_1"], ascending=[True, False]).groupby(by="fieldstring_label", as_index=False).first()
+tab_num = lambda x: "\\tabnum{" + str(x) + "}"
+fieldstring_table_info = df[["fieldstring_label",  "fieldstring_flavour",  "latex", "smeft_label", "smeft_flavour", "lambda_limit_coeff_1", "process"]].sort_values(by=["fieldstring_label", "lambda_limit_coeff_1"], ascending=[True, False]).groupby(by="fieldstring_label", as_index=False).first()
 
 print(fieldstring_df.merge(fieldstring_table_info, how="left", on="fieldstring_label").to_latex(
     index=False,
-    columns=["fieldstring_label", "operator", "dimension", "DeltaB", "DeltaL", "latex", "smeft_flavour", "process"],
-    header=["Label", "Operator", "$D$", r"$\Delta B$", r"$\Delta L$", "Matching", "SMEFT Flavour", "Process"],
+    columns=["fieldstring_label", "operator", "dimension", "DeltaB", "DeltaL", "latex", "smeft_flavour", "lambda_limit_coeff_1", "process"],
+    header=["\#", "Operator", "$D$", r"$\Delta B$", r"$\Delta L$", "Matching", "$pqrs$", "$\Lambda > \#$", "Process"],
     na_rep="---",
     longtable=True,
-    column_format="|l|l|c|c|c|l|l|l|",
-    formatters={"latex": wrap_math, "DeltaB": wrap_math, "DeltaL": wrap_math, "fieldstring_label": wrap_math , "dimension": wrap_math, "process": wrap_math},
-    caption="The table displays our listing of the $|\Delta B| = 1$ operators. The matching expressions represent our estimate of the loop-level matching onto the LEFT in our SM-covariant formalism, discussed in the main text. Here, there is an implicit sum over all primed indices and $p,q,r,s$. The last two columns represent the flavour indices $pqrs$ of the SMEFT operator given in the matching expression that gives rise to the most stringent experimental limit, and the process from which this limit is derived. We separate those operators that generate proton decay only with loops from those that mediate it at tree level (operators 1--10).",
+    column_format="llcccllll",
+    formatters={"latex": wrap_math, "DeltaB": wrap_math, "DeltaL": wrap_math, "fieldstring_label": wrap_math , "dimension": wrap_math, "process": wrap_math, "lambda_limit_coeff_1": tab_num},
+    caption="The table displays our listing of the $|\Delta B| = 1$ operators. The matching expressions represent our estimate of the loop-level matching onto the LEFT in our SM-covariant formalism, discussed in the main text. Here, there is an implicit sum over all primed indices and $p,q,r,s$. The column labelled $pqrs$ represents the flavour of the SMEFT operator given in the matching expression that gives rise to the most stringent experimental limit. The implied limit on the scale underlying the operator is shown in the next column, and the process from which this limit is derived in the last. We separate those operators that generate proton decay only with loops from those that mediate it at tree level (operators 1--10).",
     label="tab:bviolating-operators",
     )
 )
