@@ -3,14 +3,16 @@
 
 # # Data for tables in the paper
 
-# Let's start with the latex matching expressions for the main table
-
-# In[1]:
+# In[ ]:
 
 
 from limits import get_loop_level_records, get_tree_level_records
 import pandas as pd
 
+
+# ## Field string table
+
+# Let's start with the latex matching expressions for the main table
 
 # In[2]:
 
@@ -72,29 +74,76 @@ print(fieldstring_df.merge(fieldstring_table_info, how="left", on="fieldstring_l
 )
 
 
-# In[1]:
+# ## Tree-level limits table
+
+# In[17]:
 
 
-import pandas as pd
-from limits import derive_general_limits, derive_best_general_limits, derive_loop_limits, LAMBDA, print_general_limits
+tree_level_records = get_tree_level_records()
 
 
-# In[2]:
+# In[18]:
 
 
-decay_rates = []
-# best_limits = derive_best_general_limits(decay_rates=decay_rates)
-best_limits = derive_best_general_limits(decay_rates=decay_rates)
-
-for decay_rate in decay_rates:
-    decay_rate["process"] = "$" + decay_rate["process"] + "$"
-    
-# fieldstring_limits = derive_loop_limits(general_limits=best_limits)
+df = pd.DataFrame.from_records(tree_level_records)
 
 
-# In[3]:
+# In[87]:
 
 
-# 26/09/2023
-print_general_limits(best_limits=best_limits)
+test = {"a": 1, "b": 2}
+
+test.get("c")
+
+
+# In[99]:
+
+
+import sympy
+
+best_tree_level_limits = df.sort_values("lambda_limit_coeff_1", ascending=False).drop_duplicates(subset=["smeft_label", "smeft_flavour"], keep="first")
+
+def typeset_left_op(label: str, flavour: str):
+    sup, sub = label.split("_")
+    return f"[C^{{{sup}}}_{{{sub}}}]_{{{flavour}}}"
+
+def fmt_lambda_limit(limit, smeft_label: str, smeft_flavour: str):
+    number, coeff_expr = limit.args
+    coeff_expr_latex = sympy.latex(coeff_expr)
+    coeff_expr_latex = coeff_expr_latex.replace("K_", "C_")
+
+    # Replace the smeft labels to latex
+    smeft_label_dict = {
+        "l~dqqH~": r"\\bar{l}dqq\\tilde{H}",
+        "e~qddH~": r"\\bar{e}qdd\\tilde{H}",
+        "l~dudH~": r"\\bar{l}dud\\tilde{H}",
+        "l~dddH": r"\\bar{l}dddH",
+        "e~dddD": r"\\bar{e}dddD",
+        "l~qdDd": r"\\bar{l}qdDd",
+
+    }
+    replacement = smeft_label_dict.get(smeft_label)
+
+    clean_coeff_expr_latex = re.sub(pattern=r'(C_\{[^\}]+\})', repl=f"C^{{{replacement if replacement is not None else smeft_label}}}_{{{smeft_flavour}}}", string=coeff_expr_latex)
+    tab_num = f"\\tabnumT{{{float(number)}}}"
+    return tab_num + " \\cdot " + clean_coeff_expr_latex
+
+best_tree_level_limits['left_coefficient'] = df.apply(lambda row: typeset_left_op(row["left_op"], row["left_flavour"]), axis=1)
+best_tree_level_limits['lambda_limit_latex'] = df.apply(lambda row: fmt_lambda_limit(row["lambda_limit"], row["smeft_label"], row["smeft_flavour"]), axis=1)
+
+cols = ['lambda_limit_latex', 'process', 'left_coefficient']
+
+print(
+    best_tree_level_limits.sort_values(by=["lambda_limit_coeff_1", "smeft_label", "smeft_flavour"], ascending=[False, False, True])[cols].to_latex(
+        index=False,
+        columns=cols,
+        header=["Lower limit [GeV]", "Process", "LEFT coefficient"],
+        na_rep="---",
+        longtable=True,
+        formatters={k: wrap_math for k in cols},
+        caption="The table shows the lower limits on the UV scale $\Lambda$ underlying each SMEFT operator defined in section~\\ref{sec:smeft-left-tree-level-matching} in terms of the operator coefficient. These limits are derived by matching the SMEFT operator onto the LEFT operator shown at tree level and comparing the specific process shown to its current experimental bound.",
+        label="tab:tree-level-limits",
+    )
+)
+
 
