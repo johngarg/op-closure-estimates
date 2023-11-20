@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below along with arXiv:2312.XXXXX."
+authors:
+- family-names: "Gargalionis"
+  given-names: "John"
+  orcid: "https://orcid.org/0000-0002-0745-7121"
+title: "Operator closure estimates for B-violation"
+version: 1.0.0
+doi: 10.5281/zenodo.1234
+date-released: 2023-12-01
+url: "https://github.com/johngarg/op-closure-estimates"
