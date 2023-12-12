@@ -20,7 +20,7 @@ MultiwayVertexFunction[{xc_, yc_}, name_, {w_, h_}] :=
            Text[
              Framed[
                Style[
-                 If[ruleQ, Text[RuleLabel[name[[2]]]] , ToStringRep[name]],
+                 If[ruleQ, Text[RuleLabel[name[[2]]]], ToStringRep[name]],
                  If[ruleQ, Hue[0.09, 1, 0.32] , Hue[0.62, 1, 0.48]]],
                Background -> Directive[Opacity[0.2], ruleColour],
                RoundingRadius -> 1,
@@ -188,6 +188,9 @@ ToStringRep[G[x_][y__]] := ToString[G[x][y]];
 
 ToStringRep[Deriv] := "\[PartialD]";
 
+(* For use with MaTeX *)
+ToStringRep[x_maTeX] := MaTeX@@x;
+RuleLabel[maTeX[lhs_] :> maTeX[rhs_]] := MaTeX[lhs <> " \\to" <> rhs];
 
 RuleLabel[lhs_ :> rhs_] := ToStringRep[lhs] <> "\n \[Rule] " <> ToStringRep[rhs];
 
