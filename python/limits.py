@@ -222,6 +222,7 @@ def get_tree_level_records_by_dict(
                     "smeft_op": smeft_op,
                     "smeft_label": smeft_label,
                     "smeft_flavour": smeft_flavour,
+                    "smeft_op_expr": smeft_op_expr,
                     "process": PROCESS_TO_LATEX[process],
                     "gamma": gamma,
                     "left_dimension": dimension,
