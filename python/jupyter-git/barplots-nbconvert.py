@@ -4,6 +4,253 @@
 # In[1]:
 
 
+from limits import get_loop_level_records, get_tree_level_records
+import pandas as pd
+import numpy as np
+
+
+# ## Tree-level barplots
+
+# In[ ]:
+
+
+tree_level_records = get_tree_level_records()
+
+
+# ## Loop-level barplots
+
+# In[2]:
+
+
+loop_level_records = get_loop_level_records()
+
+
+# In[3]:
+
+
+df = pd.DataFrame.from_records(loop_level_records)
+df = df.drop_duplicates()
+
+
+# Perhaps the best thing to do is take different smeft operators rather than field-string operators, since the plot with the field-string operators looks completely red for the d=9 case.
+
+# In[52]:
+
+
+best_limits = df[["fieldstring_label", "fieldstring_flavour", "smeft_label", "smeft_flavour", "lambda_limit_coeff_1", "process"]].sort_values("lambda_limit_coeff_1", ascending=False).drop_duplicates(subset=["fieldstring_label", "fieldstring_flavour"], keep="first").groupby("fieldstring_label").head(2)
+
+# There are no cases where there are groups of unit length apparently
+best_limits.groupby("fieldstring_label").apply(lambda x: x if len(x) < 2 else None).empty
+
+
+# In[53]:
+
+
+first_best_limits = best_limits[~best_limits.duplicated(subset=["fieldstring_label"])]
+second_best_limits = best_limits[best_limits.duplicated(subset=["fieldstring_label"])]
+
+assert len(first_best_limits) == len(second_best_limits)
+
+
+# In[62]:
+
+
+rename_dict = {
+    "lambda_limit_coeff_1": "Limit", 
+    "fieldstring_label": "Operator", 
+    "fieldstring_flavour": "Flavour", 
+    "process": "Process"
+}
+
+first_best_limits = first_best_limits.rename(columns=rename_dict)
+second_best_limits = second_best_limits.rename(columns=rename_dict)
+
+first_best_limits_order = list(first_best_limits["Operator"])
+second_best_limits["sorter"] = [first_best_limits_order.index(i) for i in second_best_limits["Operator"]]
+
+second_best_limits = second_best_limits.sort_values("sorter")
+
+
+# In[78]:
+
+
+to_latex = {
+    "qqql": "q^3l",
+    "duql": "duql",
+    "duue": "du^2e",
+    "qque": "q^2ue",
+    "l~dqqH~": "\\bar{l}dq^2\\tilde{H}",
+    "l~dudH~": "\\bar{l}dud\\tilde{H}",
+    "e~dqqH~": "\\bar{e}dq^2\\tilde{H}",
+    "e~qddH~": "\\bar{e}qd^2\\tilde{H}",
+    "l~dddH": "\\bar{l}d^3H",
+    "luqqHHH": "luq^2H^3",
+    "eqqqHHH": "eq^3H^3",
+    "ddqlHH": "d^2qlH^2",
+    "l~qdDd": "\\bar{l}qd^2 D",
+    "e~dddD": "\\bar{e}d^3 D",
+    "qqlqHHD": "lq^3 H^2 D",
+    "qqedHHD": "eq^2dH^2 D",
+    "udqlHHD": "udqlH^2D",
+}
+
+PROCESS_TO_LATEX = {
+    "p->K0e+": r"p \to K^{0} e^{+}",
+    "p->K0mu+": r"p \to K^{0} \mu^{+}",
+    "p->pi0e+": r"p \to \pi^{0} e^{+}",
+    "p->pi+nu": r"p \to \pi^{+} \nu",
+    "p->eta0e+": r"p \to \eta^{0} e^{+}",
+    "p->K+nu": r"p \to K^{+} \nu",
+    "n->pi0nu": r"n \to \pi^{0} \nu",
+    "n->pi+e-": r"n \to \pi^{+} e^{-}",
+    "n->pi-e+": r"n \to \pi^{-} e^{+}",
+    "n->eta0nu": r"n \to \eta^{0} \nu",
+    "n->K+e-": r"n \to K^{+} e^{-}",
+    "n->K0nu": r"n \to K^{0} \nu",
+}
+
+
+def typeset_operator_label(label: str) -> str:
+    return "$" + label + "$"
+
+
+# In[76]:
+
+
+fb_d8_mask = first_best_limits.Operator.astype(int) < 25
+fb_d9_mask = first_best_limits.Operator.astype(int) >= 25
+sb_d8_mask = second_best_limits.Operator.astype(int) < 25
+sb_d9_mask = second_best_limits.Operator.astype(int) >= 25
+
+first_best_limits[d8_mask]
+
+
+# In[74]:
+
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+from matplotlib.colors import LogNorm
+
+cmap = sns.cubehelix_palette(
+    n_colors=9, start=0, rot=-0.2, gamma=0.7, hue=0.8, light=0.9, dark=0.1, as_cmap=True
+)
+
+sns.set_theme(style="whitegrid")
+
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "sans-serif",
+    "font.sans-serif": "Helvetica",  
+})
+
+
+# In[82]:
+
+
+## Initialize the matplotlib figure
+f, ax = plt.subplots(figsize=(6, 15))
+
+best = first_best_limits[fb_d8_mask]
+second = second_best_limits[sb_d8_mask]
+
+# Plot the total crashes
+sns.set_color_codes("pastel")
+sns_plot=sns.barplot(x="Limit", y="Operator", data=best, label="Best loop-level limit", color="b", axes=ax)
+
+sns.set_color_codes("muted")
+sns.barplot(x="Limit", y="Operator", data=second, color="r", axes=ax, label="Second best loop-level limit")
+
+ax.set_xscale("log")
+
+sns_plot.set_yticklabels([f"${op}$" for op in best.Operator])
+
+lower_limit = 100
+ax.set(xlim=(lower_limit, 10e+15), ylabel="")
+
+ax.set_xlabel("Lower limit on scale [GeV]", fontsize=18)
+sns.despine(left=True, bottom=True)
+
+
+
+for i, (lim, flav, proc) in enumerate(zip(best.Limit, best.Flavour, best.Process)):
+    ax.text(lim*2, i, "$"+proc+"$", fontsize=14)
+    ax.text(lim*2, i+0.35, "$"+flav+"$", fontsize=12)
+    
+for i, (lim, flav, proc) in enumerate(zip(second.Limit, second.Flavour, second.Process)):
+    ax.text(lower_limit*2, i, "$"+proc+"$", fontsize=14, color="white")
+    ax.text(lower_limit*2, i+0.35, "$"+flav+"$", fontsize=12, color="white")
+
+#ax.bar_label(ax.containers[0], labels=[typeset_operator_label(i) for i in best_limits.Process], padding=3, fontsize=16)
+#ax.bar_label(ax.containers[1], labels=[typeset_operator_label(i) for i in worst_limits.Process], fontsize=16, label_type='center')
+
+ax.set_title('Loop-level limits on $d=8$ operators', fontsize=16)
+
+ax.yaxis.set_tick_params(labelsize=16)
+ax.xaxis.set_tick_params(labelsize=16)
+
+#ax.get_legend().remove()
+
+snsfig = sns_plot.get_figure()
+snsfig.savefig('/Users/johngargalionis/Desktop/dim_8_loop_level_limits.pdf', bbox_inches="tight")
+
+
+# In[91]:
+
+
+## Initialize the matplotlib figure
+f, ax = plt.subplots(figsize=(6, 15))
+
+best = first_best_limits[fb_d9_mask]
+second = second_best_limits[sb_d9_mask]
+
+# Plot the total crashes
+sns.set_color_codes("pastel")
+sns_plot=sns.barplot(x="Limit", y="Operator", data=best, label="Best loop-level limit", color="b", axes=ax)
+
+sns.set_color_codes("muted")
+sns.barplot(x="Limit", y="Operator", data=second, color="r", axes=ax, label="Second best loop-level limit")
+
+ax.set_xscale("log")
+
+sns_plot.set_yticklabels([f"${op}$" for op in best.Operator])
+
+lower_limit = 100
+ax.set(xlim=(lower_limit, 10e+12), ylabel="")
+
+ax.set_xlabel("Lower limit on scale [GeV]", fontsize=18)
+sns.despine(left=True, bottom=True)
+
+
+
+for i, (lim, flav, proc) in enumerate(zip(best.Limit, best.Flavour, best.Process)):
+    ax.text(lim*2, i, "$"+proc+"$", fontsize=14)
+    ax.text(lim*2, i+0.35, "$"+flav+"$", fontsize=12)
+    
+for i, (lim, flav, proc) in enumerate(zip(second.Limit, second.Flavour, second.Process)):
+    ax.text(lower_limit*2, i, "$"+proc+"$", fontsize=14, color="white")
+    ax.text(lower_limit*2, i+0.35, "$"+flav+"$", fontsize=12, color="white")
+
+#ax.bar_label(ax.containers[0], labels=[typeset_operator_label(i) for i in best_limits.Process], padding=3, fontsize=16)
+#ax.bar_label(ax.containers[1], labels=[typeset_operator_label(i) for i in worst_limits.Process], fontsize=16, label_type='center')
+
+ax.set_title('Loop-level limits on $d=9$ operators', fontsize=16)
+
+ax.yaxis.set_tick_params(labelsize=16)
+ax.xaxis.set_tick_params(labelsize=16)
+
+#ax.get_legend().remove()
+
+snsfig = sns_plot.get_figure()
+snsfig.savefig('/Users/johngargalionis/Desktop/dim_9_loop_level_limits.pdf', bbox_inches="tight")
+
+
+# ## Old barplots
+
+# In[ ]:
+
+
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -44,10 +291,18 @@ fieldstring_limits = derive_loop_limits(general_limits=best_limits)
 df = pd.DataFrame.from_records(decay_rates)
 
 
-# In[4]:
+# In[13]:
 
 
-df.sort_values("lambda_limit_coeff_1", ascending=False)
+# Here I want to check how close the p->e+K0 contribution is for duql,2111 since Arnau finds this to give a better limit
+
+arnau = df.sort_values("lambda_limit_coeff_1", ascending=False)
+arnau[(arnau.smeft_label == "duql")]
+
+# 719580238945908.
+# 758179010856717. 
+
+758179010856717. / 719580238945908.
 
 
 # In[5]:

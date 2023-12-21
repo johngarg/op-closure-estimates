@@ -1,22 +1,23 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[6]:
 
 
 from limits import get_loop_level_records, get_tree_level_records
 import pandas as pd
+import numpy as np
 
 
 # ## Tree-level heatmaps
 
-# In[3]:
+# In[2]:
 
 
 tree_level_records = get_tree_level_records()
 
 
-# In[4]:
+# In[3]:
 
 
 df = pd.DataFrame.from_records(tree_level_records)
@@ -24,138 +25,90 @@ df = pd.DataFrame.from_records(tree_level_records)
 
 # You need to scale the tree-level coefficients that you have with the factors from Arnau.
 
-# In[5]:
-
-
-arnau_growth_factors = [
-    ("QQQL",1111,5.7,6),
-    ("QQue",1111,3.1,6),
-    ("duQL",1111,2.9,6),
-    ("duue",1111,2.7,6),
-    ("QQQL",2111,3.5,6),
-    ("QQQL",1211,4.6,6),
-    ("duQL",2111,3.0,6),
-    ("duQL",1121,2.7,6),
-    ("duue",2111,2.5,6),
-    ("QQue",2111,3.1,6),
-    ("ldud",1111,1.8,7),
-    ("ldqq",1111,2.1,7),
-    ("ldud",1211,1.6,7),
-    ("ldud",1112,1.7,7),
-    ("ldqq",1211,1.9,7),
-    ("ldqq",1121,1.8,7),
-    ("ldqq",1112,1.8,7),
-    ("lddd",1112,1.7,7),
-    ("eqdd",1121,1.7,7),
-]
-
-growth_factors_df = pd.DataFrame.from_records(arnau_growth_factors, columns=["smeft_label", "smeft_flavour", "growth_factor", "dim"])
-
-
 # In[6]:
 
 
-fix_labels_dict = {
-    "ldud": "l~dudH~",
-    "ldqq": "l~dqqH~",
-    "lddd": "l~dddH",
-    "eqdd": "e~qddH~",
-}
+data = df[["smeft_label", "smeft_flavour", "lambda_limit_coeff_1"]].groupby(["smeft_label", "smeft_flavour"], as_index=False).max().to_dict(orient="list")
 
-def fix_label(label):
-    maybe_result = fix_labels_dict.get(label)
-    if maybe_result:
-        return maybe_result
-    
-    label = label.lower()
-    return label
+max_lambda_dict = {}
+for smeft_label, smeft_flavour, value in zip(*data.values()):
+    if (smeft_label, smeft_flavour) in max_lambda_dict:
+        print("Problem...")
 
-growth_factors_df.smeft_label = growth_factors_df.smeft_label.map(lambda s: fix_label(s))
-growth_factors_df.smeft_flavour = growth_factors_df.smeft_flavour.astype(int)
-df.smeft_flavour = df.smeft_flavour.astype(int)
+    max_lambda_dict[(smeft_label, smeft_flavour)] = value
 
 
 # In[7]:
-
-
-growth_factors_df
-
-
-# In[8]:
-
-
-df_with_growth_factors = pd.merge(df, growth_factors_df, on=["smeft_label", "smeft_flavour"], suffixes=("_john", "_arnau"))
-
-
-# In[9]:
-
-
-# Keep only the dimension 6 and 7 smeft operators
-df_with_growth_factors[df_with_growth_factors["dim_arnau"] >= 6]
-
-
-# Now we want to scale each coefficient by the growth factor in the `lambda_limit`, but this needs to be accessed through the `smeft_op` with `sympy`.
-
-# In[25]:
-
-
-max_lambda_dict
-
-
-# In[10]:
 
 
 import sympy
 import numpy as np
 from tables import LAMBDA
 
-# First scale the lambda limit
-d6 = df_with_growth_factors["dim_arnau"] == 6
-d7 = df_with_growth_factors["dim_arnau"] == 7
-
-df_with_growth_factors.loc[d6, "scaled_lambda_limit_coeff_1"] = df_with_growth_factors[d6].lambda_limit_coeff_1 * np.sqrt(df_with_growth_factors[d6].growth_factor)
-df_with_growth_factors.loc[d7, "scaled_lambda_limit_coeff_1"] = df_with_growth_factors[d7].lambda_limit_coeff_1 * np.cbrt(df_with_growth_factors[d7].growth_factor)
-
-# For each operator, get the max (scaled) lambda limit
-max_lambda_dict = df_with_growth_factors[["smeft_label", "smeft_flavour", "scaled_lambda_limit_coeff_1"]].groupby(["smeft_label", "smeft_flavour"]).max().to_dict()
-max_lambda_dict = max_lambda_dict["scaled_lambda_limit_coeff_1"]
-
 # Set `LAMBDA` to this value in `gamma_coeff_1` and then normalise to the rate associated with the experimental limit
 def calc_bound_saturation(row):
     inv_gev_per_year = 7.625e30
     value_in_inv_gev = lambda x: inv_gev_per_year * x
 
-    gamma = row.gamma.subs({row.smeft_op: row.growth_factor, LAMBDA: max_lambda_dict[(row.smeft_label, row.smeft_flavour)]})
+    gamma = row.gamma.subs({row.smeft_op: 1.0, LAMBDA: max_lambda_dict[(row.smeft_label, str(row.smeft_flavour))]})
     gamma_limit = 1.0 / value_in_inv_gev(row.lifetime_limit)
 
     ratio = gamma / gamma_limit
     return ratio
 
-df_with_growth_factors["bound_saturation"] = df_with_growth_factors.apply(calc_bound_saturation, axis=1)
-df_with_growth_factors["operator"] = df_with_growth_factors.apply(lambda row: row.smeft_label + "_" + str(row.smeft_flavour), axis=1)
-df_with_growth_factors
+df["bound_saturation"] = df.apply(calc_bound_saturation, axis=1)
 
 
-# In[11]:
+# In[81]:
+
+
+higher_dimensional_labels = {
+    "ddqlHH",
+    "eqqqHHH",
+    "luqqHHH", 
+    "qqedHHD",
+    "qqlqHHD",
+    "udqlHHD",
+    # These aren't higher dimensional, but still suppressed
+    # "l~qdDd",
+    # "e~dddD",
+}
+
+reduced_df = df[(~df['smeft_label'].isin(higher_dimensional_labels)) & (~df['smeft_flavour'].astype(str).str.contains('3'))]
+
+
+# In[82]:
 
 
 ordering = [
     "qqql",
     "qque",
-    "duql",
     "duue",
+    "duql",
     "l~dddH",
     "l~dqqH~",
+    "e~qddH~",
     "l~dudH~",
+    "l~qdDd",
+    "e~dddD",
+    "ddqlHH",
+    "eqqqHHH",
+    "luqqHHH",
+    "qqedHHD",
+    "qqlqHHD",
+    "udqlHHD",
 ]
+
+# Convert smeft_flavour to int
+df.smeft_flavour = df.smeft_flavour.astype(int)
 
 def ordering_func(x: pd.Index) -> pd.Index:
     if isinstance(x[0], np.int64):
         return x
     return pd.Index([ordering.index(i) for i in x])
 
-heatmap_df = pd.pivot_table(
-    df_with_growth_factors,
+dim_7_heatmap_df = pd.pivot_table(
+    df[(~df['smeft_label'].isin(higher_dimensional_labels)) & (~df['smeft_flavour'].astype(str).str.contains('3'))],
     values='bound_saturation',
     index=['smeft_label', 'smeft_flavour'],
     columns=['process'], 
@@ -163,10 +116,36 @@ heatmap_df = pd.pivot_table(
     fill_value=0,
     ).sort_index(key=ordering_func)
 
-np.array(heatmap_df, dtype=float)
+dim_9_heatmap_df = pd.pivot_table(
+    df[(df['smeft_label'].isin(higher_dimensional_labels)) & (~df['smeft_flavour'].astype(str).str.contains('3'))],
+    values='bound_saturation',
+    index=['smeft_label', 'smeft_flavour'],
+    columns=['process'], 
+    aggfunc="max", 
+    fill_value=0,
+    ).sort_index(key=ordering_func)
+
+np.array(dim_7_heatmap_df, dtype=float)
 
 
-# In[22]:
+# In[83]:
+
+
+dim_7_data = np.array(dim_7_heatmap_df, dtype=float)
+dim_9_data = np.array(dim_9_heatmap_df, dtype=float)
+
+def latex_format(value):
+    if 0 < abs(value) < 9e-3:
+        base, exp = "{:.0e}".format(value).replace('e-0', 'e-').split("e")
+        return fr"${base} \cdot 10^{{{exp}}}$"
+    else:
+        return fr"$ {value:.2f} $"
+    
+dim_7_formatted_labels = np.vectorize(latex_format)(dim_7_data).astype(str)
+dim_9_formatted_labels = np.vectorize(latex_format)(dim_9_data).astype(str)
+
+
+# In[94]:
 
 
 import matplotlib.pyplot as plt
@@ -194,14 +173,14 @@ def pretty_label(label: str, flavour: int) -> str:
         "e~dddD": r"\bar{e}dddD",
         "l~qdDd": r"\bar{l}qdDd",
     }
-    
+
     replacement = smeft_label_dict.get(label)
     if replacement is None:
         replacement = label
 
-    return wrap_math("C_{" + replacement + "}" + rf"^{{{flavour}}}")
+    return wrap_math("[\\mathcal{O}_{" + replacement + "}]" + rf"_{{{flavour}}}")
 
-def plot_fingerprints(df: pd.DataFrame, savefig: bool = False) -> None:
+def plot_fingerprints(df: pd.DataFrame, labels: list[str], savefig: bool = False, filename: str = "correlations.pdf") -> None:
     """Function acting on the dataframe (with an explicit value of Λ set) to make
     plot.
 
@@ -222,31 +201,217 @@ def plot_fingerprints(df: pd.DataFrame, savefig: bool = False) -> None:
         cmap=cmap,
         norm=LogNorm(),
         ax=ax,
-        annot=True,
+        #annot=True,
+        annot=labels,
+        fmt="",
         #annot_kws={"size": 8},
         xticklabels=[pretty_process(proc) for proc in df.keys()],
         yticklabels=[pretty_label(label, flavour) for label, flavour in df.index],
         # cbar_kws={'label': 'Bound Saturation'}
     )
-
-    # print(ax.texts) 
-    # for t in ax.texts:
-    #     t.set_text(t.get_text())
-    
-    # axes_subplot.set(title="")
-
     
     for label in ax.get_xticklabels():
         label.set_rotation(75)
+        label.set_ha("center")
+
+    for label in ax.get_yticklabels():
+        label.set_rotation(15)
         label.set_ha("right")
+        
+    ax.yaxis.set_tick_params(labelsize=15)
+    ax.xaxis.set_tick_params(labelsize=15)
+
+    # ax.collections[0].colorbar.set_label("Bound Saturation")
+    ax.figure.axes[-1].set_ylabel('Bound Saturation', size=15)
+    ax.figure.axes[-1].tick_params(labelsize=14)
+    
+    ax.tick_params(axis="x")
+    ax.tick_params(axis="y")
+
+    if savefig: 
+        snsfig = axes_subplot.get_figure()
+        snsfig.savefig(f'/Users/johngargalionis/Desktop/{filename}', bbox_inches="tight")
+    
+    return axes_subplot
+
+
+# In[95]:
+
+
+plot_fingerprints(dim_7_heatmap_df, labels=dim_7_formatted_labels, savefig=True, filename="dim_7_tree_level_correlations.pdf")
+
+
+# In[96]:
+
+
+plot_fingerprints(dim_9_heatmap_df, labels=dim_9_formatted_labels, savefig=True, filename="dim_9_tree_level_correlations.pdf")
+
+
+# ## Loop-level heatmap
+
+# In[2]:
+
+
+loop_level_records = get_loop_level_records()
+
+
+# In[3]:
+
+
+df = pd.DataFrame.from_records(loop_level_records)
+df = df.drop_duplicates()
+print(df.size)
+
+# Keep only best limit for each combination of operator and process
+df = df.sort_values(["lambda_limit_coeff_1"])
+df = df.drop_duplicates(subset=["fieldstring_label", "process"], keep="first")
+print(df.size)
+
+
+# In[19]:
+
+
+from tables import LAMBDA
+
+# For each operator, get the max (scaled) lambda limit
+max_lambda_dict = df[["fieldstring_label", "fieldstring_flavour", "lambda_limit_coeff_1"]].groupby(["fieldstring_label", "fieldstring_flavour"]).max().to_dict()
+max_lambda_dict = max_lambda_dict["lambda_limit_coeff_1"]
+
+# Set `LAMBDA` to this value in `gamma_coeff_1` and then normalise to the rate associated with the experimental limit
+def calc_bound_saturation(row):
+    inv_gev_per_year = 7.625e30
+    value_in_inv_gev = lambda x: inv_gev_per_year * x
+
+    gamma = row.gamma_fieldstring_coeff_1.subs({LAMBDA: max_lambda_dict[(row.fieldstring_label, row.fieldstring_flavour)]})
+    gamma_limit = 1.0 / value_in_inv_gev(row.lifetime_limit)
+
+    ratio = gamma / gamma_limit
+    return ratio
+
+df["bound_saturation"] = df.apply(calc_bound_saturation, axis=1)
+
+# Pick out dimension here
+df.fieldstring_label = df.fieldstring_label.astype(int)
+d8_mask = (df.fieldstring_label > 10) & (df.fieldstring_label < 25)
+d9_mask = df.fieldstring_label > 24
+df = df[d8_mask]
+
+# Isolate dominant contribution to each operator
+df_bound_sat = df[["fieldstring_label", "fieldstring_flavour", "process", "bound_saturation"]].groupby(["fieldstring_label", "fieldstring_flavour", "process"]).max()
+
+
+heatmap_df = pd.pivot_table(
+    df_bound_sat,
+    values='bound_saturation',
+    index=['fieldstring_label', 'fieldstring_flavour'],
+    columns=['process'], 
+    aggfunc="max", 
+    fill_value=0,
+)
+
+
+# In[7]:
+
+
+def latex_format(value):
+    if abs(value) == 0:
+        return fr"${value:.0f}$"
+
+    if abs(value) > 0.9:
+        return "$10^{0}$" 
+
+    base, exp = "{:.0e}".format(value).replace('e-0', 'e-').split("e")
+    if int(exp) < -5:
+        return "$0$"
+
+    if float(base) < 5:
+        return fr"$10^{{{exp}}}$"
+    elif float(base) >= 5:
+        return fr"$10^{{{int(exp)+1}}}$"
+    else:
+        raise ValueError
+
+data = np.array(heatmap_df, dtype=float)
+formatted_labels = np.vectorize(latex_format)(data).astype(str)
+
+def replace_unity(x):
+    return x.replace("$10^{0}$", "$1$")
+
+replace_vectorized = np.vectorize(replace_unity)
+formatted_labels = replace_vectorized(formatted_labels)
+
+
+# In[8]:
+
+
+np.array(heatmap_df, dtype=float)
+
+
+# In[17]:
+
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib.colors import LogNorm
+import numpy as np
+
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "sans-serif",
+    "font.sans-serif": "Helvetica",  
+})
+
+def wrap_math(expr: str) -> str:
+    return rf"${expr}$"
+
+def pretty_process(proc: str) -> str:
+    return wrap_math(proc)
+
+def pretty_label(label: str, flavour: int) -> str:
+    return wrap_math(rf"{label}_{{{flavour}}}")
+
+def plot_fingerprints(df: pd.DataFrame, savefig: bool = False) -> None:
+    """Function acting on the dataframe (with an explicit value of Λ set) to make
+    plot.
+
+    """
+    f, ax = plt.subplots(figsize=(9, 11))
+
+    cmap = sns.cubehelix_palette(
+        n_colors=9, start=0, rot=-0.2, gamma=0.7, hue=0.8, light=0.9, dark=0.1, as_cmap=True
+    )
+
+    ax.set_xlabel("Processes")
+    ax.set_ylabel("Operators")
+
+    data = np.array(df, dtype=float)
+    data[data < 9e-6] = 0
+
+    axes_subplot = sns.heatmap(
+        data,
+        center=0,
+        linewidths=0.5,
+        cmap=cmap,
+        norm=LogNorm(),
+        ax=ax,
+        annot=formatted_labels,
+        fmt="",
+        xticklabels=[pretty_process(proc) for proc in df.keys()],
+        yticklabels=[pretty_label(label, flavour) for label, flavour in df.index],
+        # cbar_kws={'label': 'Bound Saturation', 'shrink': 1.00, 'aspect': 30}
+    )
+
+    for label in ax.get_xticklabels():
+        label.set_rotation(75)
+        label.set_ha("center")
 
     for label in ax.get_yticklabels():
         label.set_rotation(15)
         label.set_ha("right")
         
         
-    ax.yaxis.set_tick_params(labelsize=16)
-    ax.xaxis.set_tick_params(labelsize=16)
+    ax.yaxis.set_tick_params(labelsize=15)
+    ax.xaxis.set_tick_params(labelsize=15)
 
     # ax.collections[0].colorbar.set_label("Bound Saturation")
     ax.figure.axes[-1].set_ylabel('Bound Saturation', size=15)
@@ -256,29 +421,15 @@ def plot_fingerprints(df: pd.DataFrame, savefig: bool = False) -> None:
 
     if savefig: 
         snsfig = axes_subplot.get_figure()
-        snsfig.savefig('/Users/johngargalionis/Desktop/correlations.pdf', bbox_inches="tight")
+        snsfig.savefig('/Users/johngargalionis/Desktop/dim_8_loop_level_correlations.pdf', bbox_inches="tight")
     
     return axes_subplot
 
 
-# In[24]:
+# In[18]:
 
 
 plot_fingerprints(heatmap_df, savefig=True)
-
-
-# ## Loop-level heatmap
-
-# In[ ]:
-
-
-loop_level_records = get_loop_level_records()
-
-
-# In[ ]:
-
-
-df = pd.DataFrame.from_records(loop_level_records)
 
 
 # ## Old heatmap

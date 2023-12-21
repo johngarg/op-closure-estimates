@@ -256,9 +256,9 @@ D7_LEFT_OPERATOR_SYMMETRIES = {
     ###############################
     ############################### V,RL_dud
     # NOTE: Some of these are commented because they are not generated at dimension-9
-    # ("V,RL_dud", (1, 1, 1, 1)): (HALF, 0, -1, 1),
-    # ("V,RL_dud", (2, 1, 1, 1)): (0, 1, -1, 1),
-    # ("V,RL_dud", (1, 1, 1, 2)): (0, 1, -1, 1),
+    ("V,RL_dud", (1, 1, 1, 1)): (HALF, 0, -1, 1),
+    ("V,RL_dud", (2, 1, 1, 1)): (0, 1, -1, 1),
+    ("V,RL_dud", (1, 1, 1, 2)): (0, 1, -1, 1),
     ############################### V,LL_ddu
     ("V,LL_ddu", (1, 1, 1, 1)): (HALF, 0, -1, 1),
     ("V,LL_ddu", (1, 2, 1, 1)): (0, 1, -1, 1),
@@ -553,7 +553,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
     ] = f"(G['qqedHHD'][{p}, {q}, {r}, {s}] + G['qqedHHD'][{q}, {p}, {r}, {s}]) * VEV**2 / (4*LAMBDA**2)"
 
     TREE_LEVEL_MATCHING_STR[
-        ("V,RL_udd", (p + 1, q + 1, r + 1, s + 1))
+        ("V,RL_dud", (p + 1, q + 1, r + 1, s + 1))
     ] = f"G['udqlHHD'][{p}, {q}, {r}, {s}] * VEV**2 / (2*LAMBDA**2)"
 
 p, q, r, s, t, r, qp, pp, rp, sp = sym.symbols("p q r s t r qp pp rp sp")
