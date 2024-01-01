@@ -266,11 +266,12 @@ df.lambda_limit_coeff_1 = df.lambda_limit_coeff_1.astype(float)
 print(df.size)
 
 
-# In[117]:
+# In[4]:
 
 
 from limits import VEV
 from constants import VEV_VAL
+from tables import LAMBDA
 from collections import defaultdict
 
 df[["smeft_label", "smeft_flavour", "fieldstring_label", "fieldstring_flavour", "smeft_op", "smeft_op_expr"]]
@@ -283,37 +284,88 @@ def smeft_coeff(row):
     return float(abs(row.smeft_op_expr.subs(subs_dict).evalf()))
 
 df["abs_smeft_coeff"] = df.apply(smeft_coeff, axis=1)
-# df['abs_smeft_coeff'] = pd.to_numeric(df['abs_smeft_coeff'], errors='coerce')
-
-heatmap_df = pd.pivot_table(
-    df[df.fieldstring_label=="49"],
-    values='abs_smeft_coeff',
-    index=['fieldstring_label', 'fieldstring_flavour'],
-    columns=['smeft_label', 'smeft_flavour'], 
-    aggfunc=lambda x: max(x), 
-    fill_value=0,
-)
-
-heatmap_df
 
 
-#test = df.groupby(by=["fieldstring_label", "fieldstring_flavour", "process"], as_index=False).agg({"smeft_op_expr": "sum"})
+# In[5]:
 
 
-# In[118]:
+import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib.colors import LogNorm
+
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "sans-serif",
+    "font.sans-serif": "Helvetica",  
+})
+
+def make_coeff_correlations(op: int, savefig=False):
+    heatmap_df = pd.pivot_table(
+        df[df.fieldstring_label==str(op)],
+        values='abs_smeft_coeff',
+        index=['fieldstring_label', 'fieldstring_flavour'],
+        columns=['smeft_label', 'smeft_flavour'],
+        aggfunc=lambda x: max(x),
+        fill_value=0,
+    )
+
+    to_latex = {
+        "qqql": "qqql",
+        "duql": "duql",
+        "duue": "duue",
+        "qque": "qque",
+        "l~dqqH~": "\\bar{l}dqq\\tilde{H}",
+        "l~dudH~": "\\bar{l}dud\\tilde{H}",
+        "e~dqqH~": "\\bar{e}dqq\\tilde{H}",
+        "e~qddH~": "\\bar{e}qdq\\tilde{H}",
+        "l~dddH": "\\bar{l}dddH",
+        "luqqHHH": "luqqHHH",
+        "eqqqHHH": "eqqqHHH",
+        "ddqlHH": "ddqlHH",
+        "l~qdDd": "\\bar{l}qddD",
+        "e~dddD": "\\bar{e}dddD",
+        "qqlqHHD": "lqqqHHD",
+        "qqedHHD": "eqqdHH D",
+        "udqlHHD": "udqlHHD",
+    }
+
+    # Create a new figure for each subplot
+    plt.figure()
+
+    axes_subplot = sns.heatmap(
+        heatmap_df,
+        center=0,
+        linewidths=0.5,
+        cmap="Blues",
+        norm=LogNorm(),
+        annot=False,
+        fmt="",
+    )
+
+    # Customize x-axis labels
+    x_labels = [f"${to_latex[label]}_{{{flavour}}}$" for label, flavour in zip(heatmap_df.columns.get_level_values(0), heatmap_df.columns.get_level_values(1))]
+    plt.xticks(range(len(heatmap_df.columns.get_level_values(1))), x_labels, rotation=75, ha="center")
+
+    # Customize y-axis labels
+    y_labels = [f"${label[1]}$" for label in heatmap_df.index]
+    plt.yticks(range(len(heatmap_df.index)), y_labels, rotation=15, ha="right")
+
+    # Set x and y axis labels
+    plt.xlabel("SMEFT operator")
+    plt.ylabel("Field-string operator flavour")
+    plt.title(f"Operator {op}")
+
+    if savefig:
+        plt.savefig(f'/Users/johngargalionis/Desktop/coeff_correlations/op_{op}.pdf', bbox_inches="tight")
+    else:
+        plt.show()
 
 
-sns.heatmap(heatmap_df, annot=False, norm='log', cmap='Blues')
+# In[7]:
 
-##
 
-# Customize x-axis labels
-#x_labels = [f"${label[0]}_{{{label[1]}}}$" for label in heatmap_df.columns.get_level_values(1)]
-#plt.xticks(range(len(heatmap_df.columns.get_level_values(1))), x_labels)
-
-# Customize y-axis labels
-#y_labels = [f"${label[0]}_{{{label[1]}}}$" for label in heatmap_df.index]
-#plt.yticks(range(len(heatmap_df.index)), y_labels)
+for i in range(11, 51):
+    make_coeff_correlations(i, savefig=True)
 
 
 # In[12]:
@@ -582,7 +634,7 @@ replace_vectorized = np.vectorize(replace_unity)
 formatted_labels = replace_vectorized(formatted_labels)
 
 
-# In[37]:
+# In[43]:
 
 
 import matplotlib.pyplot as plt
