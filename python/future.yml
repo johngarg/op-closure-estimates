@@ -1,0 +1,40 @@
+HYPER-KAMIOKANDE 2018:
+  experiment: Hyper-Kamiokande
+  inspire: Hyper-Kamiokande:2018ofw
+  url: https://inspirehep.net/literature/1672899
+  exposure: 1.9 Mt year
+  values:
+    p->K+nu: "> 3.2e34 @ 90% CL"
+    p->pi0e+: "> 7.8e34 @ 90% CL"
+    p->pi0mu+: "> 7.7e34 @ 90% CL"
+    p->eta0e+: "> 4.3e34 @ 90% CL"
+    p->eta0mu+: "> 4.9e34 @ 90% CL"
+    n->pi+e-: "> 2.0e34 @ 90% CL"
+    n->pi+mu-: "> 1.8e34 @ 90% CL"
+    n->K+e-: "> 1.0e34 @ 90% CL"
+
+DUNE 2020:
+  experiment: DUNE
+  inspire: DUNE:2020ypp
+  url: https://inspirehep.net/literature/1779525
+  exposure: 400 kt year
+  values:
+    p->K+nu: "> 1.3e34 @ 90% CL"
+    n->K+e-: "> 1.1e34 @ 90% CL"
+    p->pi0e+: "> 1.1e34 @ 90% CL"
+
+JUNO 2022:
+  experiment: JUNO
+  inspire: JUNO:2022qgr
+  url: https://inspirehep.net/literature/2615411
+  exposure: 200 kt year
+  values:
+    p->K+nu: "> 9.6e33 @ 90% CL"
+
+THEIA 2019:
+  experiment: THEIA
+  inspire: Theia:2019non
+  url: https://inspirehep.net/literature/1764050
+  exposure: 800 kt year
+  values:
+    p->K+nu: "> 3.8e34 @ 90% CL"
