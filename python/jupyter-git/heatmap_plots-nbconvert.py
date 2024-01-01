@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[6]:
+# In[1]:
 
 
 from limits import get_loop_level_records, get_tree_level_records
@@ -11,13 +11,13 @@ import numpy as np
 
 # ## Tree-level heatmaps
 
-# In[2]:
+# In[ ]:
 
 
 tree_level_records = get_tree_level_records()
 
 
-# In[3]:
+# In[ ]:
 
 
 df = pd.DataFrame.from_records(tree_level_records)
@@ -25,7 +25,7 @@ df = pd.DataFrame.from_records(tree_level_records)
 
 # You need to scale the tree-level coefficients that you have with the factors from Arnau.
 
-# In[6]:
+# In[4]:
 
 
 data = df[["smeft_label", "smeft_flavour", "lambda_limit_coeff_1"]].groupby(["smeft_label", "smeft_flavour"], as_index=False).max().to_dict(orient="list")
@@ -38,7 +38,7 @@ for smeft_label, smeft_flavour, value in zip(*data.values()):
     max_lambda_dict[(smeft_label, smeft_flavour)] = value
 
 
-# In[7]:
+# In[5]:
 
 
 import sympy
@@ -260,15 +260,214 @@ loop_level_records = get_loop_level_records()
 
 df = pd.DataFrame.from_records(loop_level_records)
 df = df.drop_duplicates()
+df.lambda_limit_coeff_1 = df.lambda_limit_coeff_1.astype(float)
+# df = df.sort_values(["lambda_limit_coeff_1", "fieldstring_label", "fieldstring_flavour"])
+
 print(df.size)
 
-# Keep only best limit for each combination of operator and process
-df = df.sort_values(["lambda_limit_coeff_1"])
-df = df.drop_duplicates(subset=["fieldstring_label", "process"], keep="first")
-print(df.size)
+
+# In[117]:
 
 
-# In[19]:
+from limits import VEV
+from constants import VEV_VAL
+from collections import defaultdict
+
+df[["smeft_label", "smeft_flavour", "fieldstring_label", "fieldstring_flavour", "smeft_op", "smeft_op_expr"]]
+
+def smeft_coeff(row):
+    subs_dict = defaultdict(lambda: 0)
+    subs_dict[VEV] = 1
+    subs_dict[LAMBDA] = 1
+    subs_dict[row.smeft_op] = 1
+    return float(abs(row.smeft_op_expr.subs(subs_dict).evalf()))
+
+df["abs_smeft_coeff"] = df.apply(smeft_coeff, axis=1)
+# df['abs_smeft_coeff'] = pd.to_numeric(df['abs_smeft_coeff'], errors='coerce')
+
+heatmap_df = pd.pivot_table(
+    df[df.fieldstring_label=="49"],
+    values='abs_smeft_coeff',
+    index=['fieldstring_label', 'fieldstring_flavour'],
+    columns=['smeft_label', 'smeft_flavour'], 
+    aggfunc=lambda x: max(x), 
+    fill_value=0,
+)
+
+heatmap_df
+
+
+#test = df.groupby(by=["fieldstring_label", "fieldstring_flavour", "process"], as_index=False).agg({"smeft_op_expr": "sum"})
+
+
+# In[118]:
+
+
+sns.heatmap(heatmap_df, annot=False, norm='log', cmap='Blues')
+
+##
+
+# Customize x-axis labels
+#x_labels = [f"${label[0]}_{{{label[1]}}}$" for label in heatmap_df.columns.get_level_values(1)]
+#plt.xticks(range(len(heatmap_df.columns.get_level_values(1))), x_labels)
+
+# Customize y-axis labels
+#y_labels = [f"${label[0]}_{{{label[1]}}}$" for label in heatmap_df.index]
+#plt.yticks(range(len(heatmap_df.index)), y_labels)
+
+
+# In[12]:
+
+
+# Construct `best` dataframe containing flavour structures listed in the table that contain the contributions that give the best limits
+df_1 = df.groupby("fieldstring_label", as_index=False).apply(lambda x: x.nlargest(1, "lambda_limit_coeff_1"))
+merged = pd.merge(df, df_1, on=["fieldstring_label", "fieldstring_flavour"], how="right")
+best = merged.groupby(by=["fieldstring_label", "process_y"], as_index=False).agg({"gamma_fieldstring_coeff_1_y": "sum", "lifetime_limit_y": "first", "fieldstring_flavour": "first"})
+best["process"] = best["process_y"]
+best["gamma_fieldstring_coeff_1"] = best["gamma_fieldstring_coeff_1_y"]
+best["lifetime_limit"] = best["lifetime_limit_y"]
+best = best[["fieldstring_label", "fieldstring_flavour", "process", "gamma_fieldstring_coeff_1", "lifetime_limit"]]
+
+
+# In[32]:
+
+
+result_dfs = []
+
+# Best limit flavour structures
+conditions = [
+    (11, "1113"), (12, "1131"), (13, "1311"), (14, "1123"),
+    (15, "1113"), (16, "1131"), (17, "1111"), (18, "1111"),
+    (19, "1113"), (20, "1113"), (21, "1112"), (22, "1111"),
+    (23, "1111"), (24, "1111"), (25, "111111"), (26, "1211"),
+    (27, "111122"), (28, "133111"), (29, "113321"), (30, "133111"),
+    (31, "111112"), (32, "111121"), (33, "122111"), (34, "1211"),
+    (35, "133121"), (36, "1121"), (37, "1113"), (38, "1112"),
+    (39, "131123"), (40, "113131"), (41, "133112"), (42, "111331"),
+    (43, "1121"), (44, "1131"), (45, "1111"), (46, "1111"),
+    (47, "1121"), (48, "1111"), (49, "331121"), (50, "131311"),
+]
+
+for label, flavour in conditions:
+    condition = (df.fieldstring_label == label) & (df.fieldstring_flavour == flavour)
+    result_df = df[condition].groupby(by=["fieldstring_label", "process"], as_index=False).agg({
+        "gamma_fieldstring_coeff_1": "sum",
+        "lifetime_limit": "first",
+        "fieldstring_flavour": "first"
+    })
+    result_dfs.append(result_df)
+
+best = pd.concat(result_dfs)
+
+
+# In[33]:
+
+
+from tables import LAMBDA
+
+def calc_exp_ratio(row):
+    inv_gev_per_year = 7.625e30
+    value_in_inv_gev = lambda x: inv_gev_per_year * x
+
+    gamma = row.gamma_fieldstring_coeff_1.subs({LAMBDA: 1.})
+    gamma_limit = 1.0 / value_in_inv_gev(row.lifetime_limit)
+
+    ratio = gamma / gamma_limit
+    return ratio
+
+
+df.fieldstring_label = df.fieldstring_label.astype(int)
+
+# Democratic
+democratic = df.groupby(by=["fieldstring_label", "process"], as_index=False).agg({"gamma_fieldstring_coeff_1": "sum", "lifetime_limit": "first"})
+democratic["exp_ratio"] = democratic.apply(calc_exp_ratio, axis=1)
+max_ratio_dict = democratic[["fieldstring_label", "exp_ratio"]].groupby(by="fieldstring_label").max().to_dict()["exp_ratio"]
+
+
+# Best limits
+best["exp_ratio"] = best.apply(calc_exp_ratio, axis=1)
+max_ratio_dict_best = best[["fieldstring_label", "exp_ratio"]].groupby(by="fieldstring_label").max().to_dict()["exp_ratio"]
+
+def calc_bound_saturation_michael(row):
+    return row.exp_ratio / max_ratio_dict[row.fieldstring_label]
+
+def calc_bound_saturation_michael_best(row):
+    return row.exp_ratio / max_ratio_dict_best[row.fieldstring_label]
+
+democratic["bound_saturation"] = democratic.apply(calc_bound_saturation_michael, axis=1)
+best["bound_saturation"] = best.apply(calc_bound_saturation_michael_best, axis=1)
+
+
+
+heatmap_df = pd.pivot_table(
+    best[best.bound_saturation > 9.999e-6],
+    values='bound_saturation',
+    index=['fieldstring_label', "fieldstring_flavour"],
+    columns=['process'], 
+    aggfunc=lambda x: float(max(x)), 
+    fill_value=0,
+)
+
+heatmap_df
+
+
+# In[5]:
+
+
+test = df.groupby(by=["fieldstring_label", "fieldstring_flavour", "process"], as_index=False).agg({"gamma_fieldstring_coeff_1": "sum", "lifetime_limit": "first"})
+
+
+# In[6]:
+
+
+from tables import LAMBDA
+
+def calc_exp_ratio(row):
+    inv_gev_per_year = 7.625e30
+    value_in_inv_gev = lambda x: inv_gev_per_year * x
+
+    gamma = row.gamma_fieldstring_coeff_1.subs({LAMBDA: 1.})
+    gamma_limit = 1.0 / value_in_inv_gev(row.lifetime_limit)
+
+    ratio = gamma / gamma_limit
+    return ratio
+
+
+# In[ ]:
+
+
+test["exp_ratio"] = test.apply(calc_exp_ratio, axis=1)
+test
+
+
+# In[7]:
+
+
+max_ratio_dict = test[["fieldstring_label", "fieldstring_flavour", "exp_ratio"]].groupby(by=["fieldstring_label", "fieldstring_flavour"]).max().to_dict()["exp_ratio"]
+
+def calc_bound_saturation_michael(row):
+    return row.exp_ratio / max_ratio_dict[(row.fieldstring_label, row.fieldstring_flavour)]
+
+test["bound_saturation"] = test.apply(calc_bound_saturation_michael, axis=1)
+test.fieldstring_label = test.fieldstring_label.astype(int)
+
+
+# In[8]:
+
+
+heatmap_df = pd.pivot_table(
+    test[(test.fieldstring_label == 49) & (test.bound_saturation > 9.999e-6)],
+    values='bound_saturation',
+    index=['fieldstring_label', 'fieldstring_flavour'],
+    columns=['process'], 
+    aggfunc="max", 
+    fill_value=0,
+)
+
+heatmap_df
+
+
+# In[9]:
 
 
 from tables import LAMBDA
@@ -294,14 +493,54 @@ df["bound_saturation"] = df.apply(calc_bound_saturation, axis=1)
 df.fieldstring_label = df.fieldstring_label.astype(int)
 d8_mask = (df.fieldstring_label > 10) & (df.fieldstring_label < 25)
 d9_mask = df.fieldstring_label > 24
-df = df[d8_mask]
+#df = df[d8_mask]
 
 # Isolate dominant contribution to each operator
-df_bound_sat = df[["fieldstring_label", "fieldstring_flavour", "process", "bound_saturation"]].groupby(["fieldstring_label", "fieldstring_flavour", "process"]).max()
+#df_bound_sat = df[["fieldstring_label", "fieldstring_flavour", "process", "bound_saturation"]].groupby(["fieldstring_label", "fieldstring_flavour", "process"], as_index=False).max()
+#df_bound_sat = df[["fieldstring_label", "fieldstring_flavour", "smeft_label", "smeft_flavour", "process", "bound_saturation"]].drop_duplicates(["fieldstring_label", "smeft_label", "smeft_flavour", "process"], inplace=False).groupby(["fieldstring_label", "fieldstring_flavour", "process"], as_index=False).max()
+
+# df_bound_sat = df[["fieldstring_label", "fieldstring_flavour", "smeft_label", "smeft_flavour", "process", "bound_saturation"]].groupby(["fieldstring_label", "fieldstring_flavour", "process"], as_index=False).max()
+
+
+# In[14]:
+
+
+df_bound_sat = df.groupby(["fieldstring_label", "smeft_label", "smeft_flavour", "process"], as_index=True).apply(lambda x: x)
+
+
+# In[62]:
+
+
+test = df[["fieldstring_label", "fieldstring_flavour", "smeft_label", "smeft_flavour", "process", "bound_saturation"]].drop_duplicates(["fieldstring_label", "smeft_label", "smeft_flavour", "process"])
+
+test[(test.fieldstring_label == 16) & (test.fieldstring_flavour == "1113")]
+
+
+# In[51]:
+
+
+test[(test.fieldstring_label == 17) & (test.smeft_flavour == "1311")]
+
+
+# In[5]:
+
+
+grouped_df = df_bound_sat.groupby(["fieldstring_label", "fieldstring_flavour"])
+filtered_df = grouped_df.filter(lambda x: len(x) > 1)
+shortened_df_bound_sat = filtered_df.reset_index(inplace=False).groupby(["fieldstring_label", "fieldstring_flavour", "process"], as_index=False).max()
+
+
+# In[65]:
+
+
+df[d9_mask].drop_duplicates(["fieldstring_label", "smeft_op", "process"])
+
+
+# In[110]:
 
 
 heatmap_df = pd.pivot_table(
-    df_bound_sat,
+    df[(df.fieldstring_label > 46) & (df.fieldstring_label < 470) & (df.bound_saturation > 9.999e-6)],
     values='bound_saturation',
     index=['fieldstring_label', 'fieldstring_flavour'],
     columns=['process'], 
@@ -309,8 +548,10 @@ heatmap_df = pd.pivot_table(
     fill_value=0,
 )
 
+heatmap_df
 
-# In[7]:
+
+# In[34]:
 
 
 def latex_format(value):
@@ -341,13 +582,7 @@ replace_vectorized = np.vectorize(replace_unity)
 formatted_labels = replace_vectorized(formatted_labels)
 
 
-# In[8]:
-
-
-np.array(heatmap_df, dtype=float)
-
-
-# In[17]:
+# In[37]:
 
 
 import matplotlib.pyplot as plt
@@ -370,7 +605,10 @@ def pretty_process(proc: str) -> str:
 def pretty_label(label: str, flavour: int) -> str:
     return wrap_math(rf"{label}_{{{flavour}}}")
 
-def plot_fingerprints(df: pd.DataFrame, savefig: bool = False) -> None:
+def pretty_label_no_flavour(label: str) -> str:
+    return wrap_math(rf"{label}")
+
+def plot_fingerprints(df: pd.DataFrame, savefig: bool = False, formatted_labels=formatted_labels) -> None:
     """Function acting on the dataframe (with an explicit value of Λ set) to make
     plot.
 
@@ -385,7 +623,7 @@ def plot_fingerprints(df: pd.DataFrame, savefig: bool = False) -> None:
     ax.set_ylabel("Operators")
 
     data = np.array(df, dtype=float)
-    data[data < 9e-6] = 0
+    #data[data < 9.999e-6] = 0
 
     axes_subplot = sns.heatmap(
         data,
@@ -398,6 +636,7 @@ def plot_fingerprints(df: pd.DataFrame, savefig: bool = False) -> None:
         fmt="",
         xticklabels=[pretty_process(proc) for proc in df.keys()],
         yticklabels=[pretty_label(label, flavour) for label, flavour in df.index],
+        # yticklabels=[pretty_label_no_flavour(label) for label in df.index],
         # cbar_kws={'label': 'Bound Saturation', 'shrink': 1.00, 'aspect': 30}
     )
 
@@ -421,12 +660,13 @@ def plot_fingerprints(df: pd.DataFrame, savefig: bool = False) -> None:
 
     if savefig: 
         snsfig = axes_subplot.get_figure()
-        snsfig.savefig('/Users/johngargalionis/Desktop/dim_8_loop_level_correlations.pdf', bbox_inches="tight")
+        #snsfig.savefig('/Users/johngargalionis/Desktop/dim_8_loop_level_correlations_18_20.pdf', bbox_inches="tight")
+        snsfig.savefig('/Users/johngargalionis/Desktop/best_limit_correlations.pdf', bbox_inches="tight")
     
     return axes_subplot
 
 
-# In[18]:
+# In[38]:
 
 
 plot_fingerprints(heatmap_df, savefig=True)

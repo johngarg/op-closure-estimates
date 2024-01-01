@@ -25,25 +25,37 @@ tree_level_records = get_tree_level_records()
 loop_level_records = get_loop_level_records()
 
 
-# In[3]:
+# In[6]:
 
 
 df = pd.DataFrame.from_records(loop_level_records)
 df = df.drop_duplicates()
 
+df.lambda_limit_coeff_1 = df.lambda_limit_coeff_1.astype(float)
+
 
 # Perhaps the best thing to do is take different smeft operators rather than field-string operators, since the plot with the field-string operators looks completely red for the d=9 case.
 
-# In[52]:
+# In[8]:
 
 
-best_limits = df[["fieldstring_label", "fieldstring_flavour", "smeft_label", "smeft_flavour", "lambda_limit_coeff_1", "process"]].sort_values("lambda_limit_coeff_1", ascending=False).drop_duplicates(subset=["fieldstring_label", "fieldstring_flavour"], keep="first").groupby("fieldstring_label").head(2)
+#best_limits_ = df[["fieldstring_label", "fieldstring_flavour", "smeft_label", "smeft_flavour", "lambda_limit_coeff_1", "process"]].sort_values("lambda_limit_coeff_1", ascending=False).groupby(by=["fieldstring_label", "smeft_label"], as_index=True).first()
+
+best_limits_ = df[["fieldstring_label", "fieldstring_flavour", "smeft_label", "smeft_flavour", "lambda_limit_coeff_1", "process"]].groupby(by=["fieldstring_label", "smeft_label"], as_index=False).apply(lambda x: x.nlargest(1, "lambda_limit_coeff_1")).reset_index(drop=True)
 
 # There are no cases where there are groups of unit length apparently
-best_limits.groupby("fieldstring_label").apply(lambda x: x if len(x) < 2 else None).empty
+# best_limits.groupby("fieldstring_label").apply(lambda x: x if len(x) < 2 else None).empty
+
+#best_limits_different_ops = best_limits_.reset_index(inplace=False).sort_values("lambda_limit_coeff_1", ascending=False).groupby("fieldstring_label").head(2)
+best_limits_different_ops = best_limits_.groupby("fieldstring_label").apply(lambda x: x.nlargest(2, "lambda_limit_coeff_1"))
+
+# Only operator 12 has one limit, add it in by hand!
+test = df[["fieldstring_label", "fieldstring_flavour", "smeft_label", "smeft_flavour", "lambda_limit_coeff_1", "process"]].sort_values("lambda_limit_coeff_1", ascending=False)
+new_row = test[(test.fieldstring_label == "12") & (test.smeft_flavour == "1121")].iloc[0].to_dict()
+best_limits = pd.concat([best_limits_different_ops, pd.DataFrame([new_row])], ignore_index=True).sort_values("lambda_limit_coeff_1", ascending=False)
 
 
-# In[53]:
+# In[11]:
 
 
 first_best_limits = best_limits[~best_limits.duplicated(subset=["fieldstring_label"])]
@@ -52,7 +64,7 @@ second_best_limits = best_limits[best_limits.duplicated(subset=["fieldstring_lab
 assert len(first_best_limits) == len(second_best_limits)
 
 
-# In[62]:
+# In[12]:
 
 
 rename_dict = {
@@ -71,27 +83,27 @@ second_best_limits["sorter"] = [first_best_limits_order.index(i) for i in second
 second_best_limits = second_best_limits.sort_values("sorter")
 
 
-# In[78]:
+# In[13]:
 
 
 to_latex = {
-    "qqql": "q^3l",
+    "qqql": "qqql",
     "duql": "duql",
-    "duue": "du^2e",
-    "qque": "q^2ue",
-    "l~dqqH~": "\\bar{l}dq^2\\tilde{H}",
+    "duue": "duue",
+    "qque": "qque",
+    "l~dqqH~": "\\bar{l}dqq\\tilde{H}",
     "l~dudH~": "\\bar{l}dud\\tilde{H}",
-    "e~dqqH~": "\\bar{e}dq^2\\tilde{H}",
-    "e~qddH~": "\\bar{e}qd^2\\tilde{H}",
-    "l~dddH": "\\bar{l}d^3H",
-    "luqqHHH": "luq^2H^3",
-    "eqqqHHH": "eq^3H^3",
-    "ddqlHH": "d^2qlH^2",
-    "l~qdDd": "\\bar{l}qd^2 D",
-    "e~dddD": "\\bar{e}d^3 D",
-    "qqlqHHD": "lq^3 H^2 D",
-    "qqedHHD": "eq^2dH^2 D",
-    "udqlHHD": "udqlH^2D",
+    "e~dqqH~": "\\bar{e}dqq\\tilde{H}",
+    "e~qddH~": "\\bar{e}qdq\\tilde{H}",
+    "l~dddH": "\\bar{l}dddH",
+    "luqqHHH": "luqqHHH",
+    "eqqqHHH": "eqqqHHH",
+    "ddqlHH": "ddqlHH",
+    "l~qdDd": "\\bar{l}qddD",
+    "e~dddD": "\\bar{e}dddD",
+    "qqlqHHD": "lqqqHHD",
+    "qqedHHD": "eqqdHH D",
+    "udqlHHD": "udqlHHD",
 }
 
 PROCESS_TO_LATEX = {
@@ -114,7 +126,7 @@ def typeset_operator_label(label: str) -> str:
     return "$" + label + "$"
 
 
-# In[76]:
+# In[14]:
 
 
 fb_d8_mask = first_best_limits.Operator.astype(int) < 25
@@ -122,10 +134,8 @@ fb_d9_mask = first_best_limits.Operator.astype(int) >= 25
 sb_d8_mask = second_best_limits.Operator.astype(int) < 25
 sb_d9_mask = second_best_limits.Operator.astype(int) >= 25
 
-first_best_limits[d8_mask]
 
-
-# In[74]:
+# In[15]:
 
 
 import seaborn as sns
@@ -146,7 +156,7 @@ plt.rcParams.update({
 })
 
 
-# In[82]:
+# In[16]:
 
 
 ## Initialize the matplotlib figure
@@ -167,20 +177,24 @@ ax.set_xscale("log")
 sns_plot.set_yticklabels([f"${op}$" for op in best.Operator])
 
 lower_limit = 100
-ax.set(xlim=(lower_limit, 10e+15), ylabel="")
+ax.set(xlim=(lower_limit, 10e+17), ylabel="")
 
-ax.set_xlabel("Lower limit on scale [GeV]", fontsize=18)
+ax.set_xlabel("Lower limit on scale [GeV]", fontsize=16)
 sns.despine(left=True, bottom=True)
 
 
 
-for i, (lim, flav, proc) in enumerate(zip(best.Limit, best.Flavour, best.Process)):
-    ax.text(lim*2, i, "$"+proc+"$", fontsize=14)
-    ax.text(lim*2, i+0.35, "$"+flav+"$", fontsize=12)
+for i, (lim, flav, proc, smeft_label, smeft_flavour) in enumerate(zip(best.Limit, best.Flavour, best.Process, best.smeft_label, best.smeft_flavour)):
+    ax.text(lim*2, i-0.02, "$"+proc+"$", fontsize=14)
+    ax.text(lim*2, i+0.29, "$"+flav+"$", fontsize=12)
+    string_ = "$[\\mathcal{O}_{" + to_latex[smeft_label] + "}]_{" + smeft_flavour + "}$"
+    ax.text(lim*50, i+0.29, string_)
     
-for i, (lim, flav, proc) in enumerate(zip(second.Limit, second.Flavour, second.Process)):
-    ax.text(lower_limit*2, i, "$"+proc+"$", fontsize=14, color="white")
-    ax.text(lower_limit*2, i+0.35, "$"+flav+"$", fontsize=12, color="white")
+for i, (lim, flav, proc, smeft_label, smeft_flavour) in enumerate(zip(second.Limit, second.Flavour, second.Process, second.smeft_label, second.smeft_flavour)):
+    ax.text(lower_limit*2, i-0.02, "$"+proc+"$", fontsize=14, color="white")
+    ax.text(lower_limit*2, i+0.29, "$"+flav+"$", fontsize=12, color="white")
+    string_ = "$[\\mathcal{O}_{" + to_latex[smeft_label] + "}]_{" + smeft_flavour + "}$"
+    ax.text(lower_limit*50, i+0.29, string_, color="white")
 
 #ax.bar_label(ax.containers[0], labels=[typeset_operator_label(i) for i in best_limits.Process], padding=3, fontsize=16)
 #ax.bar_label(ax.containers[1], labels=[typeset_operator_label(i) for i in worst_limits.Process], fontsize=16, label_type='center')
@@ -196,7 +210,7 @@ snsfig = sns_plot.get_figure()
 snsfig.savefig('/Users/johngargalionis/Desktop/dim_8_loop_level_limits.pdf', bbox_inches="tight")
 
 
-# In[91]:
+# In[11]:
 
 
 ## Initialize the matplotlib figure
@@ -216,21 +230,23 @@ ax.set_xscale("log")
 
 sns_plot.set_yticklabels([f"${op}$" for op in best.Operator])
 
-lower_limit = 100
+lower_limit = 1
 ax.set(xlim=(lower_limit, 10e+12), ylabel="")
 
-ax.set_xlabel("Lower limit on scale [GeV]", fontsize=18)
+ax.set_xlabel("Lower limit on scale [GeV]", fontsize=16)
 sns.despine(left=True, bottom=True)
 
-
-
-for i, (lim, flav, proc) in enumerate(zip(best.Limit, best.Flavour, best.Process)):
-    ax.text(lim*2, i, "$"+proc+"$", fontsize=14)
-    ax.text(lim*2, i+0.35, "$"+flav+"$", fontsize=12)
+for i, (lim, flav, proc, smeft_label, smeft_flavour) in enumerate(zip(best.Limit, best.Flavour, best.Process, best.smeft_label, best.smeft_flavour)):
+    ax.text(lim*2, i-0.05, "$"+proc+"$", fontsize=13)
+    ax.text(lim*2, i+0.24, "$"+flav+"$", fontsize=11)
+    string_ = "$[\\mathcal{O}_{" + to_latex[smeft_label] + "}]_{" + smeft_flavour + "}$"
+    ax.text(lim*50, i+0.24, string_)
     
-for i, (lim, flav, proc) in enumerate(zip(second.Limit, second.Flavour, second.Process)):
-    ax.text(lower_limit*2, i, "$"+proc+"$", fontsize=14, color="white")
-    ax.text(lower_limit*2, i+0.35, "$"+flav+"$", fontsize=12, color="white")
+for i, (lim, flav, proc, smeft_label, smeft_flavour) in enumerate(zip(second.Limit, second.Flavour, second.Process, second.smeft_label, second.smeft_flavour)):
+    ax.text(lower_limit*2, i-0.05, "$"+proc+"$", fontsize=13, color="white")
+    ax.text(lower_limit*2, i+0.24, "$"+flav+"$", fontsize=11, color="white")
+    string_ = "$[\\mathcal{O}_{" + to_latex[smeft_label] + "}]_{" + smeft_flavour + "}$"
+    ax.text(lower_limit*50, i+0.24, string_, color="white")
 
 #ax.bar_label(ax.containers[0], labels=[typeset_operator_label(i) for i in best_limits.Process], padding=3, fontsize=16)
 #ax.bar_label(ax.containers[1], labels=[typeset_operator_label(i) for i in worst_limits.Process], fontsize=16, label_type='center')
