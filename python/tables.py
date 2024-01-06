@@ -550,11 +550,11 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
 
     TREE_LEVEL_MATCHING_STR[
         ("V,LR_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"(G['qqedHHD'][{p}, {q}, {r}, {s}] + G['qqedHHD'][{q}, {p}, {r}, {s}]) * VEV**2 / (4*LAMBDA**2)"
+    ] = f"V[{p}, pp] * V[{q}, qp] * (G['qqedHHD'][pp, qp, {r}, {s}] + G['qqedHHD'][qp, pp, {r}, {s}]) * VEV**2 / (4*LAMBDA**2), (qp, 0, 2), (pp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("V,RL_dud", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"G['udqlHHD'][{p}, {q}, {r}, {s}] * VEV**2 / (2*LAMBDA**2)" # TODO: Add a negative sign and a conjugate?
+    ] = f"- V[{s}, sp] * G['udqlHHD'][{p}, {q}, {r}, sp] * VEV**2 / (2*LAMBDA**2), (sp, 0, 2)"
 
 p, q, r, s, t, r, qp, pp, rp, sp = sym.symbols("p q r s t r qp pp rp sp")
 TREE_LEVEL_MATCHING = {}
