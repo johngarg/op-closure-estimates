@@ -10,7 +10,7 @@ authors:
 - family-names: "Schmidt"
   given-names: "Michael"
   orcid: "https://orcid.org/0000-0002-8792-5537"
-title: "Model-independent estimates for loop-induced baryon-number-violating nucleon decays"
+title: "Operator closure estimates for BNV nucleon decays"
 version: 1.0.0
 date-released: 2024-01-10
 url: "https://github.com/johngarg/op-closure-estimates"
