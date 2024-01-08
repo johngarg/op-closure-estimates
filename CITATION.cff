@@ -1,11 +1,16 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite it as below along with arXiv:2312.XXXXX."
+message: "If you use this software, please cite arXiv:2401.XXXXX."
 authors:
 - family-names: "Gargalionis"
   given-names: "John"
   orcid: "https://orcid.org/0000-0002-0745-7121"
-title: "Operator closure estimates for B-violation"
+- family-names: "Herrero-Garcia"
+  given-names: "Juan"
+  orcid: "https://orcid.org/0000-0002-3300-0029"
+- family-names: "Schmidt"
+  given-names: "Michael"
+  orcid: "https://orcid.org/0000-0002-8792-5537"
+title: "Model-independent estimates for loop-induced baryon-number-violating nucleon decays"
 version: 1.0.0
-doi: 10.5281/zenodo.1234
-date-released: 2023-12-01
+date-released: 2024-01-10
 url: "https://github.com/johngarg/op-closure-estimates"

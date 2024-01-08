@@ -1,38 +1,31 @@
-#+title: Operator closure estimates
+#+title: Operator closure estimates for BNV nucleon decays
 
-Run the definitions in the core files:
+Our code contains the Mathematica code that implements our symbolic rewriting
+system as well as the Python code in which we perform much of our analysis.
+
+* Rewriting system
+
+Load up the definitions in the core files:
 #+begin_src wolfram
 Get["main.m"];
 Get["operators.m"];
 Get["rules.m"];
 Get["decay.m"];
+Get["pmatch.m"];
+Get["symmetries.m"];
 #+end_src
 
 The main function of the package is =MatchingData=, which is a wrapper around a
-number of auxiliary functions. =MatchingData= returns the raw matching data
-in the interaction basis.
+number of auxiliary functions. =MatchingData= returns the matching estimates
+associated with a specific field-string operator. Its inputs are the operator
+label, provided as a string, and the flavour indices, a list of integers. For example
+#+begin_src wolfram
+MatchingData["11", {1, 1, 1, 1}]
+#+end_src
+The output is in the mass basis.
 
-A number of steps have been wrapped into a convenient helper function:
-#+begin_src wolfram
-WriteMatchingData["9", {1,1,1,2}, NotebookDirectory[] <> "data/"]
-#+end_src
-which writes out the matching data with the flavour indices ={1,1,1,2}=.
+* Matching-estimate database
 
-The function =NucleonDecays= returns a replacement rule mapping the nucleon
-decay process name to the corresponding expression.
-#+begin_src wolfram
-NucleonDecays["9", {1,1,1,2}, "Symbolic"]
-#+end_src
-The argument ="Numeric"= can also be passed in. This function calculates the
-matching from scratch. If it has already been written out to a data file, this
-can be used instead with
-#+begin_src wolfram
-NucleonDecaysWithMatchingData["9", ReadList["data/op9_1112.dat"], "Symbolic"]
-#+end_src
-
-This is all tied into the function =ExtractDominantMatchingByOperator=, which
-returns a list of the dominant contributions to each LEFT operator that
-contribute to nucleon decay
-#+begin_src wolfram
-ExtractDominantMatchingByOperator[ReadList["data/op9_1112.dat"]]
-#+end_src
+Our results can be accessed through the =Pandas= dataframes we provide in
+=database.py=. We provide an example notebook showing how to access these data
+in the =examples/= directory.
