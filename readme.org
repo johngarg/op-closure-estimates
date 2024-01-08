@@ -35,24 +35,24 @@ in the =examples/= directory. We summarise the keys of the loop-level dataframe
 below.
 
 | Key                         | Description                                                                               |
-|-----------------------------|-------------------------------------------------------------------------------------------|
-| `smeft_op`                  | The `sympy` symbol representing the coefficient of the SMEFT operator being matched on to |
-| `smeft_label`               | The label of the SMEFT operator                                                           |
-| `smeft_flavour`             | The flavour indices of the SMEFT operator                                                 |
-| `smeft_op_expr`             | The symbolic expression implementing the SMEFT-LEFT matching provided in the paper        |
-| `process`                   | The decay process generated in LaTeX                                                      |
-| `gamma`                     | The symbolic decay rate                                                                   |
-| `left_dimension`            | The dimension of the LEFT operator generated                                              |
-| `gamma_coeff_1`             | The decay rate with the dimensionless coefficient set to 1                                |
-| `left_op`                   | The label of the LEFT operator driving the decay process                                  |
-| `left_flavour`              | The flavour indices of the LEFT operator                                                  |
-| `lambda_limit`              | The symbolic lower limit on the underlying new-physics scale                              |
-| `lambda_limit_coeff_1`      | The numeric lower limit on the underlying new-physics scale with coefficient set to 1     |
-| `lifetime_limit`            | The experimental lifetime limit in years                                                  |
-| `lifetime_limit_ref`        | The reference from which the experimental bound is taken                                  |
-| `matrix_elem`               | The nuclear matrix element relevant to the nucleon decay calculation                      |
-| `fieldstring_label`         | The label of the field-string operator                                                    |
-| `fieldstring_flavour`       | The flavour indices of the field string                                                   |
-| `latex`                     | The LaTeX expression of the matching estimate                                             |
-| `gamma_fieldstring_coeff`   | The decay rate with the matching estimate pasted in for the SMEFT coefficient             |
-| `gamma_fieldstring_coeff_1` | Same as `gamma_fieldstring_coeff` but for field-string coefficient set to 1               |
+|-----------------------------+-------------------------------------------------------------------------------------------|
+| =smeft_op=                  | The `sympy` symbol representing the coefficient of the SMEFT operator being matched on to |
+| =smeft_label=               | The label of the SMEFT operator                                                           |
+| =smeft_flavour=             | The flavour indices of the SMEFT operator                                                 |
+| =smeft_op_expr=             | The symbolic expression implementing the SMEFT-LEFT matching provided in the paper        |
+| =process=                   | The decay process generated in LaTeX                                                      |
+| =gamma=                     | The symbolic decay rate                                                                   |
+| =left_dimension=            | The dimension of the LEFT operator generated                                              |
+| =gamma_coeff_1=             | The decay rate with the dimensionless coefficient set to 1                                |
+| =left_op=                   | The label of the LEFT operator driving the decay process                                  |
+| =left_flavour=              | The flavour indices of the LEFT operator                                                  |
+| =lambda_limit=              | The symbolic lower limit on the underlying new-physics scale                              |
+| =lambda_limit_coeff_1=      | The numeric lower limit on the underlying new-physics scale with coefficient set to 1     |
+| =lifetime_limit=            | The experimental lifetime limit in years                                                  |
+| =lifetime_limit_ref=        | The reference from which the experimental bound is taken                                  |
+| =matrix_elem=               | The nuclear matrix element relevant to the nucleon decay calculation                      |
+| =fieldstring_label=         | The label of the field-string operator                                                    |
+| =fieldstring_flavour=       | The flavour indices of the field string                                                   |
+| =latex=                     | The LaTeX expression of the matching estimate                                             |
+| =gamma_fieldstring_coeff=   | The decay rate with the matching estimate pasted in for the SMEFT coefficient             |
+| =gamma_fieldstring_coeff_1= | Same as `gamma_fieldstring_coeff` but for field-string coefficient set to 1               |
