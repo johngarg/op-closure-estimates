@@ -4,7 +4,7 @@ Our code contains the Mathematica code that implements our symbolic rewriting
 system as well as the Python code in which we perform much of our analysis. If
 you use any of the code contained in this repository, please cite our paper
 "Model-independent estimates for loop-induced baryon-number-violating nucleon
-decays".
+decays" https://arxiv.org/abs/2401.04768.
 
 * Rewriting system
 
