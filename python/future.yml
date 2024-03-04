@@ -9,8 +9,8 @@ HYPER-KAMIOKANDE 2018:
     p->pi0mu+: "> 7.7e34 @ 90% CL"
     p->eta0e+: "> 4.3e34 @ 90% CL"
     p->eta0mu+: "> 4.9e34 @ 90% CL"
-    n->pi+e-: "> 2.0e34 @ 90% CL"
-    n->pi+mu-: "> 1.8e34 @ 90% CL"
+    n->pi-e+: "> 2.0e34 @ 90% CL"
+    n->pi-mu+: "> 1.8e34 @ 90% CL"
     n->K+e-: "> 1.0e34 @ 90% CL"
 
 DUNE 2020:
