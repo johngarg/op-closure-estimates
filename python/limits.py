@@ -147,6 +147,22 @@ def process_smeft_label(label: str):
     _, lbl, p, q, r, s, t, u = label_parts
     return (lbl, f"{int(p)+1}{int(q)+1}{int(r)+1}{int(s)+1}{int(t)+1}{int(u)+1}")
 
+def extract_particles(s: str):
+    # Split the string at "->" to separate the baryon from the rest
+    baryon, rest = s.split("->")
+
+    # Find the index of the first occurrence of "0", "+", or "-" in the rest of the string
+    # This will mark the end of the meson
+    meson_end_index = min([rest.find(char) for char in "0+-" if rest.find(char) != -1]) + 1
+
+    # Extract the meson using the found index; everything up to that index is the meson
+    meson = rest[:meson_end_index]
+
+    # The lepton is everything after the meson
+    lepton = rest[meson_end_index:]
+
+    return baryon, meson, lepton
+
 def get_tree_level_records_by_dict(
     operator_to_quantum_numbers={**D6_LEFT_OPERATOR_SYMMETRIES, **D7_LEFT_OPERATOR_SYMMETRIES},
     quantum_numbers_to_processes=ALLOWED_PROCESSES,
@@ -167,8 +183,7 @@ def get_tree_level_records_by_dict(
 
         for process in processes:
             # Get baryon and meson
-            baryon, meson_lepton = process.split("->")
-            meson = meson_lepton[:-2]
+            baryon, meson, _ = extract_particles(process)
 
             matrix_elem = np.nan
             if dimension == 6:
