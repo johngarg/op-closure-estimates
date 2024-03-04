@@ -41,19 +41,25 @@ class Measurement:
     is_future: bool = False
     ineq: str = ">"  # one of "<" or ">"
 
+MISSING = Measurement(*(["Missing"]*7))
 
 PROCESS_TO_LATEX = {
     "p->K0e+": r"p \to K^{0} e^{+}",
     "p->K0mu+": r"p \to K^{0} \mu^{+}",
     "p->pi0e+": r"p \to \pi^{0} e^{+}",
+    "p->pi0mu+": r"p \to \pi^{0} \mu^{+}",
     "p->pi+nu": r"p \to \pi^{+} \nu",
     "p->eta0e+": r"p \to \eta^{0} e^{+}",
+    "p->eta0mu+": r"p \to \eta^{0} \mu^{+}",
     "p->K+nu": r"p \to K^{+} \nu",
     "n->pi0nu": r"n \to \pi^{0} \nu",
     "n->pi+e-": r"n \to \pi^{+} e^{-}",
+    "n->pi+mu-": r"n \to \pi^{+} \mu^{-}",
     "n->pi-e+": r"n \to \pi^{-} e^{+}",
+    "n->pi-mu+": r"n \to \pi^{-} \mu^{+}",
     "n->eta0nu": r"n \to \eta^{0} \nu",
     "n->K+e-": r"n \to K^{+} e^{-}",
+    "n->K+mu-": r"n \to K^{+} \mu^{-}",
     "n->K0nu": r"n \to K^{0} \nu",
 }
 
@@ -91,26 +97,11 @@ def parse_limits(yaml_path: str, is_future: bool = False) -> List[Measurement]:
 
 def most_stringent_limit(measurements: List[Measurement], process: str) -> Measurement:
     if process not in [m.process for m in measurements]:
-        return "Missing"
+        return MISSING
 
     return max(
         (m for m in measurements if m.process == process), key=lambda x: x.value,
     )
-
-
-def print_process_limits(measurements: List[Measurement]):
-    output = {}
-    inv_gev_per_year = 7.625e30
-    value_in_inv_gev = lambda x: inv_gev_per_year * x
-    for process in PROCESSES:
-        meas = most_stringent_limit(measurements=measurements, process=process)
-        if isinstance(meas, str):
-            output[process] = meas
-            continue
-        gamma, cite = 1.0 / value_in_inv_gev(meas.value), meas.ref
-        output[process] = (gamma, cite)
-
-    return output
 
 
 def get_matrix_element(
@@ -164,6 +155,7 @@ def get_tree_level_records_by_dict(
 
     results_dict = defaultdict(list)
     measurements = parse_limits("limits.yml")
+    measurements += parse_limits("future.yml", is_future=True)
     for left_operator, quantum_numbers in operator_to_quantum_numbers.items():
         processes = quantum_numbers_to_processes[quantum_numbers]
 
@@ -185,6 +177,10 @@ def get_tree_level_records_by_dict(
             lifetime_limit = most_stringent_limit(
                 measurements=measurements, process=process
             )
+
+            if lifetime_limit.name == "Missing":
+                continue
+
             for smeft_op_expr in TREE_LEVEL_MATCHING[left_operator]:
                 smeft_op_expr = smeft_op_expr.subs({V: CKM})
 
@@ -233,7 +229,8 @@ def get_tree_level_records_by_dict(
                     "lambda_limit_coeff_1": lambda_limit.subs({smeft_op: 1}),
                     "lifetime_limit": lifetime_limit.value,
                     "lifetime_limit_ref": lifetime_limit.ref,
-                    "dim": dimension,
+                    "is_future": lifetime_limit.is_future,
+                    "dim": dimension, ## TODO Mark for deprication (same as left_dimension)
                     "matrix_elem": matrix_elem,
                 }
 
