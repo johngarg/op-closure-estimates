@@ -171,7 +171,7 @@ def get_tree_level_records_by_dict(
 
     results_dict = defaultdict(list)
     measurements = parse_limits("limits.yml")
-    measurements += parse_limits("future.yml", is_future=True)
+    sensitivities = parse_limits("future.yml", is_future=True)
     for left_operator, quantum_numbers in operator_to_quantum_numbers.items():
         processes = quantum_numbers_to_processes[quantum_numbers]
 
@@ -183,73 +183,74 @@ def get_tree_level_records_by_dict(
 
         for process in processes:
             # Get baryon and meson
-            baryon, meson, _ = extract_particles(process)
+            baryon, meson, lepton = extract_particles(process)
 
             matrix_elem = np.nan
             if dimension == 6:
                 matrix_elem = get_matrix_element(left_operator, baryon, meson)
 
-            lifetime_limit = most_stringent_limit(
-                measurements=measurements, process=process
-            )
+            # lifetime_limit = most_stringent_limit(
+            #     measurements=measurements, process=process
+            # )
 
-            if lifetime_limit.name == "Missing":
-                continue
+            relevant_measurements = [most_stringent_limit(measurements=measurements, process=process), most_stringent_limit(measurements=sensitivities, process=process)]
+            for lifetime_limit in relevant_measurements:
+                if lifetime_limit.name == "Missing":
+                    continue
+                for smeft_op_expr in TREE_LEVEL_MATCHING[left_operator]:
+                    smeft_op_expr = smeft_op_expr.subs({V: CKM})
 
-            for smeft_op_expr in TREE_LEVEL_MATCHING[left_operator]:
-                smeft_op_expr = smeft_op_expr.subs({V: CKM})
-
-                if dimension == 6:
-                    gamma = dim_6_decay_rate(
-                        operator=smeft_op_expr,
-                        matrix_element=matrix_elem,
-                        baryon=baryon,
-                        meson=meson,
-                    )
-                elif dimension == 7:
-                    gamma = dim_7_decay_rate(
-                        operator=smeft_op_expr,
-                        baryon=baryon,
-                        meson=meson,
-                    )
-                else:
-                    raise ValueError("Dimension of left operator incorrect: {dimension}.")
+                    if dimension == 6:
+                        gamma = dim_6_decay_rate(
+                            operator=smeft_op_expr,
+                            matrix_element=matrix_elem,
+                            baryon=baryon,
+                            meson=meson,
+                        )
+                    elif dimension == 7:
+                        gamma = dim_7_decay_rate(
+                            operator=smeft_op_expr,
+                            baryon=baryon,
+                            meson=meson,
+                        )
+                    else:
+                        raise ValueError("Dimension of left operator incorrect: {dimension}.")
 
 
-                gamma = gamma.subs({VEV: VEV_VAL})
+                    gamma = gamma.subs({VEV: VEV_VAL})
 
-                inv_gev_per_year = 7.625e30
-                value_in_inv_gev = lambda x: inv_gev_per_year * x
-                gamma_limit = 1.0 / value_in_inv_gev(lifetime_limit.value)
-                lambda_limits = sym.solve(gamma_limit - gamma, LAMBDA)
+                    inv_gev_per_year = 7.625e30
+                    value_in_inv_gev = lambda x: inv_gev_per_year * x
+                    gamma_limit = 1.0 / value_in_inv_gev(lifetime_limit.value)
+                    lambda_limits = sym.solve(gamma_limit - gamma, LAMBDA)
 
-                # Currently just assuming the last one is positive
-                lambda_limit = lambda_limits[-1]
-                assert len(lambda_limit.free_symbols) == 1
-                smeft_op = list(lambda_limit.free_symbols)[0]
+                    # Currently just assuming the last one is positive
+                    lambda_limit = lambda_limits[-1]
+                    assert len(lambda_limit.free_symbols) == 1
+                    smeft_op = list(lambda_limit.free_symbols)[0]
 
-                smeft_label, smeft_flavour = process_smeft_label(str(smeft_op))
-                record = {
-                    "smeft_op": smeft_op,
-                    "smeft_label": smeft_label,
-                    "smeft_flavour": smeft_flavour,
-                    "smeft_op_expr": smeft_op_expr,
-                    "process": PROCESS_TO_LATEX[process],
-                    "gamma": gamma,
-                    "left_dimension": dimension,
-                    "gamma_coeff_1": gamma.subs({smeft_op: 1}),
-                    "left_op": left_operator[0],
-                    "left_flavour": "".join(str(i) for i in left_operator[1]),
-                    "lambda_limit": lambda_limit,
-                    "lambda_limit_coeff_1": lambda_limit.subs({smeft_op: 1}),
-                    "lifetime_limit": lifetime_limit.value,
-                    "lifetime_limit_ref": lifetime_limit.ref,
-                    "is_future": lifetime_limit.is_future,
-                    "dim": dimension, ## TODO Mark for deprication (same as left_dimension)
-                    "matrix_elem": matrix_elem,
-                }
+                    smeft_label, smeft_flavour = process_smeft_label(str(smeft_op))
+                    record = {
+                        "smeft_op": smeft_op,
+                        "smeft_label": smeft_label,
+                        "smeft_flavour": smeft_flavour,
+                        "smeft_op_expr": smeft_op_expr,
+                        "process": PROCESS_TO_LATEX[process],
+                        "gamma": gamma,
+                        "left_dimension": dimension,
+                        "gamma_coeff_1": gamma.subs({smeft_op: 1}),
+                        "left_op": left_operator[0],
+                        "left_flavour": "".join(str(i) for i in left_operator[1]),
+                        "lambda_limit": lambda_limit,
+                        "lambda_limit_coeff_1": lambda_limit.subs({smeft_op: 1}),
+                        "lifetime_limit": lifetime_limit.value,
+                        "lifetime_limit_ref": lifetime_limit.ref,
+                        "is_future": lifetime_limit.is_future,
+                        "dim": dimension, ## TODO Mark for deprication (same as left_dimension)
+                        "matrix_elem": matrix_elem,
+                    }
 
-                results_dict[smeft_op].append(record)
+                    results_dict[smeft_op].append(record)
 
     return results_dict
 
