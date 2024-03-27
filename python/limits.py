@@ -193,7 +193,7 @@ def get_tree_level_records_by_dict(
             #     measurements=measurements, process=process
             # )
 
-            relevant_measurements = [most_stringent_limit(measurements=measurements, process=process), most_stringent_limit(measurements=sensitivities, process=process)]
+            relevant_measurements = [most_stringent_limit(measurements=measurements, process=process), *[m for m in sensitivities if m.process == process]]
             for lifetime_limit in relevant_measurements:
                 if lifetime_limit.name == "Missing":
                     continue
