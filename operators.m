@@ -43,3 +43,18 @@ BViolatingOperatorsDim9 = <|
   "49" -> Op[Wt[G["49"][r,s,t,u,v,w]], L[r], eb[s], Conj[eb[t]], Conj[Q[u]], db[v], db[w]],
   "50" -> Op[Wt[G["50"][r,s,t,u,v,w]], L[r], Conj[Q[s]], ub[t], Conj[ub[u]], db[v], db[w]]
   |>;
+
+(* Arbitrarily start the numbering here at 101 *)
+BViolatingOperatorsDim10 = <|
+  "101" -> Op[Wt[G["101"][r,s,t,u,v,w]], Conj[eb[r]], Q[s], Q[t], Conj[Q[u]], Conj[ub[v]], Conj[ub[w]], Conj[H[]]],
+  "102" -> Op[Wt[G["102"][r,s,t,u,v,w]], L[r], ub[s], Conj[ub[t]], Conj[ub[u]], Conj[ub[v]], Conj[db[w]], Conj[H[]]],
+  "103" -> Op[Wt[G["103"][r,s,t,u,v,w]], L[r], Q[s], Conj[Q[t]], Conj[ub[u]], Conj[ub[v]], Conj[db[w]], Conj[H[]]],
+  "104" -> Op[Wt[G["104"][r,s,t,u,v,w]], Conj[eb[r]], Q[s], ub[t], Conj[ub[u]], Conj[ub[v]], Conj[db[w]], Conj[H[]]],
+  "105" -> Op[Wt[G["105"][r,s,t,u,v,w]], Conj[eb[r]], Conj[Q[s]], Conj[ub[t]], Conj[ub[u]], Conj[db[v]], Conj[db[w]], H[]],
+  "106" -> Op[Wt[G["106"][r,s,t,u,v,w]], Conj[eb[r]], Conj[Q[s]], Conj[ub[t]], Conj[ub[u]], Conj[ub[v]], Conj[db[w]], Conj[H[]]],
+  "107" -> Op[Wt[G["107"][r,s,t,u,v,w]], Conj[eb[r]], Q[s], Conj[ub[t]], Conj[ub[u]], db[v], Conj[db[w]], Conj[H[]]],
+  "108" -> Op[Wt[G["108"][r,s,t,u,v,w]], L[r], Conj[ub[s]], Conj[ub[t]], db[u], Conj[db[v]], Conj[db[w]], Conj[H[]]],
+  "109" -> Op[Wt[G["109"][r,s,t,u,v,w]], L[r], Q[s], Q[t], ub[u], Conj[ub[v]], Conj[ub[w]], Conj[H[]]],
+  "110" -> Op[Wt[G["110"][r,s,t,u,v,w]], Conj[eb[r]], Q[s], ub[t], Conj[ub[u]], Conj[ub[v]], Conj[db[w]], H[]],
+  "111" -> Op[Wt[G["111"][r,s,t,u,v,w]], L[r], ub[s], Conj[ub[t]], Conj[ub[u]], Conj[db[v]], Conj[db[w]], H[]]
+  |>;
