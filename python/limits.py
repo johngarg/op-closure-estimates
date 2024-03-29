@@ -155,6 +155,7 @@ def derive_best_general_limits(
     quantum_numbers_to_processes=ALLOWED_PROCESSES,
     decay_rates=None,  # Expecting list
 ):
+    """I _think_ this is only for use with `print_general_limits` and generating table 10."""
     measurements = parse_limits("limits.yml")
     best_limits = {}
     for left_operator, quantum_numbers in operator_to_quantum_numbers.items():
@@ -317,6 +318,7 @@ def typeset_left_operator(key: Tuple[str, Tuple[int, int, int, int]]):
 
 
 def print_general_limits(best_limits):
+    """Code for table 10"""
     for k, v in best_limits.items():
         latex_expr = sym.latex(v[0]).replace("K", "C")
         latex_expr = latex_expr.replace("qqql", "qqql,")
