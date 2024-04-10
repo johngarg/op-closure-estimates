@@ -372,6 +372,13 @@ GuidedMatchingDim9[opLabel_String] :=
               Apply[ApplyRules[ReplaceList][#1, Join[OperatorMatchingRulesDim7, OperatorMatchingRulesDim9], #3, 1] &, second]
         ];
 
+
+GuidedMatchingDim10[opLabel_String] :=
+        Block[{first},
+              first = ApplyRules[BViolatingOperatorsDim10[opLabel], $MatchingRulesDim8, {}, 3];
+              Apply[ApplyRules[ReplaceList][#1, Join[OperatorMatchingRulesDim6, OperatorMatchingRulesDim8], #3, 1] &, first]
+        ];
+
 MatchingDataDim8[opLabel_, flavour_] :=
         Block[{d8ex = EchoTiming @ GuidedMatchingDim8[opLabel]},
               ApplyFlavourAndMakeRule[ExtractMatchingData[d8ex], flavour] // DeleteDuplicates

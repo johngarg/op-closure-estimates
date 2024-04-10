@@ -522,15 +522,15 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
     # Delta (B - L) = 0
     TREE_LEVEL_MATCHING_STR[
         ("S,LL_udd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{q}, qp] * V[{r}, rp] * (G['qqql'][rp, qp, {p}, {s}] - G['qqql'][qp, rp, {p}, {s}] + G['qqql'][qp, {p}, rp, {s}]), (qp, 0, 2), (rp, 0, 2)"
+    ] = f"V[qp, {q}] * V[rp, {r}] * (G['qqql'][rp, qp, {p}, {s}] - G['qqql'][qp, rp, {p}, {s}] + G['qqql'][qp, {p}, rp, {s}]), (qp, 0, 2), (rp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LL_duu", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{p}, pp] * (G['qqql'][{r}, {q}, pp, {s}] - G['qqql'][{q}, {r}, pp, {s}] + G['qqql'][{q}, pp, {r}, {s}]), (pp, 0, 2)"
+    ] = f"V[pp, {p}] * (G['qqql'][{r}, {q}, pp, {s}] - G['qqql'][{q}, {r}, pp, {s}] + G['qqql'][{q}, pp, {r}, {s}]), (pp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LR_duu", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"- V[{p}, pp] * (G['qque'][pp, {q}, {r}, {s}] + G['qque'][{q}, pp, {r}, {s}]), (pp, 0, 2)"
+    ] = f"- V[pp, {p}] * (G['qque'][pp, {q}, {r}, {s}] + G['qque'][{q}, pp, {r}, {s}]), (pp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RL_duu", (p + 1, q + 1, r + 1, s + 1))
@@ -538,7 +538,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RL_dud", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"- V[{r}, rp] * G['duql'][{p}, {q}, rp, {s}], (rp, 0, 2)"
+    ] = f"- V[rp, {r}] * G['duql'][{p}, {q}, rp, {s}], (rp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RL_ddu", (p + 1, q + 1, r + 1, s + 1))
@@ -551,23 +551,23 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
     # Delta (B - L) = -2
     TREE_LEVEL_MATCHING_STR[
         ("S,LL_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{s}, sp] * V[{p}, pp] * V[{q}, qp] * (G['eqqqHHH'][{r}, sp, pp, qp] - G['eqqqHHH'][{r}, sp, qp, pp]) * VEV**3 / (2*sym.sqrt(2)*LAMBDA**3), (sp, 0, 2), (pp, 0, 2), (qp, 0, 2)"
+    ] = f"V[sp, {s}] * V[pp, {p}] * V[qp, {q}] * (G['eqqqHHH'][{r}, sp, pp, qp] - G['eqqqHHH'][{r}, sp, qp, pp]) * VEV**3 / (2*sym.sqrt(2)*LAMBDA**3), (sp, 0, 2), (pp, 0, 2), (qp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LR_udd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"- V[{q}, qp] * G['l~dqqH~'][{r}, {s}, {p}, qp] * VEV / (sym.sqrt(2)*LAMBDA), (qp, 0, 2)"
+    ] = f"- V[qp, {q}] * G['l~dqqH~'][{r}, {s}, {p}, qp] * VEV / (sym.sqrt(2)*LAMBDA), (qp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LR_ddu", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{p}, pp] * V[{q}, qp] * (G['luqqHHH'][{r}, {s}, pp, qp] - G['luqqHHH'][{r}, {s}, qp, pp]) * VEV**3 / (2*sym.sqrt(2)*LAMBDA**3), (pp, 0, 2), (qp, 0, 2)"
+    ] = f"V[pp, {p}] * V[qp, {q}] * (G['luqqHHH'][{r}, {s}, pp, qp] - G['luqqHHH'][{r}, {s}, qp, pp]) * VEV**3 / (2*sym.sqrt(2)*LAMBDA**3), (pp, 0, 2), (qp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,LR_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{p}, pp] * V[{q}, qp] * (G['l~dqqH~'][{r}, {s}, qp, pp] - G['l~dqqH~'][{r}, {s}, pp, qp]) * VEV / (sym.sqrt(2)*LAMBDA), (pp, 0, 2), (qp, 0, 2)"
+    ] = f"V[pp, {p}] * V[qp, {q}] * (G['l~dqqH~'][{r}, {s}, qp, pp] - G['l~dqqH~'][{r}, {s}, pp, qp]) * VEV / (sym.sqrt(2)*LAMBDA), (pp, 0, 2), (qp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RL_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{s}, sp] * (G['e~qddH~'][{r}, sp, {q}, {p}] - G['e~qddH~'][{r}, sp, {p}, {q}]) * VEV / (sym.sqrt(2)*LAMBDA), (sp, 0, 2)"
+    ] = f"V[sp, {s}] * (G['e~qddH~'][{r}, sp, {q}, {p}] - G['e~qddH~'][{r}, sp, {p}, {q}]) * VEV / (sym.sqrt(2)*LAMBDA), (sp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("S,RR_udd", (p + 1, q + 1, r + 1, s + 1))
@@ -585,7 +585,7 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
 
     TREE_LEVEL_MATCHING_STR[
         ("V,RL_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"- V[{s}, rp] * G['l~qdDd'][{r}, rp, {p}, {q}], (rp, 0, 2)"
+    ] = f"- V[rp, {s}] * G['l~qdDd'][{r}, rp, {p}, {q}], (rp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("V,RR_ddd", (p + 1, q + 1, r + 1, s + 1))
@@ -594,19 +594,19 @@ for p, q, r, s in list(itertools.product(*[[0, 1]] * 4)):
     # \Delta(B - L) = -2
     TREE_LEVEL_MATCHING_STR[
         ("V,LL_ddu", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{p}, pp] * V[{q}, qp] * (G['qqlqHHD'][pp, qp, {r}, {s}] + G['qqlqHHD'][qp, pp, {r}, {s}]) * VEV**2 / (4*LAMBDA**2), (pp, 0, 2), (qp, 0, 2)"
+    ] = f"V[pp, {p}] * V[qp, {q}] * (G['qqlqHHD'][pp, qp, {r}, {s}] + G['qqlqHHD'][qp, pp, {r}, {s}]) * VEV**2 / (4*LAMBDA**2), (pp, 0, 2), (qp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("V,LL_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{p}, pp] * V[{q}, qp] * V[{s}, sp] * (G['qqlqHHD'][pp, qp, {r}, sp] + G['qqlqHHD'][qp, pp, {r}, sp]) * VEV**2 / (4*LAMBDA**2), (pp, 0, 2), (qp, 0, 2), (sp, 0, 2)"
+    ] = f"V[pp, {p}] * V[qp, {q}] * V[sp, {s}] * (G['qqlqHHD'][pp, qp, {r}, sp] + G['qqlqHHD'][qp, pp, {r}, sp]) * VEV**2 / (4*LAMBDA**2), (pp, 0, 2), (qp, 0, 2), (sp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("V,LR_ddd", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"V[{p}, pp] * V[{q}, qp] * (G['qqedHHD'][pp, qp, {r}, {s}] + G['qqedHHD'][qp, pp, {r}, {s}]) * VEV**2 / (4*LAMBDA**2), (qp, 0, 2), (pp, 0, 2)"
+    ] = f"V[pp, {p}] * V[qp, {q}] * (G['qqedHHD'][pp, qp, {r}, {s}] + G['qqedHHD'][qp, pp, {r}, {s}]) * VEV**2 / (4*LAMBDA**2), (qp, 0, 2), (pp, 0, 2)"
 
     TREE_LEVEL_MATCHING_STR[
         ("V,RL_dud", (p + 1, q + 1, r + 1, s + 1))
-    ] = f"- V[{s}, sp] * G['udqlHHD'][{p}, {q}, sp, {r}] * VEV**2 / (2*LAMBDA**2), (sp, 0, 2)"
+    ] = f"- V[sp, {s}] * G['udqlHHD'][{p}, {q}, sp, {r}] * VEV**2 / (2*LAMBDA**2), (sp, 0, 2)"
 
 p, q, r, s, t, r, qp, pp, rp, sp = sym.symbols("p q r s t r qp pp rp sp")
 TREE_LEVEL_MATCHING = {}

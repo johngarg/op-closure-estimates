@@ -60,6 +60,34 @@ Dim8and9Symmetries = {
          G["29"][r, s, t, u, v, w]
 };
 
+
+Dim10Symmetries::usage = "Repalcement rule of symmetries arrising from
+relabelling equivalence in the operators as we define them.";
+Dim10Symmetries = {
+        G["101"][r_, OrderlessPatternSequence[s_, t_], u_, OrderlessPatternSequence[v_, w_]] :>
+         G["101"][r, s, t, u, v, w],
+        G["102"][r_, s_, OrderlessPatternSequence[t_, u_, v_], w_] :>
+         G["102"][r, s, t, u, v, w],
+        G["103"][r_, s_, t_, OrderlessPatternSequence[u_, v_], w_] :>
+         G["103"][r, s, t, u, v, w],
+        G["104"][r_, s_, t_, OrderlessPatternSequence[u_, v_], w_] :>
+         G["104"][r, s, t, u, v, w],
+        G["105"][r_, s_, OrderlessPatternSequence[t_, u_], OrderlessPatternSequence[v_, w_]] :>
+         G["105"][r, s, t, u, v, w],
+        G["106"][r_, s_, OrderlessPatternSequence[t_, u_, v_], w_] :>
+         G["106"][r, s, t, u, v, w],
+        G["107"][r_, s_, OrderlessPatternSequence[t_, u_], v_, w_] :>
+         G["107"][r, s, t, u, v, w],
+        G["108"][r_, OrderlessPatternSequence[s_, t_], u_, OrderlessPatternSequence[v_, w_]] :>
+         G["108"][r, s, t, u, v, w],
+        G["109"][r_, OrderlessPatternSequence[s_, t_], u_, OrderlessPatternSequence[v_, w_]] :>
+         G["109"][r, s, t, u, v, w],
+        G["110"][r_, s_, t_, OrderlessPatternSequence[u_, v_], w_] :>
+         G["110"][r, s, t, u, v, w],
+        G["111"][r_, s_, OrderlessPatternSequence[t_, u_], OrderlessPatternSequence[v_, w_]] :>
+         G["111"][r, s, t, u, v, w]
+};
+
 (* Propagate the P head through functions *)
 P[f_[x__]] := f @@ P /@ List[x];
 
