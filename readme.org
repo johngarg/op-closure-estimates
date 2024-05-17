@@ -56,3 +56,4 @@ below.
 | =latex=                     | The LaTeX expression of the matching estimate                                             |
 | =gamma_fieldstring_coeff=   | The decay rate with the matching estimate pasted in for the SMEFT coefficient             |
 | =gamma_fieldstring_coeff_1= | Same as `gamma_fieldstring_coeff` but for field-string coefficient set to 1               |
+| =is_future=                 | True if the row corresponds to a future sensitivity estimate, False otherwise             |
